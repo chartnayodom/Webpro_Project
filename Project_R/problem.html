@@ -1,0 +1,87 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="problems.js"></script>
+    <title>problem</title>
+</head>
+
+<body>
+    <div id="app">
+        <!-- navbar -->
+        <nav class="navbar is-danger is-fixed-top">
+            <div class="nav-brand">
+                <a class="navbar-item" href="#">LOGO</a>
+            </div>
+            <div class="navbar-menu">
+                <div class="navbar-end">
+                    <a class="navbar-item" href="index.html">หน้าแรก</a>
+                    <a class="navbar-item" href="shop_recommend.html">ร้านแนะนำ</a>
+                    <a class="navbar-item" href="#">Menu3</a>
+
+                    <div class="navbar-item">
+                        <a class="button is-primary" href="#login.html">Login</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <div class="container p-5">
+            <section class="section">
+                <h1 class="title">ระบุปัญหา</h1>
+                <input type="radio" value="01" name="problem" v-model="problemid">
+                ใช้งานไฟฟ้าในรถนานเกินไป รถยนต์สตาร์ทไม่ติด<br>
+                <input type="radio" value="02" name="problem" v-model="problemid">
+                รถวิ่งอืด กินน้ำมันมากกว่าปกติ<br>
+                <input type="radio" value="03" name="problem" v-model="problemid">
+                ได้กลิ่นเหม็นไหม้<br>
+                <input type="radio" value="04" name="problem" v-model="problemid">
+                สตาร์ทเครื่องนานกว่าปกติ<br>
+                <input type="radio" value="05" name="problem" v-model="problemid">
+                สตาร์ทติดยาก<br>
+                <input type="radio" value="06" name="problem" v-model="problemid">
+                ช่วงล่างนุ่มยวบผิดปกติ<br>
+                <input type="radio" value="07" name="problem" v-model="problemid">
+                มีควันขาวออกมาจากท่อไอเสีย<br>
+                <input type="radio" value="08" name="problem" v-model="problemid">
+                ช่วงล่างแข็งกระด้าง<br>
+                <input type="radio" value="09" name="problem" v-model="problemid">
+                แอร์ไม่เย็น<br>
+                <button class="button is-primary is-rounded" @click="checkproblem()">Check</button>
+                <section class="section">
+                    <textarea class="textarea has-fixed-size" disabled placeholder="result"v-show="show" v-for="item in problem">{{item.result}}</textarea>
+                </section>
+            </section>
+        </div>
+    </div>
+</body>
+<script>
+    var app = new Vue({
+    el: '#app',
+    data: {
+        problems: problems,
+        problemid: '',
+        resultarray : '',
+        show:false
+    },
+    methods:{
+        checkproblem(){
+            this.show = true
+        }
+    },
+    computed:{
+        problem(){
+            return this.problems.filter((data)=>{return data.id==this.problemid})
+        }
+    },
+    watch:{
+        problemid:function(){
+            this.show = false
+        }
+    }
+})
+</script>
+</html>
