@@ -1,0 +1,66 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+
+    <title>เขียนบทความ | Project_R</title>
+</head>
+
+<body>
+    <!-- navbar -->
+    <nav class="navbar is-danger">
+        <div class="nav-brand">
+            <a class="navbar-item" href="#">LOGO</a>
+        </div>
+        <div class="navbar-menu">
+            <div class="navbar-end">
+                <a class="navbar-item" href="#">บทความ</a>
+                <a class="navbar-item" href="#">ร้านแนะนำ</a>
+                <a class="navbar-item" href="#">อื่นๆ </a>
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link">อื่นๆ</a>
+                    <div class="navbar-dropdown">
+                        <a class="navbar-item" href="#">เขียนบทความ</a>
+                        <a class="navbar-item" href="#">แนะนำร้าน</a>
+                        <a class="navbar-item" href="#">แจ้งปัญหารถเบื้องต้น</a>
+                    </div>
+                </div>
+                <div class="navbar-item">
+                    <a class="button is-primary" href="#login.html">Login</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <section class="section">
+        <div class="container">
+            <h1 class="title">ระบบเขียนบทความ</h1>
+            <form class="form" action="">
+                <div class="field">
+                    <label class="label" for="">หัวข้อ</label>
+                    <input class="input" type="text" placeholder="พิมพ์ชื่อหัวบทความ">
+                </div>
+                <div class="field">
+                    <label class="label" for="">รูปประกอบหัวข้อ</label>
+                    <input type="file" src="#" alt="">
+                </div>
+                <div class="field">
+                    <label class="label" for="">เนื้อหา</label>
+                    <textarea class="textarea" name="" id="" cols="30" rows="15"
+                        placeholder="พิมพ์เนื้อหาได้ที่นี้"></textarea>
+                </div>
+                <div class="field-is-grouped">
+                    <label class="label" for="">
+                        <input type="checkbox" name="" id="">โปรดยืนยันก่อนว่าได้อ่าน<a
+                            href="#">ข้อตกลงในการใช้งาน</a>และยอมรับให้ผู้ดูแลได้ตรวจสอบก่อนจะก่อนนำเสนอภายในเว็บไซด์
+                    </label>
+                    <button class="button is-primary">ยืนยัน</button>
+                </div>
+            </form>
+        </div>
+    </section>
+</body>
+
+</html>
