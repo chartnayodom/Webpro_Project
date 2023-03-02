@@ -16,14 +16,16 @@
         <nav class="navbar is-danger">
             <div class="nav-brand">
                 <a class="navbar-item" href="index.html">LOGO</a>
-                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false"
+                    data-target="navbarBasicExample" v-on:click="showNav = !showNav"
+                    v-bind:class="{ 'is-active' : showNav }">
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
-                  </a>
+                </a>
             </div>
-            
-            <div id="navbarBasicExample" class="navbar-menu">
+
+            <div id="navbarBasicExample" class="navbar-menu" v-bind:class="{ 'is-active' : showNav }">
                 <div class="navbar-start"></div>
                 <div class="navbar-end">
                     <a class="navbar-item" href="article.html">บทความ</a>
@@ -48,8 +50,8 @@
         <section class="section">
             <!-- Highlight -->
             <div class="container p-5">
-                
-                
+
+
                 <!--<figure class="image is-900x600 ">
                     <img class="is-overlay" src="https://wallpapers.com/images/featured/1080p-3qmj7oaige168170.jpg"
                         alt="Highlight">
@@ -102,44 +104,46 @@
 </body>
 <script>
     var app = new Vue({
-    el: '#app',
-    data: {
-        article: article,
-        newarticle:[]
-    },
-    created(){
-        this.newarticle = JSON.parse(localStorage.getItem("newarticle"))
-    this.newarticle.forEach(element => {
-            this.article.push(element)
-        });
-        localStorage.setItem("AllArticle", JSON.stringify(this.article))
-    },
-    //watch:{
-        //newarticle:function(){
-            //this.article.push({article_title: this.newarticle.article_title, article_image: this.newarticle.article_image, article_text: this.newarticle.article_text})
-        //}
-    //},
-    computed:{
-        // addarticle(){
-        //     this.article.push({
-        //         article_id:null,
-        //         article_title: this.newarticle[0].article_title,
-        //         article_writer_id:null,
-        //         article_text: this.newarticle[0].article_text,
-        //         article_image: this.newarticle[0].article_image,
-        //         article_date:null,
-        //         article_tag:null
-        //     })
-        //     // this.article.push(this.newarticle)
-        //     return article
-        // }
-    },
-    methods:{
-        readarticle(ind){
-            localStorage.setItem("read_article",ind)
-            window.location.href = "article_view.html"
+        el: '#app',
+        data: {
+            article: article,
+            newarticle: [],
+            showNav: false
         },
-    }
-})
+        created() {
+            this.newarticle = JSON.parse(localStorage.getItem("newarticle"))
+            this.newarticle.forEach(element => {
+                this.article.push(element)
+            });
+            localStorage.setItem("AllArticle", JSON.stringify(this.article))
+        },
+        //watch:{
+        //newarticle:function(){
+        //this.article.push({article_title: this.newarticle.article_title, article_image: this.newarticle.article_image, article_text: this.newarticle.article_text})
+        //}
+        //},
+        computed: {
+            // addarticle(){
+            //     this.article.push({
+            //         article_id:null,
+            //         article_title: this.newarticle[0].article_title,
+            //         article_writer_id:null,
+            //         article_text: this.newarticle[0].article_text,
+            //         article_image: this.newarticle[0].article_image,
+            //         article_date:null,
+            //         article_tag:null
+            //     })
+            //     // this.article.push(this.newarticle)
+            //     return article
+            // }
+        },
+        methods: {
+            readarticle(ind) {
+                localStorage.setItem("read_article", ind)
+                window.location.href = "article_view.html"
+            },
+        }
+    })
 </script>
+
 </html>
