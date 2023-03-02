@@ -35,14 +35,40 @@
         </div>
     </nav>
     <section class="section">
-        
+        <div class="container">
+            <div class="columns is-desktop is-multiline">
+                <!-- การ์ดหัวข้อบทความแบบมีรูป หรือ แบบเรียบๆ คุมโดย vue (แต่ไม่ต้องตอนนี้ก็ได้) -->
+                <!-- ให้ปรับตรงหลัง ตำว่า column -->
+                <div id="card" class="column">
+                    <a href="#">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-image">
+                                    <figure class="image is-900x600">
+                                        <img src="https://wallpapers.com/images/featured/1080p-3qmj7oaige168170.jpg"
+                                            alt="รูปประกอบหัวข้อ">
+                                    </figure>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <div class="media-content">
+                                    <p class="title is-4">หัวข้อ</p>
+                                    <p class="subtitle is-6">ผู้ขียน ณ วันที่</p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
     </section>
 </body>
+<script src="article.js"></script>
 <script>
     var app = new Vue({
         el: "#app",
         data:{
-
+            article: article,
         },
     })
     
