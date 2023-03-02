@@ -1,0 +1,57 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="checks.js"></script>
+    <title>Check</title>
+</head>
+<body>
+    <!-- navbar -->
+    <nav class="navbar is-danger">
+        <div class="nav-brand">
+            <a class="navbar-item" href="#">LOGO</a>
+        </div>
+        <div class="navbar-menu">
+            <div class="navbar-end">
+                <a class="navbar-item" href="#">บทความ</a>
+                <a class="navbar-item" href="#">ร้านแนะนำ</a>
+                <a class="navbar-item" href="#">อื่นๆ </a>
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link">อื่นๆ</a>
+                    <div class="navbar-dropdown">
+                        <a class="navbar-item" href="#">เขียนบทความ</a>
+                        <a class="navbar-item" href="#">แนะนำร้าน</a>
+                        <a class="navbar-item" href="#">แจ้งปัญหารถเบื้องต้น</a>
+                    </div>
+                </div>
+                <div class="navbar-item">
+                    <a class="button is-primary" href="#login.html">Login</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="container p-5">
+        <section class="section">
+            <h3 class="title">ตรวจเช็ครถยนต์เบื้องต้น</h3>
+            <div class="content">
+                <ol type="1" v-for="item in Checks">
+                    <li>ทำความสะอาดกระจกหน้ารถ กระจกที่สกปรก เป็นอันตรายต่อการขับขี่ ให้ทำความสะอาดเป็นประจำ หากไฟหน้าของคุณสกปรก ให้ทำความสะอาดด้วย</li>
+                    <li>ตรวจสอบลมยางรถยนต์ เช็คเพื่อรักษาความดันลมให้พอเหมาะ ทำให้ปลอดภัย และเพิ่มอายุการใช้งานที่ยาวนาน</li>
+                    <li>ตรวจสอบระดับน้ำมัน น้ำมันเครื่องมีความสำคัญต่อสมรรถนะของรถคุณ งานที่สำคัญที่สุดคือการหล่อลื่นชิ้นส่วนที่เคลื่อนไหวทั้งหมดในเครื่องยนต์ของคุณ เพื่อไม่ให้เสียดสีและฉีกขาดจนทำให้ทำงานผิดปกติ นอกจากนี้ยังถ่ายเทความร้อนออกไปจากวงจรการเผาไหม้ เพื่อให้แน่ใจว่ารถของคุณมีน้ำมันเพียงพอเสมอ</li>
+                </ol>
+            </div>
+            <h3 class="title">การบำรุงรักษารถยนต์ ด้วยตนเอง</h3>
+            <div class="content">
+                <ol type="1">
+                    <li>เปลี่ยนน้ำมันทุกๆ 8,000 - 10,000 ก.ม. หรือทุก 6 เดือน</li>
+                    <li>เปลี่ยนกรองอากาศ ทุกๆ 15,000 - 25,000 ก.ม.หรือ 12 เดือน ช่วยเพิ่มประสิทธิภาพการใช้เชื้อเพลิงยืดอายุเครื่องยนต์และลดการปล่อยมลพิษ</li>
+                    <li>เปลี่ยนยาง ตามคำแนะนำไม่ควรเกิน 50,000 กิโลเมตร หรือไม่ควรเกิน 3 ปี ทั้งนี้ขึ้นอยู่กับการใช้งาน ถ้าจอดนานๆ โครงสร้างยางอาจจะเสียได้</li>
+                </ol>
+            </div>
+        </section>
+    </div>
+</body>
+</html>
