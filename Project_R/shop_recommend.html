@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <section class="section">
+    <section class="section" id="shop">
         <!-- show google map -->
         <div class="container">
             <iframe width="1280" height="720" style="border:0" loading="lazy" allowfullscreen
@@ -20,7 +20,7 @@
         </div>
         <!-- show list -->
         <div class="container">
-            <table>
+            <table class="table">
                 <tr>
                     <th>ชื่อร้าน</th>
                     <th>ที่อยู่ร้าน</th>
@@ -28,24 +28,27 @@
                     <th>แนะนำโดย</th>
                 </tr>
 
-                <tr>
-                    <td>Shop</td>
-                    <td>Address</td>
-                    <td>Score</td>
+                <tr v-for="item in rec_shop">
+                    <td>{{item.r_shop_name}}</td>
+                    <td>{{item.r_shop_address}}</td>
+                    <td>{{item.r_shop_brand}}</td>
                     <td>Recomment by Who</td>
+                    <td>{{item.r_shop_score}}</td>
                 </tr>
 
             </table>
         </div>
     </section>
 </body>
+<script src="recommented_shop.js"></script>
 <script>
     var app = new Vue({
-        el: "#app",
+        el: "#shop",
         data:{
-
+            rec_shop: r_shop,
         },
     })
+    
     
     
 </script>
