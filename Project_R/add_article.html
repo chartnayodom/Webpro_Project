@@ -80,6 +80,9 @@
             localStorage.setItem("newarticle", JSON.stringify(this.newarticle))
             window.location.href = "index.html"
         }
+    },
+    created(){
+        this.newarticle = JSON.parse(localStorage.getItem("newarticle"))
     }
 })
 </script>

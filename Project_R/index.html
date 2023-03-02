@@ -102,6 +102,9 @@
     },
     created(){
         this.newarticle = JSON.parse(localStorage.getItem("newarticle"))
+    this.newarticle.forEach(element => {
+            this.article.push(element)
+        });
     },
     //watch:{
         //newarticle:function(){
@@ -109,19 +112,19 @@
         //}
     //},
     computed:{
-        addarticle(){
-            this.article.push({
-                article_id:null,
-                article_title: this.newarticle[0].article_title,
-                article_writer_id:null,
-                article_text: this.newarticle[0].article_text,
-                article_image: this.newarticle[0].article_image,
-                article_date:null,
-                article_tag:null
-            })
-            // this.article.push(this.newarticle)
-            return article
-        }
+        // addarticle(){
+        //     this.article.push({
+        //         article_id:null,
+        //         article_title: this.newarticle[0].article_title,
+        //         article_writer_id:null,
+        //         article_text: this.newarticle[0].article_text,
+        //         article_image: this.newarticle[0].article_image,
+        //         article_date:null,
+        //         article_tag:null
+        //     })
+        //     // this.article.push(this.newarticle)
+        //     return article
+        // }
     }
 })
 </script>
