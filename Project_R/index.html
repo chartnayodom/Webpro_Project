@@ -15,18 +15,18 @@
         <!-- navbar -->
         <nav class="navbar is-danger">
             <div class="nav-brand">
-                <a class="navbar-item" href="#">LOGO</a>
+                <a class="navbar-item" href="index.html">LOGO</a>
             </div>
             <div class="navbar-menu">
                 <div class="navbar-end">
-                    <a class="navbar-item" href="#">บทความ</a>
-                    <a class="navbar-item" href="#">ร้านแนะนำ</a>
-                    <a class="navbar-item" href="#">อื่นๆ </a>
+                    <a class="navbar-item" href="article.html">บทความ</a>
+                    <a class="navbar-item" href="shop_recommend.html">ร้านแนะนำ</a>
+                    <!-- <a class="navbar-item" href="#">อื่นๆ </a> -->
                     <div class="navbar-item has-dropdown is-hoverable">
                         <a class="navbar-link">อื่นๆ</a>
                         <div class="navbar-dropdown">
                             <a class="navbar-item" href="add_article.html">เขียนบทความ</a>
-                            <a class="navbar-item" href="#">แนะนำร้าน</a>
+                            <a class="navbar-item" href="add_rec_shop.html">แนะนำร้าน</a>
                             <a class="navbar-item" href="problem.html">แจ้งปัญหารถเบื้องต้น</a>
                         </div>
                     </div>
@@ -55,8 +55,8 @@
             <div class="container p-5">
                 <div class="columns is-desktop is-multiline">
                     <!-- การ์ดหัวข้อบทความแบบมีรูป -->
-                    <div id="card" class="column is-one-third" v-for="item in article">
-                        <a href="#">
+                    <div id="card" class="column is-one-third" v-for="(item, index) in article">
+                        <a href="#" @click="readarticle(index)">
                             <div class="card">
                                 <div class="card-header">
                                     <div class="card-image">
@@ -105,6 +105,7 @@
     this.newarticle.forEach(element => {
             this.article.push(element)
         });
+        localStorage.setItem("AllArticle", JSON.stringify(this.article))
     },
     //watch:{
         //newarticle:function(){
@@ -125,6 +126,12 @@
         //     // this.article.push(this.newarticle)
         //     return article
         // }
+    },
+    methods:{
+        readarticle(ind){
+            localStorage.setItem("read_article",ind)
+            window.location.href = "article_view.html"
+        },
     }
 })
 </script>

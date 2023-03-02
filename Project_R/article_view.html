@@ -34,11 +34,11 @@
             </div>
         </div>
     </nav>
-    <section class="section">
+    <section class="section" id="article">
         <!-- card แสดงบทความ -->
-        <div class="container is-two-third">
-            <a class="button is-primary"href="#"><span></span></a>
-            <h1 class="title is-size-1">Title</h1>
+        <div class="container is-two-third" >
+            <a class="button is-primary" href="article.html">Back to All article</a>
+            <h1 class="title is-size-1">{{article.article_title}}</h1>
             <h6 class="subtitle is-size-5">By WHo?</h6>
             <figure class="image is-900x600">
                 <img src="https://wallpapers.com/images/featured/hd-a5u9zq0a0ymy2dug.jpg" alt="รุปปกบทความ">
@@ -46,18 +46,7 @@
         </div>
         <div class="container mt-6">
             
-            <p class="is-size-5">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Impedit dicta possimus ad aliquid. Doloribus
-                quos
-                quas nulla, eaque qui velit, optio consequuntur a ipsa rerum unde ex eos voluptates. Asperiores
-                aspernatur
-                porro et aliquam, illo obcaecati provident fugit neque totam. Dignissimos corrupti eius maxime explicabo
-                dolores quod iste consequuntur incidunt necessitatibus amet, obcaecati quo impedit saepe molestias
-                voluptate? Animi eligendi, rem pariatur illo tempora alias modi cupiditate fugit deserunt officia dicta.
-                Error perspiciatis minus repudiandae molestias blanditiis hic alias! Ipsam ad illum debitis
-                perspiciatis?
-                Qui quos odit, voluptates adipisci exercitationem accusantium praesentium excepturi illo veniam totam
-                itaque
-                quidem consequuntur possimus!</p>
+            <p class="is-size-5">{{article.article_text}}</p>
         </div>
 
     </section>
@@ -65,10 +54,18 @@
 <script src="article.js"></script>
 <script>
     var app = new Vue({
-        el: "#app",
+        el: "#article",
         data:{
-            article: article,
+            article: [],
+            // article_no: 0,
         },
+        created(){
+            let article = JSON.parse(localStorage.getItem("AllArticle"))
+            let article_no = localStorage.getItem("read_article")
+            this.article = article[article_no]
+        }
+        
+        
     })
     
     

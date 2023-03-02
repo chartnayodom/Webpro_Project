@@ -34,13 +34,13 @@
             </div>
         </div>
     </nav>
-    <section class="section">
+    <section class="section" id="allarticle">
         <div class="container">
             <div class="columns is-desktop is-multiline">
                 <!-- การ์ดหัวข้อบทความแบบมีรูป หรือ แบบเรียบๆ คุมโดย vue (แต่ไม่ต้องตอนนี้ก็ได้) -->
                 <!-- ให้ปรับตรงหลัง ตำว่า column -->
-                <div id="card" class="column">
-                    <a href="#">
+                <div id="card" class="column is-three-fifths is-offset-one-fifth" v-for="(item, index) in article">
+                    <a href="#" @click="readarticle(index)">
                         <div class="card">
                             <div class="card-header">
                                 <div class="card-image">
@@ -52,8 +52,8 @@
                             </div>
                             <div class="card-content">
                                 <div class="media-content">
-                                    <p class="title is-4">หัวข้อ</p>
-                                    <p class="subtitle is-6">ผู้ขียน ณ วันที่</p>
+                                    <p class="title is-4">{{item.article_title}}</p>
+                                    <p class="subtitle is-6">{{item.article_writer_id +" "+ item.article_date}}</p>
                                 </div>
                             </div>
                         </div>
@@ -66,10 +66,19 @@
 <script src="article.js"></script>
 <script>
     var app = new Vue({
-        el: "#app",
+        el: "#allarticle",
         data:{
-            article: article,
+            article: [],
         },
+        created(){
+            this.article = JSON.parse(localStorage.getItem("AllArticle"))
+        },
+        methods:{
+            readarticle(ind){
+            localStorage.setItem("read_article",ind)
+            window.location.href = "article_view.html"
+        },
+        }
     })
     
     
