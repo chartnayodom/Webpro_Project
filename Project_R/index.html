@@ -55,7 +55,7 @@
             <div class="container p-5">
                 <div class="columns is-desktop is-multiline">
                     <!-- การ์ดหัวข้อบทความแบบมีรูป -->
-                    <div id="card" class="column is-one-third" v-for="item in addarticle">
+                    <div id="card" class="column is-one-third" v-for="item in article">
                         <a href="#">
                             <div class="card">
                                 <div class="card-header">
@@ -112,13 +112,14 @@
         addarticle(){
             this.article.push({
                 article_id:null,
-                article_title: this.newarticle.article_title,
+                article_title: this.newarticle[0].article_title,
                 article_writer_id:null,
-                article_text: this.newarticle.article_text,
-                article_image: this.newarticle.article_image,
+                article_text: this.newarticle[0].article_text,
+                article_image: this.newarticle[0].article_image,
                 article_date:null,
                 article_tag:null
             })
+            // this.article.push(this.newarticle)
             return article
         }
     }
