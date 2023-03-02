@@ -5,90 +5,123 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="article.js"></script>
     <title>Index | Project_R</title>
 </head>
 
 <body>
-    <!-- navbar -->
-    <nav class="navbar is-danger">
-        <div class="nav-brand">
-            <a class="navbar-item" href="#">LOGO</a>
-        </div>
-        <div class="navbar-menu">
-            <div class="navbar-end">
-                <a class="navbar-item" href="#">บทความ</a>
-                <a class="navbar-item" href="#">ร้านแนะนำ</a>
-                <a class="navbar-item" href="#">อื่นๆ </a>
-                <div class="navbar-item has-dropdown is-hoverable">
-                    <a class="navbar-link">อื่นๆ</a>
-                    <div class="navbar-dropdown">
-                        <a class="navbar-item" href="#">เขียนบทความ</a>
-                        <a class="navbar-item" href="#">แนะนำร้าน</a>
-                        <a class="navbar-item" href="#">แจ้งปัญหารถเบื้องต้น</a>
-                    </div>
-                </div>
-                <div class="navbar-item">
-                    <a class="button is-primary" href="#login.html">Login</a>
-                </div>
+    <div id="app">
+        <!-- navbar -->
+        <nav class="navbar is-danger">
+            <div class="nav-brand">
+                <a class="navbar-item" href="#">LOGO</a>
             </div>
-        </div>
-    </nav>
-
-    <!-- content -->
-    <section class="section">
-        <!-- Highlight -->
-        <div class="container p-5">
-            
-            
-            <figure class="image is-900x600 ">
-                <img class="is-overlay" src="https://wallpapers.com/images/featured/1080p-3qmj7oaige168170.jpg"
-                    alt="Highlight">
-                <a href="#">หัวข้อXD</a>
-            </figure>
-
-
-        </div>
-
-        <div class="container p-5">
-            <div class="columns is-desktop is-multiline">
-                <!-- การ์ดหัวข้อบทความแบบมีรูป -->
-                <div id="card" class="column is-one-third">
-                    <a href="#">
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="card-image">
-                                    <figure class="image is-900x600">
-                                        <img src="https://wallpapers.com/images/featured/1080p-3qmj7oaige168170.jpg"
-                                            alt="รูปประกอบหัวข้อ">
-                                    </figure>
-                                </div>
-                            </div>
-                            <div class="card-content">
-                                <div class="media-content">
-                                    <p class="title is-4">หัวข้อ</p>
-                                    <p class="subtitle is-6">ผู้ขียน ณ วันที่</p>
-                                </div>
-                            </div>
+            <div class="navbar-menu">
+                <div class="navbar-end">
+                    <a class="navbar-item" href="#">บทความ</a>
+                    <a class="navbar-item" href="#">ร้านแนะนำ</a>
+                    <a class="navbar-item" href="#">อื่นๆ </a>
+                    <div class="navbar-item has-dropdown is-hoverable">
+                        <a class="navbar-link">อื่นๆ</a>
+                        <div class="navbar-dropdown">
+                            <a class="navbar-item" href="add_article.html">เขียนบทความ</a>
+                            <a class="navbar-item" href="#">แนะนำร้าน</a>
+                            <a class="navbar-item" href="problem.html">แจ้งปัญหารถเบื้องต้น</a>
                         </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-
-        <!-- หัวข้อบทความ แบบยาว-->
-        <!-- <a href="#">
-            <div class="card" id="1">
-                <div class="card-content">
-                    <div class="media-content">
-                        <p class="title is-4">หัวข้อ</p>
-                        <p class="subtitle is-6">ผู้ขียน ณ วันที่</p>
+                    </div>
+                    <div class="navbar-item">
+                        <a class="button is-primary" href="#login.html">Login</a>
                     </div>
                 </div>
             </div>
-        </a> -->
-    </section>
-</body>
+        </nav>
 
+        <!-- content -->
+        <section class="section">
+            <!-- Highlight -->
+            <div class="container p-5">
+                
+                
+                <!--<figure class="image is-900x600 ">
+                    <img class="is-overlay" src="https://wallpapers.com/images/featured/1080p-3qmj7oaige168170.jpg"
+                        alt="Highlight">
+                    <a href="#">หัวข้อXD</a>
+                </figure>-->
+
+
+            </div>
+
+            <div class="container p-5">
+                <div class="columns is-desktop is-multiline">
+                    <!-- การ์ดหัวข้อบทความแบบมีรูป -->
+                    <div id="card" class="column is-one-third" v-for="item in addarticle">
+                        <a href="#">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="card-image">
+                                        <figure class="image is-900x600">
+                                            <img src="https://wallpapers.com/images/featured/1080p-3qmj7oaige168170.jpg"
+                                                alt="รูปประกอบหัวข้อ">
+                                        </figure>
+                                    </div>
+                                </div>
+                                <div class="card-content">
+                                    <div class="media-content">
+                                        <p class="title is-4">{{item.article_title}}</p>
+                                        <p class="subtitle is-6">{{item.article_writer_id}} {{item.article_date}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- หัวข้อบทความ แบบยาว-->
+            <!-- <a href="#">
+                <div class="card" id="1">
+                    <div class="card-content">
+                        <div class="media-content">
+                            <p class="title is-4">หัวข้อ</p>
+                            <p class="subtitle is-6">ผู้ขียน ณ วันที่</p>
+                        </div>
+                    </div>
+                </div>
+            </a> -->
+        </section>
+    </div>
+</body>
+<script>
+    var app = new Vue({
+    el: '#app',
+    data: {
+        article: article,
+        newarticle:[]
+    },
+    created(){
+        this.newarticle = JSON.parse(localStorage.getItem("newarticle"))
+    },
+    //watch:{
+        //newarticle:function(){
+            //this.article.push({article_title: this.newarticle.article_title, article_image: this.newarticle.article_image, article_text: this.newarticle.article_text})
+        //}
+    //},
+    computed:{
+        addarticle(){
+            this.article.push({
+                article_id:null,
+                article_title: this.newarticle.article_title,
+                article_writer_id:null,
+                article_text: this.newarticle.article_text,
+                article_image: this.newarticle.article_image,
+                article_date:null,
+                article_tag:null
+            })
+            return article
+        }
+    }
+})
+</script>
 </html>

@@ -5,62 +5,82 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="article.js"></script>
     <title>เขียนบทความ | Project_R</title>
 </head>
 
 <body>
-    <!-- navbar -->
-    <nav class="navbar is-danger">
-        <div class="nav-brand">
-            <a class="navbar-item" href="#">LOGO</a>
-        </div>
-        <div class="navbar-menu">
-            <div class="navbar-end">
-                <a class="navbar-item" href="#">บทความ</a>
-                <a class="navbar-item" href="#">ร้านแนะนำ</a>
-                <a class="navbar-item" href="#">อื่นๆ </a>
-                <div class="navbar-item has-dropdown is-hoverable">
-                    <a class="navbar-link">อื่นๆ</a>
-                    <div class="navbar-dropdown">
-                        <a class="navbar-item" href="#">เขียนบทความ</a>
-                        <a class="navbar-item" href="#">แนะนำร้าน</a>
-                        <a class="navbar-item" href="#">แจ้งปัญหารถเบื้องต้น</a>
+    <div id="app">
+        <!-- navbar -->
+        <nav class="navbar is-danger">
+            <div class="nav-brand">
+                <a class="navbar-item" href="#">LOGO</a>
+            </div>
+            <div class="navbar-menu">
+                <div class="navbar-end">
+                    <a class="navbar-item" href="index.html">บทความ</a>
+                    <a class="navbar-item" href="#">ร้านแนะนำ</a>
+                    <a class="navbar-item" href="#">อื่นๆ </a>
+                    <div class="navbar-item has-dropdown is-hoverable">
+                        <a class="navbar-link">อื่นๆ</a>
+                        <div class="navbar-dropdown">
+                            <a class="navbar-item" href="#">เขียนบทความ</a>
+                            <a class="navbar-item" href="#">แนะนำร้าน</a>
+                            <a class="navbar-item" href="problem.html">แจ้งปัญหารถเบื้องต้น</a>
+                        </div>
+                    </div>
+                    <div class="navbar-item">
+                        <a class="button is-primary" href="#login.html">Login</a>
                     </div>
                 </div>
-                <div class="navbar-item">
-                    <a class="button is-primary" href="#login.html">Login</a>
-                </div>
             </div>
-        </div>
-    </nav>
-    <section class="section">
-        <div class="container">
-            <h1 class="title">ระบบเขียนบทความ</h1>
-            <form class="form" action="">
-                <div class="field">
-                    <label class="label" for="">หัวข้อ</label>
-                    <input class="input" type="text" placeholder="พิมพ์ชื่อหัวบทความ">
-                </div>
-                <div class="field">
-                    <label class="label" for="">รูปประกอบหัวข้อ</label>
-                    <input type="file" src="#" alt="">
-                </div>
-                <div class="field">
-                    <label class="label" for="">เนื้อหา</label>
-                    <textarea class="textarea" name="" id="" cols="30" rows="15"
-                        placeholder="พิมพ์เนื้อหาได้ที่นี้"></textarea>
-                </div>
-                <div class="field-is-grouped">
-                    <label class="label" for="">
-                        <input type="checkbox" name="" id="">โปรดยืนยันก่อนว่าได้อ่าน<a
-                            href="#">ข้อตกลงในการใช้งาน</a>และยอมรับให้ผู้ดูแลได้ตรวจสอบก่อนจะก่อนนำเสนอภายในเว็บไซด์
-                    </label>
-                    <button class="button is-primary">ยืนยัน</button>
-                </div>
-            </form>
-        </div>
-    </section>
+        </nav>
+        <section class="section">
+            <div class="container">
+                <h1 class="title">ระบบเขียนบทความ</h1>
+                <form class="form" action="">
+                    <div class="field">
+                        <label class="label" for="">หัวข้อ</label>
+                        <input class="input" type="text" placeholder="พิมพ์ชื่อหัวบทความ" v-model="article_title">
+                    </div>
+                    <div class="field">
+                        <label class="label" for="">รูปประกอบหัวข้อ</label>
+                        <input type="file" src="#" alt=""z>
+                    </div>
+                    <div class="field">
+                        <label class="label" for="">เนื้อหา</label>
+                        <textarea class="textarea" name="" id="" cols="30" rows="15"
+                            placeholder="พิมพ์เนื้อหาได้ที่นี้" v-model="article_text"></textarea>
+                    </div>
+                    <div class="field-is-grouped">
+                        <label class="label" for="">
+                            <input type="checkbox" name="" id="">โปรดยืนยันก่อนว่าได้อ่าน<a
+                                href="#">ข้อตกลงในการใช้งาน</a>และยอมรับให้ผู้ดูแลได้ตรวจสอบก่อนจะก่อนนำเสนอภายในเว็บไซด์
+                        </label>
+                        <button class="button is-primary" @click="addarticle()">ยืนยัน</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </div>
 </body>
-
+<script>
+    var app = new Vue({
+    el: '#app',
+    data: {
+        newarticle: [],
+        article_title:'',
+        article_image:'',
+        article_text:''
+    },
+    methods:{
+        addarticle(){
+            this.newarticle.push({article_title: this.article_title, article_image: this.article_image, article_text: this.article_text})
+            localStorage.setItem("newarticle", JSON.stringify(this.newarticle))
+            window.location.href = "index.html"
+        }
+    }
+})
+</script>
 </html>
