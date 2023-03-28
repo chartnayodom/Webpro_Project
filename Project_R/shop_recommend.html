@@ -10,11 +10,20 @@
 </head>
 
 <body>
-    <nav class="navbar is-danger" role="navigation" aria-label="main navigation">
+    <nav class="navbar is-danger">
         <div class="nav-brand">
             <a class="navbar-item" href="index.html">LOGO</a>
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false"
+                data-target="navbarBasicExample" v-on:click="showNav = !showNav"
+                v-bind:class="{ 'is-active' : showNav }">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
         </div>
-        <div class="navbar-menu">
+
+        <div id="navbarBasicExample" class="navbar-menu" v-bind:class="{ 'is-active' : showNav }">
+            <div class="navbar-start"></div>
             <div class="navbar-end">
                 <a class="navbar-item" href="article.html">บทความ</a>
                 <a class="navbar-item" href="shop_recommend.html">ร้านแนะนำ</a>
@@ -37,7 +46,7 @@
         <!-- show google map -->
         <div class="container is-desktop">
             <iframe width="900" height="720" style="border:0" loading="lazy" allowfullscreen
-                referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps/embed/v1/place?key=
+                referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDCrFOxbWvQYnWU-V1_NH6nFxdcWTi2_zY
     &q=Space+Needle,Seattle+WA">
             </iframe>
         </div>
@@ -47,8 +56,9 @@
                 <tr>
                     <th>ชื่อร้าน</th>
                     <th>ที่อยู่ร้าน</th>
-                    <th>คะแนน</th>
+                    <th>แบรน</th>
                     <th>แนะนำโดย</th>
+                    <th>คะแนน</th>
                 </tr>
 
                 <tr v-for="item in rec_shop">
@@ -69,7 +79,11 @@
         el: "#shop",
         data:{
             rec_shop: r_shop,
+            showNav: false
         },
+        created(){
+            this.rec_shop = JSON.parse(localStorage.getItem("shop"))
+        }
     })
     
     

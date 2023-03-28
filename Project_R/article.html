@@ -13,19 +13,28 @@
     <!-- navbar -->
     <nav class="navbar is-danger">
         <div class="nav-brand">
-            <a class="navbar-item" href="#">LOGO</a>
+            <a class="navbar-item" href="index.html">LOGO</a>
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false"
+                data-target="navbarBasicExample" v-on:click="showNav = !showNav"
+                v-bind:class="{ 'is-active' : showNav }">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
         </div>
-        <div class="navbar-menu">
+
+        <div id="navbarBasicExample" class="navbar-menu" v-bind:class="{ 'is-active' : showNav }">
+            <div class="navbar-start"></div>
             <div class="navbar-end">
-                <a class="navbar-item" href="#">บทความ</a>
-                <a class="navbar-item" href="#">ร้านแนะนำ</a>
-                <a class="navbar-item" href="#">อื่นๆ </a>
+                <a class="navbar-item" href="article.html">บทความ</a>
+                <a class="navbar-item" href="shop_recommend.html">ร้านแนะนำ</a>
+                <!-- <a class="navbar-item" href="#">อื่นๆ </a> -->
                 <div class="navbar-item has-dropdown is-hoverable">
                     <a class="navbar-link">อื่นๆ</a>
                     <div class="navbar-dropdown">
-                        <a class="navbar-item" href="#">เขียนบทความ</a>
-                        <a class="navbar-item" href="#">แนะนำร้าน</a>
-                        <a class="navbar-item" href="#">แจ้งปัญหารถเบื้องต้น</a>
+                        <a class="navbar-item" href="add_article.html">เขียนบทความ</a>
+                        <a class="navbar-item" href="add_rec_shop.html">แนะนำร้าน</a>
+                        <a class="navbar-item" href="problem.html">แจ้งปัญหารถเบื้องต้น</a>
                     </div>
                 </div>
                 <div class="navbar-item">
@@ -69,6 +78,7 @@
         el: "#allarticle",
         data:{
             article: [],
+            showNav: false
         },
         created(){
             this.article = JSON.parse(localStorage.getItem("AllArticle"))

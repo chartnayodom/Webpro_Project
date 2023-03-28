@@ -6,26 +6,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
-    <title>เขียนบทความ | Project_R</title>
+    <title>แนะนำร้าน | Project_R</title>
 </head>
 
 <body>
     <!-- navbar -->
     <nav class="navbar is-danger">
         <div class="nav-brand">
-            <a class="navbar-item" href="#">LOGO</a>
+            <a class="navbar-item" href="index.html">LOGO</a>
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false"
+                data-target="navbarBasicExample" v-on:click="showNav = !showNav"
+                v-bind:class="{ 'is-active' : showNav }">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
         </div>
-        <div class="navbar-menu">
+
+        <div id="navbarBasicExample" class="navbar-menu" v-bind:class="{ 'is-active' : showNav }">
+            <div class="navbar-start"></div>
             <div class="navbar-end">
-                <a class="navbar-item" href="#">บทความ</a>
-                <a class="navbar-item" href="#">ร้านแนะนำ</a>
-                <a class="navbar-item" href="#">อื่นๆ </a>
+                <a class="navbar-item" href="article.html">บทความ</a>
+                <a class="navbar-item" href="shop_recommend.html">ร้านแนะนำ</a>
+                <!-- <a class="navbar-item" href="#">อื่นๆ </a> -->
                 <div class="navbar-item has-dropdown is-hoverable">
                     <a class="navbar-link">อื่นๆ</a>
                     <div class="navbar-dropdown">
-                        <a class="navbar-item" href="#">เขียนบทความ</a>
-                        <a class="navbar-item" href="#">แนะนำร้าน</a>
-                        <a class="navbar-item" href="#">แจ้งปัญหารถเบื้องต้น</a>
+                        <a class="navbar-item" href="add_article.html">เขียนบทความ</a>
+                        <a class="navbar-item" href="add_rec_shop.html">แนะนำร้าน</a>
+                        <a class="navbar-item" href="problem.html">แจ้งปัญหารถเบื้องต้น</a>
                     </div>
                 </div>
                 <div class="navbar-item">
@@ -34,40 +43,80 @@
             </div>
         </div>
     </nav>
-    <section class="section">
+    <section class="section" id="app">
         <h1 class="title">อยากแนะนำร้านหรอ</h1>
         <h5 class="subtitle">เพียงแต่กรอกฟอร์มร้านที่แนะนำด้านล่าง</h5>
         <div class="container">
-            <form>
-                <div class="field">
-                    <label class="label" for="">ชื่อร้าน</label>
-                    <input class="input" type="text" placeholder="ชื่อร้าน">
-                </div>
-                <div class="field">
-                    <label class="label" for="">ตำแหน่งร้าน</label>
-                    <input class="input" type="text" placeholder="พิมพ์ตำแหน่งร้าน หรืออธิบายเพิ่มเติม">
-                </div>
-                <div class="field">
-                    <label class="label" for="">แบรนด์ที่รองรับการบริการ</label>
-                    <input class="input" type="text" placeholder="พิมพ์แบรนด์ที่เขารับทำ">
-                </div>
-                <label class="label" for="">
-                    <input type="checkbox" name="" id="">โปรดยืนยันก่อนว่าได้อ่าน<a
-                        href="#">ข้อตกลงในการใช้งาน</a>และยอมรับให้ผู้ดูแลได้ตรวจสอบก่อนจะก่อนนำเสนอภายในเว็บไซด์
-                </label>
-                <button class="button is-primary">นำเสนอ</button>
-            </form>
+            <!-- <form> -->
+            <div class="field">
+                <label class="label" for="">ชื่อร้าน</label>
+                <input class="input" type="text" v-model="shopName" placeholder="ชื่อร้าน">
+            </div>
+            <div class="field">
+                <label class="label" for="">ตำแหน่งร้าน</label>
+                <input class="input" type="text" v-model="shopAddress"
+                    placeholder="พิมพ์ตำแหน่งร้าน หรืออธิบายเพิ่มเติม">
+            </div>
+            <div class="field">
+                <label class="label" for="">แบรนด์ที่รองรับการบริการ</label>
+                <input class="input" type="text" v-model="supportBrand" placeholder="พิมพ์แบรนด์ที่เขารับทำ">
+            </div>
+            <label class="label" for="">
+                <input type="checkbox" name="" id="" v-model="agreement">โปรดยืนยันก่อนว่าได้อ่าน<a
+                    href="#">ข้อตกลงในการใช้งาน</a>และยอมรับให้ผู้ดูแลได้ตรวจสอบก่อนจะก่อนนำเสนอภายในเว็บไซด์
+            </label>
+            <button class="button is-primary" @click="addRecShop()">นำเสนอ</button>
+            <!-- </form> -->
         </div>
     </section>
 </body>
+<script src="recommented_shop.js"></script>
 <script>
     var app = new Vue({
         el: "#app",
-        data:{
-
+        data: {
+            showNav: false,
+            shop: r_shop,
+            shopName: "",
+            shopAddress: "",
+            supportBrand: "",
+            agreement: false,
         },
+        created() {
+
+            if (!localStorage.getItem("shop")) {
+                localStorage.setItem("shop", JSON.stringify(r_shop))
+            }
+            else {
+                // localStorage.setItem("shop", JSON.stringify(r_shop))
+            }
+        },
+        methods: {
+            addRecShop() {
+                if (this.shopName === "" || this.shopAddress === "" || this.supportBrand === "") {
+                    alert("กรุณาพิมพ์ให้ครบทุกส่วนก่อน")
+                }
+                else if(this.agreement == false){
+                    alert("กรุณากดยินยอมด้วย")
+                }
+                else {
+                    let shop = JSON.parse(localStorage.getItem("shop"))
+                    shop.push({
+                        r_shop_id: shop.length,
+                        r_shop_name: this.shopName,
+                        r_shop_address: this.shopAddress,
+                        r_shop_brand: this.supportBrand,
+                        r_shop_score: 4
+                    })
+                    localStorage.setItem("shop", JSON.stringify(shop))
+                    window.location.href = "shop_recommend.html"
+                }
+
+            }
+        }
     })
-    
-    
+
+
 </script>
+
 </html>

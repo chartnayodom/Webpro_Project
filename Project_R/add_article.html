@@ -15,18 +15,27 @@
         <!-- navbar -->
         <nav class="navbar is-danger">
             <div class="nav-brand">
-                <a class="navbar-item" href="#">LOGO</a>
+                <a class="navbar-item" href="index.html">LOGO</a>
+                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false"
+                    data-target="navbarBasicExample" v-on:click="showNav = !showNav"
+                    v-bind:class="{ 'is-active' : showNav }">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
             </div>
-            <div class="navbar-menu">
+
+            <div id="navbarBasicExample" class="navbar-menu" v-bind:class="{ 'is-active' : showNav }">
+                <div class="navbar-start"></div>
                 <div class="navbar-end">
-                    <a class="navbar-item" href="index.html">บทความ</a>
-                    <a class="navbar-item" href="#">ร้านแนะนำ</a>
-                    <a class="navbar-item" href="#">อื่นๆ </a>
+                    <a class="navbar-item" href="article.html">บทความ</a>
+                    <a class="navbar-item" href="shop_recommend.html">ร้านแนะนำ</a>
+                    <!-- <a class="navbar-item" href="#">อื่นๆ </a> -->
                     <div class="navbar-item has-dropdown is-hoverable">
                         <a class="navbar-link">อื่นๆ</a>
                         <div class="navbar-dropdown">
-                            <a class="navbar-item" href="#">เขียนบทความ</a>
-                            <a class="navbar-item" href="#">แนะนำร้าน</a>
+                            <a class="navbar-item" href="add_article.html">เขียนบทความ</a>
+                            <a class="navbar-item" href="add_rec_shop.html">แนะนำร้าน</a>
                             <a class="navbar-item" href="problem.html">แจ้งปัญหารถเบื้องต้น</a>
                         </div>
                     </div>
@@ -40,26 +49,26 @@
             <div class="container">
                 <h1 class="title">ระบบเขียนบทความ</h1>
                 <!-- <form class="form" action=""> -->
-                    <div class="field">
-                        <label class="label" for="">หัวข้อ</label>
-                        <input class="input" type="text" placeholder="พิมพ์ชื่อหัวบทความ" v-model="article_title">
-                    </div>
-                    <div class="field">
-                        <label class="label" for="">รูปประกอบหัวข้อ</label>
-                        <input type="file" src="#" alt=""z>
-                    </div>
-                    <div class="field">
-                        <label class="label" for="">เนื้อหา</label>
-                        <textarea class="textarea" name="" id="" cols="30" rows="15"
-                            placeholder="พิมพ์เนื้อหาได้ที่นี้" v-model="article_text"></textarea>
-                    </div>
-                    <div class="field-is-grouped">
-                        <label class="label" for="">
-                            <input type="checkbox" name="" id="">โปรดยืนยันก่อนว่าได้อ่าน<a
-                                href="#">ข้อตกลงในการใช้งาน</a>และยอมรับให้ผู้ดูแลได้ตรวจสอบก่อนจะก่อนนำเสนอภายในเว็บไซด์
-                        </label>
-                        <button class="button is-primary" @click="addarticle()">ยืนยัน</button>
-                    </div>
+                <div class="field">
+                    <label class="label" for="">หัวข้อ</label>
+                    <input class="input" type="text" placeholder="พิมพ์ชื่อหัวบทความ" v-model="article_title">
+                </div>
+                <div class="field">
+                    <label class="label" for="">รูปประกอบหัวข้อ</label>
+                    <input type="file" src="#" alt="" z>
+                </div>
+                <div class="field">
+                    <label class="label" for="">เนื้อหา</label>
+                    <textarea class="textarea" name="" id="" cols="30" rows="15" placeholder="พิมพ์เนื้อหาได้ที่นี้"
+                        v-model="article_text"></textarea>
+                </div>
+                <div class="field-is-grouped">
+                    <label class="label" for="">
+                        <input type="checkbox" name="" id="" v-model="agreement">โปรดยืนยันก่อนว่าได้อ่าน<a
+                            href="#">ข้อตกลงในการใช้งาน</a>และยอมรับให้ผู้ดูแลได้ตรวจสอบก่อนจะก่อนนำเสนอภายในเว็บไซด์
+                    </label>
+                    <button class="button is-primary" @click="addarticle()">ยืนยัน</button>
+                </div>
                 <!-- </form> -->
             </div>
         </section>
@@ -67,23 +76,38 @@
 </body>
 <script>
     var app = new Vue({
-    el: '#app',
-    data: {
-        newarticle: [],
-        article_title:'',
-        article_image:'',
-        article_text:''
-    },
-    methods:{
-        addarticle(){
-            this.newarticle.push({article_title: this.article_title, article_image: this.article_image, article_text: this.article_text})
-            localStorage.setItem("newarticle", JSON.stringify(this.newarticle))
-            window.location.href = "index.html"
+        el: '#app',
+        data: {
+            newarticle: [],
+            article_title: '',
+            article_image: '',
+            article_text: '',
+            showNav: false,
+            agreement:false
+        },
+        methods: {
+            addarticle() {
+                if (this.article_text === "" || this.article_title === "") {
+                    alert("กรุณาพิมพ์ให้ครบทุกส่วนก่อน")
+                }
+                else if(this.agreement == false){
+                    alert("กรุณากดยินยอมด้วย")
+                }
+                else {
+                    this.newarticle.push({ article_title: this.article_title, article_image: this.article_image, article_text: this.article_text})
+                    localStorage.setItem("newarticle", JSON.stringify(this.newarticle))
+                    window.location.href = "index.html"
+                }
+
+            }
+        },
+        created() {
+            this.newarticle = JSON.parse(localStorage.getItem("newarticle"))
+            if (this.newarticle === null) {
+                this.newarticle = []
+            }
         }
-    },
-    created(){
-        this.newarticle = JSON.parse(localStorage.getItem("newarticle"))
-    }
-})
+    })
 </script>
+
 </html>

@@ -112,9 +112,13 @@
         },
         created() {
             this.newarticle = JSON.parse(localStorage.getItem("newarticle"))
-            this.newarticle.forEach(element => {
+            if(this.newarticle !== null){
+                this.newarticle.forEach(element => {
                 this.article.push(element)
             });
+            }
+            
+            
             localStorage.setItem("AllArticle", JSON.stringify(this.article))
         },
         //watch:{
