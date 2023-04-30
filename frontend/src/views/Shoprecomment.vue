@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <!-- navbar -->
+       <!-- navbar -->
     <nav class="navbar is-danger">
       <div class="nav-brand">
         <router-link  to="/" class="navbar-item" >Blog</router-link>
@@ -48,45 +48,35 @@
         </div>
       </div>
     </nav>
-
-    <!-- content -->
-    <section class="section">
-      <!-- Highlight -->
-      <div class="container p-5">
-        <!--<figure class="image is-900x600 ">
-                    <img class="is-overlay" src="https://wallpapers.com/images/featured/1080p-3qmj7oaige168170.jpg"
-                        alt="Highlight">
-                    <a href="#">หัวข้อXD</a>
-                </figure>-->
-      </div>
-
-      <div class="container p-5">
-        <div class="columns is-desktop is-multiline">
-          <!-- การ์ดหัวข้อบทความแบบมีรูป -->
-          <div id="card" class="column is-one-third">
-            <router-link :to="`/blog/detail/`"> <!--${blog.id}-->
-              <div class="card">
-                <div class="card-header">
-                  <div class="card-image">
-                    <figure class="image is-900x600">
-                      <img
-                        src="https://wallpapers.com/images/featured/1080p-3qmj7oaige168170.jpg"
-                        alt="รูปประกอบหัวข้อ"
-                      />
-                    </figure>
-                  </div>
-                </div>
-                <div class="card-content">
-                  <div class="media-content">
-                    <p class="title is-4"> </p>
-                    <p class="subtitle is-6"></p>
-                  </div>
-                </div>
-              </div>
-            </router-link>
-          </div>
+    <section class="section" id="shop">
+        <!-- show google map -->
+        <div class="container is-desktop">
+            <iframe width="900" height="720" style="border:0" loading="lazy" allowfullscreen
+                referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDCrFOxbWvQYnWU-V1_NH6nFxdcWTi2_zY
+    &q=Space+Needle,Seattle+WA">
+            </iframe>
         </div>
-      </div>
+        <!-- show list -->
+        <div class="container">
+            <table class="table">
+                <tr>
+                    <th>ชื่อร้าน</th>
+                    <th>ที่อยู่ร้าน</th>
+                    <th>แบรน</th>
+                    <th>แนะนำโดย</th>
+                    <th>คะแนน</th>
+                </tr>
+
+                <!-- <tr v-for="item in rec_shop">
+                    <td>{{item.r_shop_name}}</td>
+                    <td>{{item.r_shop_address}}</td>
+                    <td>{{item.r_shop_brand}}</td>
+                    <td>Recomment by Who</td>
+                    <td>{{item.r_shop_score}}</td>
+                </tr> -->
+
+            </table>
+        </div>
     </section>
   </div>
 </template>
@@ -96,20 +86,13 @@ export default {
   name: "App",
   data() {
     return {
-      article: [],
-      newarticle: [],
-      showNav: false,
+        rec_shop: r_shop,
+        showNav: false
     };
   },
 };
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+
 </style>

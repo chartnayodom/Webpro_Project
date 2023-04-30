@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <!-- navbar -->
+      <!-- navbar -->
     <nav class="navbar is-danger">
       <div class="nav-brand">
         <router-link  to="/" class="navbar-item" >Blog</router-link>
@@ -48,68 +48,51 @@
         </div>
       </div>
     </nav>
-
-    <!-- content -->
-    <section class="section">
-      <!-- Highlight -->
-      <div class="container p-5">
-        <!--<figure class="image is-900x600 ">
-                    <img class="is-overlay" src="https://wallpapers.com/images/featured/1080p-3qmj7oaige168170.jpg"
-                        alt="Highlight">
-                    <a href="#">หัวข้อXD</a>
-                </figure>-->
-      </div>
-
-      <div class="container p-5">
-        <div class="columns is-desktop is-multiline">
-          <!-- การ์ดหัวข้อบทความแบบมีรูป -->
-          <div id="card" class="column is-one-third">
-            <router-link :to="`/blog/detail/`"> <!--${blog.id}-->
-              <div class="card">
-                <div class="card-header">
-                  <div class="card-image">
-                    <figure class="image is-900x600">
-                      <img
-                        src="https://wallpapers.com/images/featured/1080p-3qmj7oaige168170.jpg"
-                        alt="รูปประกอบหัวข้อ"
-                      />
-                    </figure>
-                  </div>
-                </div>
-                <div class="card-content">
-                  <div class="media-content">
-                    <p class="title is-4"> </p>
-                    <p class="subtitle is-6"></p>
-                  </div>
-                </div>
-              </div>
-            </router-link>
-          </div>
+     <section class="section">
+        <div class="container">
+          <h1 class="title">อยากแนะนำร้านหรอ</h1>
+        <h5 class="subtitle">เพียงแต่กรอกฟอร์มร้านที่แนะนำด้านล่าง</h5>
+            <!-- <form> -->
+            <div class="field">
+                <label class="label" for="">ชื่อร้าน</label>
+                <input class="input" type="text" v-model="shopName" placeholder="ชื่อร้าน">
+            </div>
+            <div class="field">
+                <label class="label" for="">ตำแหน่งร้าน</label>
+                <input class="input" type="text" v-model="shopAddress"
+                    placeholder="พิมพ์ตำแหน่งร้าน หรืออธิบายเพิ่มเติม">
+            </div>
+            <div class="field">
+                <label class="label" for="">แบรนด์ที่รองรับการบริการ</label>
+                <input class="input" type="text" v-model="supportBrand" placeholder="พิมพ์แบรนด์ที่เขารับทำ">
+            </div>
+            <label class="label" for="">
+                <input type="checkbox" name="" id="" v-model="agreement">โปรดยืนยันก่อนว่าได้อ่าน<a
+                    href="#">ข้อตกลงในการใช้งาน</a>และยอมรับให้ผู้ดูแลได้ตรวจสอบก่อนจะก่อนนำเสนอภายในเว็บไซด์
+            </label>
+            <button class="button is-primary" @click="addRecShop()">นำเสนอ</button>
+            <!-- </form> -->
         </div>
-      </div>
     </section>
   </div>
 </template>
 
 <script>
 export default {
-  name: "App",
+name: "App",
   data() {
     return {
-      article: [],
       newarticle: [],
+      article_title: "",
+      article_image: "",
+      article_text: "",
       showNav: false,
+      agreement: false,
     };
   },
-};
+}
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+
 </style>

@@ -48,44 +48,50 @@
         </div>
       </div>
     </nav>
-
-    <!-- content -->
     <section class="section">
-      <!-- Highlight -->
-      <div class="container p-5">
-        <!--<figure class="image is-900x600 ">
-                    <img class="is-overlay" src="https://wallpapers.com/images/featured/1080p-3qmj7oaige168170.jpg"
-                        alt="Highlight">
-                    <a href="#">หัวข้อXD</a>
-                </figure>-->
-      </div>
-
-      <div class="container p-5">
-        <div class="columns is-desktop is-multiline">
-          <!-- การ์ดหัวข้อบทความแบบมีรูป -->
-          <div id="card" class="column is-one-third">
-            <router-link :to="`/blog/detail/`"> <!--${blog.id}-->
-              <div class="card">
-                <div class="card-header">
-                  <div class="card-image">
-                    <figure class="image is-900x600">
-                      <img
-                        src="https://wallpapers.com/images/featured/1080p-3qmj7oaige168170.jpg"
-                        alt="รูปประกอบหัวข้อ"
-                      />
-                    </figure>
-                  </div>
-                </div>
-                <div class="card-content">
-                  <div class="media-content">
-                    <p class="title is-4"> </p>
-                    <p class="subtitle is-6"></p>
-                  </div>
-                </div>
-              </div>
-            </router-link>
-          </div>
+      <div class="container">
+        <h1 class="title">ระบบเขียนบทความ</h1>
+        <!-- <form class="form" action=""> -->
+        <div class="field">
+          <label class="label" for="">หัวข้อ</label>
+          <input
+            class="input"
+            type="text"
+            placeholder="พิมพ์ชื่อหัวบทความ"
+            v-model="article_title"
+          />
         </div>
+        <div class="field">
+          <label class="label" for="">รูปประกอบหัวข้อ</label>
+          <input type="file" src="#" alt="" z />
+        </div>
+        <div class="field">
+          <label class="label" for="">เนื้อหา</label>
+          <textarea
+            class="textarea"
+            name=""
+            id=""
+            cols="30"
+            rows="15"
+            placeholder="พิมพ์เนื้อหาได้ที่นี้"
+            v-model="article_text"
+          ></textarea>
+        </div>
+        <div class="field-is-grouped">
+          <label class="label" for="">
+            <input
+              type="checkbox"
+              name=""
+              id=""
+              v-model="agreement"
+            />โปรดยืนยันก่อนว่าได้อ่าน<a href="#">ข้อตกลงในการใช้งาน</a
+            >และยอมรับให้ผู้ดูแลได้ตรวจสอบก่อนจะก่อนนำเสนอภายในเว็บไซด์
+          </label>
+          <button class="button is-primary" @click="addarticle()">
+            ยืนยัน
+          </button>
+        </div>
+        <!-- </form> -->
       </div>
     </section>
   </div>
@@ -96,20 +102,16 @@ export default {
   name: "App",
   data() {
     return {
-      article: [],
       newarticle: [],
+      article_title: "",
+      article_image: "",
+      article_text: "",
       showNav: false,
+      agreement: false,
     };
   },
 };
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
 </style>
