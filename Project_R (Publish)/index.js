@@ -11,9 +11,11 @@ app.use(bodyParser.urlencoded({ extended: false}));
 
 const indexRouter = require('./routes/index.js')
 const repairshopRouter = require('./routes/repair_shop.js')
+const userRouter = require('./routes/user')
 
 app.use(indexRouter.router)
 app.use(repairshopRouter.router)
+app.use(userRouter.router)
 
 app.listen(3000, () => {
     console.log(`Running in port3000`)
