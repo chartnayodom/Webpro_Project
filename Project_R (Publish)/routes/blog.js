@@ -1,7 +1,13 @@
 const express = require("express");
 const pool = require("../config");
+const Joi = require('Joi')
 
 router = express.Router();
+
+const blogsValid = Joi({
+    blog_title: Joi.string().required(),
+    blog_content: Joi.string().required(),
+})
 
 router.get("/", async function(req,res,next){
     console.log("request index page")
@@ -28,6 +34,26 @@ router.get("/blogs/:blogID", async function(req,res,next){
         return res.json(rows)
     }catch(err){
         return next(err)
+    }
+})
+
+router.post("/blogs/add", async(req,res,next) =>{
+    try{
+        await blogsValid.validateAsync(req.body,{ AbortEarly: false})
+    }catch(err){
+        return res.status(400).json(err)
+    }
+    
+
+    const conn = await pool.getConnection()
+    await conn.beginTransaction()
+    try{
+        // await conn.query('INSERT INTO blogs')
+        await conn.commit()
+    }catch(err){
+        await conn.rolback()
+    }finally{
+        await conn.release()
     }
 })
 

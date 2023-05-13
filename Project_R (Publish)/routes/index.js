@@ -19,23 +19,23 @@ router.get("/home", async function(req,res,next){
     }
 })
 
-router.get("/blogs", async function(req,res,next){
-    try{
-        const [rows,fields] = await pool.query("SELECT * FROM Blogs;");
-        return res.json(rows)
-    }catch(err){
-        return next(err)
-    }
-})
+// router.get("/blogs", async function(req,res,next){
+//     try{
+//         const [rows,fields] = await pool.query("SELECT * FROM Blogs;");
+//         return res.json(rows)
+//     }catch(err){
+//         return next(err)
+//     }
+// })
 
-router.get("/blogs/:blogID", async function(req,res,next){
-    try{
-        const [rows, fields] = await pool.query("SELECT * FROM Blogs where Blog_ID = ?;",
-        [req.param.blogID])
-        return res.json(rows)
-    }catch(err){
-        return next(err)
-    }
-})
+// router.get("/blogs/:blogID", async function(req,res,next){
+//     try{
+//         const [rows, fields] = await pool.query("SELECT * FROM Blogs where Blog_ID = ?;",
+//         [req.param.blogID])
+//         return res.json(rows)
+//     }catch(err){
+//         return next(err)
+//     }
+// })
 
 exports.router = router;

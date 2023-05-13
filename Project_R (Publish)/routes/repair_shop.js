@@ -5,15 +5,19 @@ const Joi = require('joi')
 router = express.Router();
 
 const blogVal = Joi({
-    
+    shop_name : Joi.string(),
+    shop_desc : Joi.string()
 })
 
 //Request หน้ารวมอู่
 router.get("/repairshop/overview", async function(req,res,next){
     //get repair shop maps
-    console.log("request index page")
-    res.render("repair_shop", {title: "hi"})
-    return
+    try{
+        const[rows, column] = await pool.query('SELECT * FROM shop')
+        res.status(200).json(rows)
+    }catch(err){
+        next(err)
+    }
 })
 
 //ส่ง form แนะนำลงไปใน Database
@@ -24,17 +28,17 @@ router.post("/repairshop/add", async function(req,res,next){
         return res.status(400).json(err)
     }
 
-    const conn = pool.getConnection()
+    const conn = await pool.getConnection()
     await conn.beginTransaction()
     try{
         await conn.query('INSERT INTO ',[])
-        conn.commit()
+        await conn.commit()
         res.status(201).send()
     }catch(err){
-        conn.rollback()
+        await conn.rollback()
         res.status(400).json(err.toString())
     }finally{
-        conn.release
+        await conn.release
     }
     // return res
 })

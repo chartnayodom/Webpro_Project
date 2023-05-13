@@ -4,10 +4,23 @@ const Joi = require('joi')
 
 router = express.Router();
 
+const passwordValid = (value, helpers)=>{
+    if(value < 8){
+        throw new Joi.ValidationError('Password must contain 8 or more characters')
+    }
+    if(!values.match(/[a-z]/) && value.match(/[A-Z]/) && value.match(/[A-Z]/) ){
+        throw new Joi.ValidationError('Password must stronger')
+    }
+    return value
+}   
 //make validation
 const signupSchema = Joi({
-    email: '',
-    mobile: '',
+    username: Joi.string().required().min(8).max(16),
+    password: Joi.string().required().custom(passwordValid),
+    email: Joi.string().email().required(),
+    user_sign: Joi.string().required().alphanum().min(3).max(30),
+    first_name: Joi.string().required().alpha().min(2).max(50),
+    last_name: Joi.string().required().alpha().min(2).max(50)
 })
 
 // const loginValid = Joi({
