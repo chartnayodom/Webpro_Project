@@ -35,4 +35,33 @@ router.post('/problem/add', async (req,res,next)=>{
         conn.release()
     }
 })
+
+router.put('/problem/edit/:problemid', async(req,res,next)=>{
+    const conn = await pool.getConnection()
+    await conn.beginTransaction()
+    try{
+        await conn.query("UPDATE problem SET problem_ref_id = ?, context = ? answer = ? ",
+        [])
+        conn.commit()
+    }catch(err){
+        conn.rollback()
+    }finally{
+        conn.release()
+    }
+})
+
+router.put('/problem/delete/:problemid', async(req,res,next)=>{
+    const conn = await pool.getConnection()
+    await conn.beginTransaction()
+    try{
+        await conn.query("DELETE FROM problem WHERE problem_id = ?",
+        [])
+        conn.commit()
+    }catch(err){
+        conn.rollback()
+    }finally{
+        conn.release()
+    }
+})
+
 exports.router = router

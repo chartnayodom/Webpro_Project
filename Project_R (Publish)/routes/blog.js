@@ -1,26 +1,26 @@
 const express = require("express");
 const pool = require("../config");
-const Joi = require('Joi')
+const Joi = require("joi")
 
 router = express.Router();
 
-const blogsValid = Joi({
+const blogsValid = Joi.object({
     blog_title: Joi.string().required(),
-    blog_content: Joi.string().required(),
+    blog_content: Joi.string().required()
 })
 
-router.get("/", async function(req,res,next){
-    console.log("request index page")
-    res.render("index", {title: "hi"})
-    return
-})
+// router.get("/", async function(req,res,next){
+//     console.log("request index page")
+//     res.render("index", {title: "hi"})
+//     return
+// })
 
 //get all blogs in database
 
 router.get("/blogs", async function(req,res,next){
     try{
         const [rows,fields] = await pool.query("SELECT * FROM Blogs;");
-        return res.json(rows)
+        return res.status(400).json(rows)
     }catch(err){
         return next(err)
     }
@@ -48,12 +48,40 @@ router.post("/blogs/add", async(req,res,next) =>{
     const conn = await pool.getConnection()
     await conn.beginTransaction()
     try{
-        // await conn.query('INSERT INTO blogs')
+        await conn.query('INSERT INTO blogs (Blog_Title, Blog_Content, Blog_Banner, Status, Pin, View_count, Create_Date, Member_ID)' +
+        'VALUES (?,?,?,0,0,0,DATE_TIMESTAMP,?)', [])
         await conn.commit()
     }catch(err){
         await conn.rolback()
     }finally{
         await conn.release()
+    }
+})
+
+router.put('/blogs/edit/:blogid', async(req,res,next)=>{
+    const conn = await pool.getConnection()
+    await conn.beginTransaction()
+    try{
+        await conn.query("UPDATE blogs SET Blog_Title = ?, Blog_Content = ?, Status = ?, Pin = ? WHERE Blog_ID = ?",
+        [])
+        conn.commit()
+    }catch(err){
+        conn.rollback()
+    }finally{
+        conn.release()
+    }
+})
+
+router.delete('/blogs/delete/:blogid', async(req,res,next)=>{
+    const conn = await pool.getConnection()
+    await conn.beginTransaction()
+    try{
+        await conn.query("DELETE FROM blogs WHERE Blog_ID = ?",[])
+        conn.commit()
+    }catch(err){
+        conn.rollback()
+    }finally{
+        conn.release()
     }
 })
 

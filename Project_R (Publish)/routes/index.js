@@ -5,15 +5,19 @@ router = express.Router();
 
 router.get("/", async function(req,res,next){
     console.log("request index page")
-    res.render("index", {title: "hi"})
-    return
+    try{
+        const [rows,fields] = await pool.query("SELECT * FROM blogs WHERE pin = 1;");
+        return res.status(200).json(rows)
+    }catch(err){
+        return res.status(400).next(err)
+    }
 })
 
 //get all blogs in database
 router.get("/home", async function(req,res,next){
     try{
-        const [rows, fields] = await pool.query("SELECT * FROM Blogs;");
-        return res.json(rows);
+        const [rows, fields] = await pool.query("SELECT * FROM blogs WHERE pin = 0;");
+        return res.status(200).json(rows);
     } catch(err){
         return next(err)
     }
