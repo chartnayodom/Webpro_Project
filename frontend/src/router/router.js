@@ -39,6 +39,11 @@ const routes = [
     name: 'Shoprecomment',
     component: () => import('../views/Shoprecomment.vue') // set home as path '/'
   },
+  {
+    path: '/checkdistance',
+    name: 'CheckDistance',
+    component: () => import('../views/Checkdistance.vue') // set home as path '/'
+  },
 ]
 
 const router = new VueRouter({
