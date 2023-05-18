@@ -18,13 +18,13 @@
                     <th>แนะนำโดย</th>
                     <th>คะแนน</th>
                 </tr>
-                <!-- <tr v-for="shop, in rec_shop" :key="shop.id">
-                    <td>{{shop.shopName}}</td>
-                    <td>{{shop.Address}}</td>
+                <tr v-for="shop in rec_shop" :key="shop.id">
+                    <td>{{shop.r_shop_name}}</td>
+                    <td>{{shop.r_shop_address}}</td>
                     <td>{{shop.supprotBrand}}</td>
-                    <td>Recomment by Who</td>
-                    <td>{{shop.score}}</td>
-                </tr> -->
+                    <td>Recomment by {{shop.user_sign}}</td>
+                    <td>{{shop.r_shop_like}}</td>
+                </tr>
             </table>
         </div>
     </section>
@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: "App",
   data() {
@@ -39,6 +40,22 @@ export default {
       rec_shop:[]
     };
   },
+  mounted(){
+    this.getShop()
+  },
+  methods:{
+    getShop(){
+      axios
+        .get("http://localhost:3000/repairshop")
+        .then((response)=>{
+          console.log(response)
+          this.rec_shop = response.data
+        })
+        .catch((err)=>{
+          console.log(err)
+        })
+    }
+  }
 };
 </script>
 

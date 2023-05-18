@@ -71,6 +71,8 @@ router.post('/user/signup', async(req,res,next) =>{
 
 })
 
+
+//login
 router.post('/user/login', async (req,res,next) =>{
     const password = await bcrypt.hash(req.body.password, 5)
     try{

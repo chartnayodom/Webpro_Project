@@ -48,12 +48,12 @@ name: "App",
   methods:{
     addRecShop(){
       let formData = new FormData();
-      formData.append("name", this.shopName);
-      formData.append("address", this.shoppAddress);
-      formData.append("brand", this.supportBrand);
-      formData.append("score", this.score);
+      formData.append("shop_name", this.shopName);
+      formData.append("shop_addr", this.shoppAddress);
+      // formData.append("brand", this.supportBrand);
+      formData.append("id", this.score); // เอา ID มา
       axios
-        .post("/shop", formData)
+        .post("/repairshop/add", formData)
         .then((res) => this.$router.push({name: 'home'}))
         .catch((e) => console.log(e.response.data));     
     }

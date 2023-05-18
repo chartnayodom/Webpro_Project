@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: "App",
   data() {
@@ -46,6 +47,22 @@ export default {
       showNav: false,
     };
   },
+  mounted(){
+    this.getAllBlogs()
+  },
+  methods:{
+    getAllBlogs(){
+      axios
+      .get("http://localhost:3000/blogs")
+      .then((response) => {
+        this.blogs = response.data;
+      })
+      .catch((err)=>{
+        console.log(err);
+      })
+    }
+  }
+  
 };
 </script>
 

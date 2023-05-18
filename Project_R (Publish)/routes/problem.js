@@ -4,6 +4,7 @@ const pool = require("../config");
 
 router = express.Router();
 
+//list คำถาม
 router.get('/problem', async (req,res,next) =>{
     try{
         pool.query("SELECT * FROM problem WHERE problem_ref_id == NULL")
@@ -12,6 +13,7 @@ router.get('/problem', async (req,res,next) =>{
     }
 })
 
+//เลือกข้อเพื่อไปส่วนย่อยของปัญหานั้น
 router.get('/problem/:asking', async(req,res,next) =>{
     try{
         pool.query("SELECT * FROM problem WHERE problem_ref_id = ?",
@@ -21,6 +23,7 @@ router.get('/problem/:asking', async(req,res,next) =>{
     }
 })
 
+//เพิ่มหัวข้อปัญหา มีใส่เลขReferenceที่เป็นย่อยจากหัวข้อหลัก, ปัญหา, คำตอบ(ถ้ามี)
 router.post('/problem/add', async (req,res,next)=>{
     const conn = await pool.getConnection()
     await conn.beginTransaction()
@@ -36,6 +39,7 @@ router.post('/problem/add', async (req,res,next)=>{
     }
 })
 
+//แก้ไข
 router.put('/problem/edit/:problemid', async(req,res,next)=>{
     const conn = await pool.getConnection()
     await conn.beginTransaction()
@@ -50,6 +54,7 @@ router.put('/problem/edit/:problemid', async(req,res,next)=>{
     }
 })
 
+//ลบ
 router.put('/problem/delete/:problemid', async(req,res,next)=>{
     const conn = await pool.getConnection()
     await conn.beginTransaction()

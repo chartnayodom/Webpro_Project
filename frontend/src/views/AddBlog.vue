@@ -68,7 +68,7 @@ export default {
       formData.append("myImage", image);
   
       axios
-        .post("/blogs", formData)
+        .post("/blogs/add", formData)
         .then((res) => this.$router.push({ name: "home" }))
         .catch((e) => console.log(e.response.data));
     },

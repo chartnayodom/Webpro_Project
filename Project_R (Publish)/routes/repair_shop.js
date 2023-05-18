@@ -4,9 +4,10 @@ const Joi = require('joi')
 
 router = express.Router();
 
+//
 const blogVal = Joi.object({
-    shop_name : Joi.string(),
-    shop_addr : Joi.string(),
+    shop_name : Joi.string().min(5).max(100),
+    shop_addr : Joi.string().min(10).max(300),
     userid : Joi.number()
 })
 
@@ -14,10 +15,10 @@ const blogVal = Joi.object({
 router.get("/repairshop", async function(req,res,next){
     //get repair shop maps
     try{
-        const[rows, column] = await pool.query('SELECT * FROM shop WHERE shop_approved = 1')
+        const[rows, column] = await pool.query('SELECT s.*, m.user_sign FROM shop s join `user` m on (s.r_shop_by = m.user_id) WHERE shop_approved = 1')
         res.status(200).json(rows)
     }catch(err){
-        next(err)
+        res.status(400).json(err)
     }
 })
 
@@ -45,7 +46,7 @@ router.post("/repairshop/add", async function(req,res,next){
     }finally{
         conn.release()
     }
-    // return res
+    return
 })
 
 router.post("/repairshop/update", async(req,res,next)=>{
@@ -56,13 +57,14 @@ router.post("/repairshop/update", async(req,res,next)=>{
     try{
         await conn.query("UPDATE shop SET r_shop_name = ?, r_shop_address = ? WHERE r_shop_id = ?",[req.body.shop_name, req.body.shop_addr,userid])
         conn.commit()
-        res.status(201).json({message: 'update recommented shop success'})
+        res.status(200).json({message: 'update recommented shop success'})
     }catch(err){
         conn.rollback()
         res.status(400).json(err)
     }finally{
         conn.release()
     }
+    return
 })
 
 //delete
@@ -72,14 +74,14 @@ router.delete("/repairshop/delete/", async (req,res,next) => {
     try{
         await conn.query("DELETE FROM shop WHERE r_shop_id = ?",[parseInt(req.query.id)])
         conn.commit()
-        res.status(201).json({message: 'delete recommented shop success'})
+        res.status(200).json({message: 'delete recommented shop success'})
     }catch(err){
         conn.rollback()
         res.status(400).json(err)
     }finally{
         conn.release()
     }
-
+    return
 })
 
 //addlike
