@@ -29,7 +29,7 @@ router.post('/problem/add', async (req,res,next)=>{
     await conn.beginTransaction()
     try{
         pool.query("INSERT INTO problem (problem_ref_id,context,answer)VALUES (?,?,?)",
-        [req.body.refer, req.context, req.answer])
+        [req.body.refer, req.body.context, req.body.answer])
         conn.commit()
         res.status(200).json({ 'message': 'pass', 'insert_values': req.body})
     }catch(err){
@@ -44,8 +44,8 @@ router.put('/problem/edit/:problemid', async(req,res,next)=>{
     const conn = await pool.getConnection()
     await conn.beginTransaction()
     try{
-        await conn.query("UPDATE problem SET problem_ref_id = ?, context = ? answer = ? ",
-        [])
+        await conn.query("UPDATE problem SET problem_ref_id = ?, context = ?, answer = ? WHERE problem_id = ?",
+        [req.body.refer, req.body.context, req.body.answer, req.params.problemid])
         conn.commit()
     }catch(err){
         conn.rollback()
@@ -60,7 +60,7 @@ router.put('/problem/delete/:problemid', async(req,res,next)=>{
     await conn.beginTransaction()
     try{
         await conn.query("DELETE FROM problem WHERE problem_id = ?",
-        [])
+        [req.params.problemid])
         conn.commit()
     }catch(err){
         conn.rollback()

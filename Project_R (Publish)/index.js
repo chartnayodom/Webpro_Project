@@ -2,9 +2,10 @@ const express = require("express")
 const path = require("path")
 const bodyParser = require('body-parser')
 const cors = require('cors')
+const {logger} = require("./middleware")
 
 const app = express();
-
+app.use(logger)
 app.use(cors())
 app.use(express.static('static'))
 app.use(express.json())
