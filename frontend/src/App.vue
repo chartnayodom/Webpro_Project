@@ -51,8 +51,8 @@
                 >{{ user.first_name }} {{ user.last_name }}</span>
             </a>
             <div class="navbar-dropdown">
-              <router-link to="/login" class="navbar-item" v-if="!user">Login</router-link>
-              <router-link to="/signup" class="navbar-item" v-if="!user">Signup</router-link>
+              <router-link to="/user/login" class="navbar-item" v-if="!user">Login</router-link>
+              <router-link to="/user/signup" class="navbar-item" v-if="!user">Signup</router-link>
               <a class="navbar-item" v-if="user" @click='logout'>Log out</a>
             </div>
           </div>
@@ -69,6 +69,10 @@ export default {
   data() {
     return {
       user: null,
+      // user:{
+      //   first_name:"a",
+      //   last_name:"b"
+      // },
       showNav: false,
     };
   },

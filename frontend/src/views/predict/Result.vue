@@ -5,7 +5,7 @@
             <div class="content">
                 <h2 class="title">เราคาดการณ์ว่าอาการ <!--{{problem.context}}--></h2>
                     <h4 class="subtitle">อาจมีปัญหาตรง <!--{{problem.answer}}--></h4>
-                    <router-link to="/shoprecomment" class="button is-primary">หาศูนย์บริการ</router-link>
+                    <router-link to="/repairshop" class="button is-primary">หาศูนย์บริการ</router-link>
 
             </div>
         </div>

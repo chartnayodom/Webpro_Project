@@ -27,16 +27,16 @@ const routes = [
     component: () => import('../views/blog/Updateblog.vue') 
   },
   {
-    path: '/login',
+    path: '/user/login',
     name: 'Loginpage',
     meta: { guess: true },
-    component: () => import('../views/Loginpage.vue') 
+    component: () => import('../views/user/Loginpage.vue') 
   },
   {
-    path: '/signup',
+    path: '/user/signup',
     name: 'Signuppage',
     meta: { guess: true },
-    component: () => import('../views/Signuppage.vue') 
+    component: () => import('../views/user/Signuppage.vue') 
   },
   {
     path: '/repairshop/addshop',
@@ -94,15 +94,15 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   const isLoggedIn = !!localStorage.getItem('token')
 
-  if (to.meta.login && !isLoggedIn) {
-    alert('Please login first!')
-    next({ path: '/user/login' })
-  }
+  // if (to.meta.login && !isLoggedIn) {
+  //   alert('Please login first!')
+  //   next({ path: '/user/login' })
+  // }
 
-  if (to.meta.guess && isLoggedIn) {
-    alert("You've already logged in")
-    next({ path: '/' })
-  }
+  // if (to.meta.guess && isLoggedIn) {
+  //   alert("You've already logged in")
+  //   next({ path: '/' })
+  // }
 
   next()
 })
