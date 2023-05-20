@@ -12,6 +12,8 @@ router.get('/problem', async (req,res,next) =>{
         return next(err)
     }
 })
+//get problemเก่ามาedit/update
+
 
 //เลือกข้อเพื่อไปส่วนย่อยของปัญหานั้น
 router.get('/problem/:asking', async(req,res,next) =>{
