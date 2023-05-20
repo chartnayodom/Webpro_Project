@@ -3,7 +3,6 @@ const pool = require("../config");
 const Joi = require('joi')
 const bcrypt = require('bcrypt')
 const { generateToken } = require("../utils/token");
-const { isLoggedIn, isAdmin } = require("../middleware/index")
 router = express.Router();
 
 const passwordValid = (value, helpers) => {
@@ -34,7 +33,7 @@ const loginValid = Joi.object({
 
 //all router
 
-router.post('/user/signup', async (req, res, next) => {
+router.post('/admin/signup', async (req, res, next) => {
     try {
         await signupSchema.validateAsync(req.body, { abortEarly: false })
     } catch (err) {
@@ -59,23 +58,23 @@ router.post('/user/signup', async (req, res, next) => {
     //     '5': user_sign,
     //     '6':email})
     try {
-        await conn.query("INSERT INTO user (u_username, u_password, user_email, user_fname, user_lname, user_sign)" +
+        await conn.query("INSERT INTO admin (Admin_Username, Admin_Password, Admin_Email, Admin_Name, Admin_Lname, Admin_Alias)" +
             "VALUES (?,?,?,?,?,?)",
             [username, password, email, first_name, last_name, user_sign])
         conn.commit()
-        res.status(201).json({ 'message': 'Signup okay' })
+        res.status(201).json({ 'message': 'Admin Signup okay' })
     } catch (err) {
         conn.rollback()
         res.status(400).json(err.toString())
     } finally {
         conn.release()
     }
-
+    
 })
 
 
 //login
-router.post('/user/login', async (req, res, next) => {
+router.post('/admin/login', async (req, res, next) => {
     try {
         await loginValid.validateAsync(req.body, { abortEarly: false })
     } catch (err) {
@@ -84,7 +83,7 @@ router.post('/user/login', async (req, res, next) => {
 
     // const password = await bcrypt.hash(req.body.password, 5)
     // console.log(password)
-    const [rows, column] = await pool.query('SELECT * FROM user WHERE u_username = ?', [req.body.username])
+    const [rows, column] = await pool.query('SELECT * FROM admin WHERE Admin_Username = ?', [req.body.username])
     // res.status(200).json({'data': rows});
 
     let user = rows[0]
@@ -92,20 +91,20 @@ router.post('/user/login', async (req, res, next) => {
         throw new Error('Incorrect username or password')
     }
 
-    if (!(await bcrypt.compare(req.body.password, user.u_password))) {
+    if (!(await bcrypt.compare(req.body.password, user.Admin_Password))) {
         throw new Error('Incorrect username or password')
     }
     console.log("pass")
     // return res.send("pass")
     //check token
     // const conn = pool.getConnection()
-    const [tokens] = await pool.query("SELECT * FROM tokens WHERE user_id and role = 'user'")
+    const [tokens] = await pool.query("SELECT * FROM tokens WHERE user_id AND role = 'admin'")
     let token = tokens[0]?.token
     if(!token){
         token = generateToken()
         const conn = await pool.getConnection()
         try{
-            await conn.query('INSERT INTO tokens(user_id, token, role) VALUES (?,?,user)',
+            await conn.query('INSERT INTO tokens(user_id, token,admin) VALUES (?,?,admin)',
             [user.user_id, token])
             conn.commit()
             res.status(200).json({'token': token})
@@ -118,10 +117,12 @@ router.post('/user/login', async (req, res, next) => {
     }
 })
 
-//check token from user และ admin
-router.get('/user/me', isLoggedIn, async (req, res, next) => {
-    // req.user ถูก save ข้อมูล user จาก database ใน middleware function "isLoggedIn"
-    res.json(req.user)
+router.get("/admin/approveBlog/:blogID", async(req,res,next)=>{
+
+})
+
+router.get("/admin/approveShop/:shopID", async(req,res,next)=>{
+    
 })
 
 exports.router = router

@@ -2,7 +2,8 @@ const express = require("express");
 const pool = require("../config");
 const Joi = require("joi")
 const multer = require('multer');
-const path = require("path")
+const path = require("path");
+const { isLoggedIn } = require("../middleware");
 
 router = express.Router();
 
@@ -31,7 +32,7 @@ const blogsValid = Joi.object({
 })
 
 const isBlogOwner = async(req,res,next) => {
-    if(isadmin){
+    if(req.role == 'admin'){
         next()
     }
     const[[blog]] = await pool.query("SELECT * FROM blog WHERE id=?")
@@ -40,12 +41,6 @@ const isBlogOwner = async(req,res,next) => {
     }
     next()
 }
-
-// router.get("/", async function(req,res,next){
-//     console.log("request index page")
-//     res.render("index", {title: "hi"})
-//     return
-// })
 
 //get all blogs in database
 
@@ -70,7 +65,7 @@ router.get("/blogs/:blogID", async function(req,res,next){
 })
 
 //add blogs
-router.post("/blogs/add", upload.single("bannerImage"), async(req,res,next) =>{
+router.post("/blogs/add",isLoggedIn,isBlogOwner, upload.single("bannerImage"), async(req,res,next) =>{
     try{
         await blogsValid.validateAsync(req.body,{ AbortEarly: false})
     }catch(err){
@@ -97,7 +92,7 @@ router.post("/blogs/add", upload.single("bannerImage"), async(req,res,next) =>{
     }
 })
 
-router.put('/blogs/edit/:blogid', async(req,res,next)=>{
+router.put('/blogs/edit/:blogid', isLoggedIn, isBlogOwner, async(req,res,next)=>{
     const conn = await pool.getConnection()
     await conn.beginTransaction()
     try{
@@ -112,7 +107,7 @@ router.put('/blogs/edit/:blogid', async(req,res,next)=>{
 })
 
 
-router.delete('/blogs/delete/:blogid', async(req,res,next)=>{
+router.delete('/blogs/delete/:blogid',isLoggedIn, isBlogOwner,  async(req,res,next)=>{
     const conn = await pool.getConnection()
     await conn.beginTransaction()
     try{

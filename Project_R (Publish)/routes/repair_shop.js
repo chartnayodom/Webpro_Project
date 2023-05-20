@@ -1,8 +1,22 @@
 const express = require("express");
 const pool = require("../config");
 const Joi = require('joi')
+const { isLoggedIn } = require("../middleware");
+// const Loader = require("@googlemaps/js-api-loader")
+const NodeGeocoder = require('node-geocoder');
 
 router = express.Router();
+
+const options = {
+    provider: 'google',
+    // fetch: customFetchImplementation,
+    apiKey: "AIzaSyB12mjt1P72zdonmXSo2uMWUe7SIbbaoAg",
+    formatter: null
+}
+const geocoder = NodeGeocoder(options)
+
+
+
 
 //
 const blogVal = Joi.object({
@@ -10,6 +24,8 @@ const blogVal = Joi.object({
     shop_addr : Joi.string().min(10).max(300),
     userid : Joi.number()
 })
+
+
 
 //Request หน้ารวมอู่
 router.get("/repairshop", async function(req,res,next){
@@ -23,12 +39,18 @@ router.get("/repairshop", async function(req,res,next){
 })
 
 //ส่ง form แนะนำลงไปใน Database
-router.post("/repairshop/add", async function(req,res,next){
+router.post("/repairshop/add", isLoggedIn, async function(req,res,next){
     try{
         await blogVal.validateAsync(req.body, { abortEarly: false })
     } catch(err){
         return res.status(400).json(err)
     }
+
+    //get shop coordinate
+    const loresult = await geocoder.geocode(req.body.shop_addr)
+    let lat = loresult[0].latitude
+    let lng = loresult[0].longitude
+    // console.log(loresult)
 
     const conn = await pool.getConnection()
     await conn.beginTransaction()
@@ -36,8 +58,8 @@ router.post("/repairshop/add", async function(req,res,next){
     //เอาUserid จาก Session แล้วใส่แทน req.body.userid 
     // const userid = 
     try{
-        await conn.query('INSERT INTO shop (r_shop_name, r_shop_address, r_shop_by, r_shop_like, shop_approved) VALUES (?,?,?,?,?)'
-        ,[req.body.shop_name, req.body.shop_addr, req.body.userid, 0 ,0])
+        await conn.query('INSERT INTO shop (r_shop_name, r_shop_address, lat, lng, r_shop_by, r_shop_like, shop_approved) VALUES (?,?,?,?,?,0,0)'
+        ,[req.body.shop_name, req.body.shop_addr, lat, lng, req.body.userid])
         conn.commit()
         res.status(201).json({message: 'success'})
     }catch(err){
@@ -49,13 +71,17 @@ router.post("/repairshop/add", async function(req,res,next){
     return
 })
 
-router.post("/repairshop/update", async(req,res,next)=>{
-    // const SELECT
+router.post("/repairshop/update", isLoggedIn, async(req,res,next)=>{
+    
+    //get shop coordinate
+    const loresult = await geocoder.geocode(req.body.shop_addr)
+    let lat = loresult[0].latitude
+    let lng = loresult[0].longitude
     const conn = await pool.getConnection()
     conn.beginTransaction()
-    const userid = parseInt(req.body.id)
+    const shopid = parseInt(req.body.id)
     try{
-        await conn.query("UPDATE shop SET r_shop_name = ?, r_shop_address = ? WHERE r_shop_id = ?",[req.body.shop_name, req.body.shop_addr,userid])
+        await conn.query("UPDATE shop SET r_shop_name = ?, r_shop_address = ?, lat = ?, lng = ? WHERE r_shop_id = ?",[req.body.shop_name, req.body.shop_addr,lat,lng,shopid])
         conn.commit()
         res.status(200).json({message: 'update recommented shop success'})
     }catch(err){
@@ -68,7 +94,7 @@ router.post("/repairshop/update", async(req,res,next)=>{
 })
 
 //delete
-router.delete("/repairshop/delete/", async (req,res,next) => {
+router.delete("/repairshop/delete/", isLoggedIn, async (req,res,next) => {
     const conn = await pool.getConnection()
     conn.beginTransaction()
     try{
@@ -128,5 +154,14 @@ router.get("/repairshop/publish/", async(req,res,nect)=>{
         await conn.release()
     }
 })
+
+// router.post("/repairshop/addlocate", async (req,res,next) =>{
+//     const loresult = await geocoder.geocode(req.body.address)
+//     return res.json({
+//         address : req.body.address,
+//         lat : loresult[0].latitude,
+//         lng : loresult[0].longitude
+//     })
+// })
 
 exports.router = router;

@@ -1,5 +1,6 @@
 const express = require("express");
 const pool = require("../config");
+const { isLoggedIn } = require("../middleware");
 // const Joi = require('joi')
 
 router = express.Router();
@@ -12,8 +13,6 @@ router.get('/problem', async (req,res,next) =>{
         return next(err)
     }
 })
-//get problemเก่ามาedit/update
-
 
 //เลือกข้อเพื่อไปส่วนย่อยของปัญหานั้น
 router.get('/problem/:asking', async(req,res,next) =>{
@@ -25,8 +24,10 @@ router.get('/problem/:asking', async(req,res,next) =>{
     }
 })
 
+
+
 //เพิ่มหัวข้อปัญหา มีใส่เลขReferenceที่เป็นย่อยจากหัวข้อหลัก, ปัญหา, คำตอบ(ถ้ามี)
-router.post('/problem/add', async (req,res,next)=>{
+router.post('/problem/add', isLoggedIn, async (req,res,next)=>{
     const conn = await pool.getConnection()
     await conn.beginTransaction()
     try{
@@ -57,7 +58,7 @@ router.put('/problem/edit/:problemid', async(req,res,next)=>{
 })
 
 //ลบ
-router.put('/problem/delete/:problemid', async(req,res,next)=>{
+router.delete('/problem/delete/:problemid', async(req,res,next)=>{
     const conn = await pool.getConnection()
     await conn.beginTransaction()
     try{
