@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="container is-fluid mt-5">
+    <div class="container is-fluid mt-5" style="text-align:left">
       <div class="columns is-centered">
         <div class="column is-8">
           <h1 class="title">Sign Up</h1>
@@ -96,26 +96,26 @@
           </div>
 
           <div class="field">
-            <label class="label">Mobile Number</label>
+            <label class="label">User sign</label>
             <div class="control has-icons-left has-icons-right">
               <input
-                v-model="$v.mobile.$model"
-                :class="{ 'is-danger': $v.mobile.$error }"
+                v-model="user_sign"
+                
                 class="input"
                 type="text"
               />
-              <span class="icon is-small is-left">
+              <!-- <span class="icon is-small is-left">
                 <i class="fas fa-mobile"></i>
-              </span>
+              </span> -->
             </div>
-            <template v-if="$v.mobile.$error">
-              <p class="help is-danger" v-if="!$v.mobile.required">
+            <!-- <template v-if="user_sign">
+              <p class="help is-danger" v-if="!user_sign.required">
                 This field is required
               </p>
               <p class="help is-danger" v-if="!$v.mobile.mobile">
                 Invalid Mobile Number
               </p>
-            </template>
+            </template> -->
           </div>
 
           <div class="field">
@@ -163,94 +163,94 @@
 
 <script>
 // import axios from '@/plugins/axios'
-// import {
-//   required,
-//   email,
-//   helpers,
-//   minLength,
-//   maxLength,
-//   sameAs,
-// } from "vuelidate/lib/validators";
+import {
+  required,
+  email,
+  helpers,
+  minLength,
+  maxLength,
+  sameAs,
+} from "vuelidate/lib/validators";
 
-// function mobile(value) {
-//   return !helpers.req(value) || !!value.match(/0[0-9]{9}/);
-// }
+function mobile(value) {
+  return !helpers.req(value) || !!value.match(/0[0-9]{9}/);
+}
 
-// function complexPassword(value) {
-//   if (!(value.match(/[a-z]/) && value.match(/[A-Z]/) && value.match(/[0-9]/))) {
-//     return false;
-//   }
-//   return true;
-// }
+function complexPassword(value) {
+  if (!(value.match(/[a-z]/) && value.match(/[A-Z]/) && value.match(/[0-9]/))) {
+    return false;
+  }
+  return true;
+}
 
-// export default {
-//   data() {
-//     return {
-//       username: "",
-//       password: "",
-//       confirm_password: "",
-//       email: "",
-//       mobile: "",
-//       first_name: "",
-//       last_name: "",
-//     };
-//   },
-//   methods: {
-//     submit() {
-//       // Validate all fields
-//       this.$v.$touch();
+export default {
+  data() {
+    return {
+      username: "",
+      password: "",
+      confirm_password: "",
+      email: "",
+      user_sign: "",
+      first_name: "",
+      last_name: "",
+    };
+  },
+  methods: {
+    submit() {
+      // Validate all fields
+      this.$v.$touch();
 
-//       // เช็คว่าในฟอร์มไม่มี error
-//       if (!this.$v.$invalid) {
-//         let data = {
-//           username: this.username,
-//           password: this.password,
-//           confirm_password: this.confirm_password,
-//           email: this.email,
-//           mobile: this.mobile,
-//           first_name: this.first_name,
-//           last_name: this.last_name,
-//         };
+      // เช็คว่าในฟอร์มไม่มี error
+      if (!this.$v.$invalid) {
+        let data = {
+          username: this.username,
+          password: this.password,
+          first_name: this.first_name,
+          last_name: this.last_name,
+          email: this.email,
+          user_sign: this.user_sign,
+        };
 
-//         axios
-//           .post("/user/signup", data)
-//           .then((res) => {
-//             alert("Sign up Success");
-//           })
-//           .catch((err) => {
-//             alert(err.response.data.details.message)
-//           });
-//       }
-//     },
-//   },
-//   validations: {
-//     email: {
-//       required: required,
-//       email: email,
-//     },
-//     mobile: {
-//       required: required,
-//       mobile: mobile,
-//     },
-//     password: {
-//       required: required,
-//       minLength: minLength(8),
-//       complex: complexPassword,
-//     },
-//     confirm_password: {
-//       sameAs: sameAs("password"),
-//     },
-//     username: {
-//       required: required,
-//       minLength: minLength(5),
-//       maxLength: maxLength(20),
-//     },
-//     first_name: {
-//       required: required,
-//     },
-//     last_name: {
-//       required: required,
-//     },
-//   },
-// };
+        axios
+          .post("/user/signup", data)
+          .then((res) => {
+            alert("Sign up Success");
+            this.$router.push({name: 'HomePage'});
+          })
+          .catch((err) => {
+            alert(err.response.data.details.message)
+          });
+      }
+    },
+  },
+  validations: {
+    email: {
+      required: required,
+      email: email,
+    },
+    // mobile: {
+    //   required: required,
+    //   mobile: mobile,
+    // },
+    password: {
+      required: required,
+      minLength: minLength(8),
+      complex: complexPassword,
+    },
+    confirm_password: {
+      sameAs: sameAs("password"),
+    },
+    username: {
+      required: required,
+      minLength: minLength(5),
+      maxLength: maxLength(20),
+    },
+    first_name: {
+      required: required,
+    },
+    last_name: {
+      required: required,
+    },
+  },
+};
 </script>

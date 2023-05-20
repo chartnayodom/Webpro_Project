@@ -1,5 +1,5 @@
 <template>
-  <div class="container is-fluid mt-5">
+  <div class="container is-fluid mt-5" style="text-align:left">
     <div class="columns is-centered">
       <div class="column is-4">
         <h1 class="title">Log in</h1>

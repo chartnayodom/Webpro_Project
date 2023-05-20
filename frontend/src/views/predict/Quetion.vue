@@ -11,7 +11,27 @@
     </div>
 </template>
 <script>
+// import axios from '@/plugins/axios'
 export default {
-    problems:[]
+    data() {
+    return {
+        problems:[]
+    };
+  },
+  mounted() {
+    this.getProblem(this.$route.params.asking);
+  },
+  methods: {
+    getBlogDetail(problem_id) {
+      axios
+        .get(`/problem/${problem_id}`)
+        .then((response) => {
+          this.problems = response.data.problems;
+        })
+        .catch((error) => {
+          this.error = error.response.data.message;
+        });
+    },
+  }
 }
 </script>

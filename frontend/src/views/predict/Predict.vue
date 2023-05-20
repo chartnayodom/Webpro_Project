@@ -2,7 +2,7 @@
   <div class="container is-widescreen">
     <section class="section">
         <div class="container p-5" style="text-align: center;">
-            <div class="content">
+            <div class="content p-5">
                 <h2 class="title">สวัสดี</h2>
                     <h4 class="subtitle">คุณรู้สึกว่ารถของคุณมีอาการแปลกๆใช่มั้ย</h4>
                     <router-link to="/predict/quetion" class="button is-primary">เริ่มการวิเคราะห์</router-link>
