@@ -12,6 +12,7 @@ const routes = [
   {
     path: '/blog/addblog',
     name: 'Addblog',
+    meta: { login: true },
     component: () => import('../views/blog/AddBlog.vue') 
   },
   {
@@ -22,27 +23,31 @@ const routes = [
   {
     path: '/blog/edit',
     name: 'EditBlog',
+    meta: { login: true },
     component: () => import('../views/blog/Updateblog.vue') 
   },
   {
-    path: '/login',
+    path: '/user/login',
     name: 'Loginpage',
-    component: () => import('../views/Loginpage.vue') 
+    meta: { guess: true },
+    component: () => import('../views/user/Loginpage.vue') 
   },
   {
-    path: '/signup',
+    path: '/user/signup',
     name: 'Signuppage',
-    component: () => import('../views/Signuppage.vue') 
+    meta: { guess: true },
+    component: () => import('../views/user/Signuppage.vue') 
   },
   {
-    path: '/addshop',
+    path: '/repairshop/addshop',
     name: 'Addshop',
-    component: () => import('../views/Addshop.vue') 
+    meta: { login: true },
+    component: () => import('../views/repairshop/Addshop.vue') 
   },
   {
-    path: '/Shoprecomment',
+    path: '/repairshop',
     name: 'Shoprecomment',
-    component: () => import('../views/Shoprecomment.vue') 
+    component: () => import('../views/repairshop/Shoprecomment.vue') 
   },
   {
     path: '/checkdistance',
@@ -85,6 +90,21 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+router.beforeEach((to, from, next) => {
+  const isLoggedIn = !!localStorage.getItem('token')
+
+  // if (to.meta.login && !isLoggedIn) {
+  //   alert('Please login first!')
+  //   next({ path: '/user/login' })
+  // }
+
+  // if (to.meta.guess && isLoggedIn) {
+  //   alert("You've already logged in")
+  //   next({ path: '/' })
+  // }
+
+  next()
 })
 
 export default router
