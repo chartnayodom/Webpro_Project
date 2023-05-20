@@ -5,6 +5,15 @@ const { isLoggedIn } = require("../middleware");
 
 router = express.Router();
 
+const isAdmin = async(req,res,next) => {
+    if(req.role == 'admin'){
+        next()
+    }
+    else{
+        return res.status(400).send("You have have permission to do this")
+    }
+}
+
 //list คำถาม
 router.get('/problem', async (req,res,next) =>{
     try{
@@ -27,7 +36,7 @@ router.get('/problem/:asking', async(req,res,next) =>{
 
 
 //เพิ่มหัวข้อปัญหา มีใส่เลขReferenceที่เป็นย่อยจากหัวข้อหลัก, ปัญหา, คำตอบ(ถ้ามี)
-router.post('/problem/add', isLoggedIn, async (req,res,next)=>{
+router.post('/problem/add', isLoggedIn,isAdmin, async (req,res,next)=>{
     const conn = await pool.getConnection()
     await conn.beginTransaction()
     try{
@@ -43,7 +52,7 @@ router.post('/problem/add', isLoggedIn, async (req,res,next)=>{
 })
 
 //แก้ไข
-router.put('/problem/edit/:problemid', async(req,res,next)=>{
+router.put('/problem/edit/:problemid',isLoggedIn, isAdmin, async(req,res,next)=>{
     const conn = await pool.getConnection()
     await conn.beginTransaction()
     try{
@@ -58,7 +67,7 @@ router.put('/problem/edit/:problemid', async(req,res,next)=>{
 })
 
 //ลบ
-router.delete('/problem/delete/:problemid', async(req,res,next)=>{
+router.delete('/problem/delete/:problemid', isLoggedIn, isAdmin, async(req,res,next)=>{
     const conn = await pool.getConnection()
     await conn.beginTransaction()
     try{

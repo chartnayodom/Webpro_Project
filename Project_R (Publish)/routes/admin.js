@@ -3,6 +3,7 @@ const pool = require("../config");
 const Joi = require('joi')
 const bcrypt = require('bcrypt')
 const { generateToken } = require("../util/token");
+const { isLoggedIn } = require("../middleware");
 router = express.Router();
 
 const passwordValid = (value, helpers) => {
@@ -30,6 +31,14 @@ const loginValid = Joi.object({
     password: Joi.string().required()
 })
 
+const isAdmin = async(req,res,next) => {
+    if(req.role == 'admin'){
+        next()
+    }
+    else{
+        return res.status(400).send("You have have permission to do this")
+    }
+}
 
 //all router
 
@@ -117,12 +126,46 @@ router.post('/admin/login', async (req, res, next) => {
     }
 })
 
-router.get("/admin/approveBlog/:blogID", async(req,res,next)=>{
-
+router.get("/admin/approveBlog/:blogID",isLoggedIn,isAdmin, async(req,res,next)=>{
+    const conn = await pool.getConnection()
+    conn.beginTransaction()
+    let status = parseInt(req.body.status)
+    let pin = parseInt(req.body.pin)
+    let blogid = parseInt(req.params.blogID)
+    try{
+        await conn.query("UPDATE blog SET Status = ? Pin = ? WHERE Blog_ID = ?"
+        , [status, pin, blogid])
+        await conn.commit()
+        return res.status(200).json({
+            message: "appproved and update status of blogID" + req.params.blogID,
+        })
+    }catch(err){
+        await conn.rollback()
+        return res.status(400).json(err)
+    }finally{
+        await conn.release()
+    }
 })
 
-router.get("/admin/approveShop/:shopID", async(req,res,next)=>{
-    
+router.get("/admin/approveShop/:shopID",isLoggedIn,isAdmin, async(req,res,next)=>{
+    const conn = await pool.getConnection()
+    conn.beginTransaction()
+    let status = parseInt(req.body.status)
+    // let pin = parseInt(req.body.pin)
+    let blogid = parseInt(req.params.blogID)
+    try{
+        await conn.query("UPDATE shop blog SET shop_approved = ? WHERE r_shop_id = ?"
+        , [status, blogid])
+        await conn.commit()
+        return res.status(200).json({
+            message: "appproved and update status of blogID" + req.params.shopID,
+        })
+    }catch(err){
+        await conn.rollback()
+        return res.status(400).json(err)
+    }finally{
+        await conn.release()
+    }
 })
 
 exports.router = router
