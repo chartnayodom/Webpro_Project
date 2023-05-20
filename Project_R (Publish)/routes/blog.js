@@ -65,7 +65,7 @@ router.get("/blogs/:blogID", async function(req,res,next){
 })
 
 //add blogs
-router.post("/blogs/add",isLoggedIn,isBlogOwner, upload.single("bannerImage"), async(req,res,next) =>{
+router.post("/blogs/add",isLoggedIn, upload.single("bannerImage"), async(req,res,next) =>{
     try{
         await blogsValid.validateAsync(req.body,{ AbortEarly: false})
     }catch(err){
