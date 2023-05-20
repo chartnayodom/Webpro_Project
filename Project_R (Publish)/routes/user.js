@@ -2,7 +2,7 @@ const express = require("express");
 const pool = require("../config");
 const Joi = require('joi')
 const bcrypt = require('bcrypt')
-const { generateToken } = require("../utils/token");
+const { generateToken } = require("../util/token");
 const { isLoggedIn, isAdmin } = require("../middleware/index")
 router = express.Router();
 

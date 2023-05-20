@@ -2,7 +2,7 @@ const express = require("express");
 const pool = require("../config");
 const Joi = require('joi')
 const bcrypt = require('bcrypt')
-const { generateToken } = require("../utils/token");
+const { generateToken } = require("../util/token");
 router = express.Router();
 
 const passwordValid = (value, helpers) => {

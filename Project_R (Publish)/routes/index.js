@@ -9,7 +9,7 @@ router.get("/", async function(req,res,next){
         const [rows,fields] = await pool.query("SELECT * FROM blogs WHERE pin = 1;");
         return res.status(200).json(rows)
     }catch(err){
-        return res.status(400).next(err)
+        return res.status(400).send(err)
     }
 })
 
