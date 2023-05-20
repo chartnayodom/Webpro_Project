@@ -99,13 +99,13 @@ router.post('/user/login', async (req, res, next) => {
     // return res.send("pass")
     //check token
     // const conn = pool.getConnection()
-    const [tokens] = await pool.query("SELECT * FROM tokens WHERE user_id and role = 'user'")
+    const [tokens] = await pool.query("SELECT * FROM tokens WHERE user_id = ? and role = 'user'",[user.user_id])
     let token = tokens[0]?.token
     if(!token){
         token = generateToken()
         const conn = await pool.getConnection()
         try{
-            await conn.query('INSERT INTO tokens(user_id, token, role) VALUES (?,?,user)',
+            await conn.query('INSERT INTO tokens(user_id, token, role) VALUES (?,?,"user")',
             [user.user_id, token])
             conn.commit()
             res.status(200).json({'token': token})
@@ -116,6 +116,10 @@ router.post('/user/login', async (req, res, next) => {
             conn.release()
         }
     }
+    else{
+        res.status(200).json({'token':token})
+    }
+    
 })
 
 //check token from user และ admin

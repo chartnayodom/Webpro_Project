@@ -15,7 +15,17 @@ const options = {
 }
 const geocoder = NodeGeocoder(options)
 
-
+const isShopRecommenter = async(req,res,next) => {
+    if(req.role == 'admin'){
+        next()
+    }
+    const[[blog]] = await pool.query("SELECT * FROM shop WHERE r_shop_id= ? ", [req.body.id])
+    if(blog.r_shop_by !== req.user.user_id){
+        console.log(blog.r_shop_by)
+        return res.status(400).send("You have have permission to do this")
+    }
+    next()
+}
 
 
 //
@@ -59,7 +69,7 @@ router.post("/repairshop/add", isLoggedIn, async function(req,res,next){
     // const userid = 
     try{
         await conn.query('INSERT INTO shop (r_shop_name, r_shop_address, lat, lng, r_shop_by, r_shop_like, shop_approved) VALUES (?,?,?,?,?,0,0)'
-        ,[req.body.shop_name, req.body.shop_addr, lat, lng, req.body.userid])
+        ,[req.body.shop_name, req.body.shop_addr, lat, lng, req.user.user_id])
         conn.commit()
         res.status(201).json({message: 'success'})
     }catch(err){
@@ -71,7 +81,7 @@ router.post("/repairshop/add", isLoggedIn, async function(req,res,next){
     return
 })
 
-router.post("/repairshop/update", isLoggedIn, async(req,res,next)=>{
+router.post("/repairshop/update", isLoggedIn, isShopRecommenter, async(req,res,next)=>{
     
     //get shop coordinate
     const loresult = await geocoder.geocode(req.body.shop_addr)

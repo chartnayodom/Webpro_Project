@@ -17,7 +17,8 @@ const isAdmin = async(req,res,next) => {
 //list คำถาม
 router.get('/problem', async (req,res,next) =>{
     try{
-        pool.query("SELECT * FROM problem WHERE problem_ref_id == NULL")
+        const [rows] = await pool.query("SELECT * FROM problem WHERE problem_ref_id = '' or problem_id is null")
+        res.status(200).json(rows)
     }catch(err){
         return next(err)
     }
@@ -26,8 +27,9 @@ router.get('/problem', async (req,res,next) =>{
 //เลือกข้อเพื่อไปส่วนย่อยของปัญหานั้น
 router.get('/problem/:asking', async(req,res,next) =>{
     try{
-        pool.query("SELECT * FROM problem WHERE problem_ref_id = ?",
+        const [subrow] = await pool.query("SELECT * FROM problem WHERE problem_ref_id = ?",
         [req.params.asking])
+        res.status(200).json(subrow)
     }catch(err){
         return next(err)
     }

@@ -35,8 +35,8 @@ const isBlogOwner = async(req,res,next) => {
     if(req.role == 'admin'){
         next()
     }
-    const[[blog]] = await pool.query("SELECT * FROM blog WHERE id=?")
-    if(blog.create !== req.user.id){
+    const[[blog]] = await pool.query("SELECT * FROM blogs WHERE Blog_ID = ?", [parseInt(req.params.blogid)])
+    if(blog.Create_User_ID !== req.user.user_id){
         return res.status(400).send("You have have permission to do this")
     }
     next()
@@ -46,7 +46,7 @@ const isBlogOwner = async(req,res,next) => {
 
 router.get("/blogs", async function(req,res,next){
     try{
-        const [rows,fields] = await pool.query("SELECT * FROM Blogs and Status = 1;");
+        const [rows,fields] = await pool.query("SELECT * FROM Blogs WHERE Status = 1;");
         return res.status(200).json(rows)
     }catch(err){
         return next(err)
@@ -55,12 +55,13 @@ router.get("/blogs", async function(req,res,next){
 
 //เรียก blog ที่ต้องการมา
 router.get("/blogs/:blogID", async function(req,res,next){
+    // console.log(req.param)
     try{
-        const [rows, fields] = await pool.query("SELECT * FROM Blogs where Blog_ID = ?;",
-        [req.param.blogID])
-        return res.statis(200).json(rows)
+        const [rows, fields] = await pool.query("SELECT * FROM Blogs WHERE Blog_ID = ?",
+        [req.params.blogID])
+        return res.status(200).json(rows)
     }catch(err){
-        return next(err)
+        return res.status(400).json(err)
     }
 })
 
@@ -81,7 +82,7 @@ router.post("/blogs/add",isLoggedIn, upload.single("bannerImage"), async(req,res
     try{
         await conn.query('INSERT INTO blogs (Blog_Title, Blog_Content, Blog_Banner, Status, Pin, View_count, Create_Date, Create_User_ID)' +
         'VALUES (?,?,?,0,0,0,CURRENT_TIMESTAMP,?)', 
-        [req.body.blog_title, req.body.blog_content, req.file.filename, 3])
+        [req.body.blog_title, req.body.blog_content, req.file.filename, req.user.user_id])
         await conn.commit()
         return res.status(200).json({message : "Add blogs success"})
     }catch(err){
@@ -95,12 +96,15 @@ router.post("/blogs/add",isLoggedIn, upload.single("bannerImage"), async(req,res
 router.put('/blogs/edit/:blogid', isLoggedIn, isBlogOwner, async(req,res,next)=>{
     const conn = await pool.getConnection()
     await conn.beginTransaction()
+    let blogid = parseInt(req.params.blogid)
     try{
-        await conn.query("UPDATE blogs SET Blog_Title = ?, Blog_Content = ?, Status = ?, Pin = ? WHERE Blog_ID = ?",
-        [req.body.title,req.body.content,req.body.status,req.body.pin,req.param.blogid])
+        await conn.query("UPDATE blogs SET Blog_Title = ?, Blog_Content = ? WHERE Blog_ID = ?",
+        [req.body.title,req.body.content,blogid])
         conn.commit()
+        res.status(200).json({message: 'แก้ไขสำเร็จ'})
     }catch(err){
         conn.rollback()
+        res.status(400).json(err)
     }finally{
         conn.release()
     }
@@ -110,11 +114,14 @@ router.put('/blogs/edit/:blogid', isLoggedIn, isBlogOwner, async(req,res,next)=>
 router.delete('/blogs/delete/:blogid',isLoggedIn, isBlogOwner,  async(req,res,next)=>{
     const conn = await pool.getConnection()
     await conn.beginTransaction()
+    let blogid = parseInt(req.params.blogid)
     try{
-        await conn.query("DELETE FROM blogs WHERE Blog_ID = ?",[])
+        await conn.query("DELETE FROM blogs WHERE Blog_ID = ?",[blogid])
         conn.commit()
+        res.status(200).json({message: 'ลบสำเร็จ'})
     }catch(err){
         conn.rollback()
+        res.status(400).json(err)
     }finally{
         conn.release()
     }
