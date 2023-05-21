@@ -3,7 +3,7 @@
          <section class="section" style="text-align: center;">
         <h2 class="title">ช่วงนี้มีความผิดปกติอะไรมั้ย ?</h2>
             <div class="content">
-                <div class="pt-4" v-for="problem in problems">
+                <div class="pt-4" v-for="problem in problems" >
                     <div v-if="problem.answer == ''">
                       <router-link :to="`/predict/${problem.problem_id}`" class="button is-primary">{{problem.context}}</router-link>
                     </div>

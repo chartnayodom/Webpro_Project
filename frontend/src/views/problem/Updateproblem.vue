@@ -42,14 +42,8 @@
             <input
               class="input"
               placeholder="สาเหตุ"
-             v-model="$v.answer.$model"
-            :class="{ 'is-danger': $v.answer.$error }"
+             v-model="answer"
             />
-          <template v-if="$v.answer.$error">
-            <p class="help is-danger" v-if="!$v.answer.required">
-              This field is required
-            </p>
-          </template>
           </div>
         </div>
         <button class="button is-danger" @click="editproblem()">ยืนยัน</button>
@@ -65,7 +59,7 @@ export default {
   props: ["user"],
   data() {
     return {
-      problems: [],
+      problem: [],
       problem_ref_id:'',
       context:'',
       answer:''
@@ -73,11 +67,12 @@ export default {
   },
   created() {
     axios
-      .get(`/problem/${this.$route.params.id}`)
+      .post(`/problem/${this.$route.params.id}`)
       .then((response) => {
-        this.problem_ref_id = response.data.problem.problem_ref_id;
-        this.context = response.data.problem.context;
-        this.answer = response.data.problem.answer;
+        this.problem = response.data;
+        this.problem_ref_id = this.problem[0].problem_ref_id;
+        this.context = this.problem[0].context;
+        this.answer = this.problem[0].answer;
       })
       .catch((e) => {
         console.log(e);
@@ -104,9 +99,6 @@ export default {
       required: required,
     },
     context: {
-      required: required,
-    },
-    answer: {
       required: required,
     },
   },
