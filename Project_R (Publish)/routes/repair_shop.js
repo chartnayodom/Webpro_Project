@@ -149,7 +149,7 @@ router.get("/repairshop/addlike/:shopid", async function(req,res,next){
     try{
         await conn.query("UPDATE shop set r_shop_like = ? WHERE r_shop_id = ?",[likecount ,shopid])
         conn.commit()
-        res.status(201).json({message: 'addliked'})
+        res.status(201).json({message: 'addliked',r_shop_like:likecount})
     }catch(err){
         conn.rollback()
         res.status(400).json(err)
