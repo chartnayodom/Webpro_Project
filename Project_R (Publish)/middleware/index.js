@@ -33,7 +33,8 @@ async function isLoggedIn (req, res, next) {
             'FROM user WHERE user_id = ?', [token.user_id]
         )
         req.user = users[0]
-        // console.log(users[0])
+        req.user = Object.assign(req.user,{role : 'user'})
+        console.log(req.user)
         next()
     }
     else if (token.role == 'admin') {
@@ -43,8 +44,9 @@ async function isLoggedIn (req, res, next) {
             ' FROM admin WHERE Admin_ID = ?', [token.user_id]
         )
         req.user = users[0]
+        req.user = Object.assign(req.user,{role : 'admin'})
         req.role = "admin"
-        console.log(users[0])
+        console.log(req.user)
         next()
     }
 

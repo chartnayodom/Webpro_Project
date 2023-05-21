@@ -19,9 +19,9 @@ const isShopRecommenter = async(req,res,next) => {
     if(req.role == 'admin'){
         next()
     }
-    const[[blog]] = await pool.query("SELECT * FROM shop WHERE r_shop_id= ? ", [req.body.id])
-    if(blog.r_shop_by !== req.user.user_id){
-        console.log(blog.r_shop_by)
+    const[[shop]] = await pool.query("SELECT * FROM shop WHERE r_shop_id= ? ", [req.params.shopid])
+    if(shop.r_shop_by !== req.user.user_id){
+        // console.log(shop.r_shop_by)
         return res.status(400).send("You have have permission to do this")
     }
     next()
