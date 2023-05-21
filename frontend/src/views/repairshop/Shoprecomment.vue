@@ -74,6 +74,7 @@
 </template>
 
 <script>
+import axios from '@/plugins/axios'
 export default {
   name: "App",
   props: ["user"],

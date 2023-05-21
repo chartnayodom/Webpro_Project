@@ -9,7 +9,6 @@
         <div class="columns is-desktop is-multiline">
           <!-- การ์ดหัวข้อบทความแบบมีรูป -->
           <div id="card" class="column is-one-third" v-for="blog in blogs" :key="blog.Blog_ID">
-            <!-- v-for="blog in blogs" :key="blog.Blog_ID" -->
             <div class="card">
               <div class="card-header">
                 <div class="card-image">
@@ -26,7 +25,7 @@
               </div>
               <div class="card-content">
                 <div class="media-content">
-                  <p class="title is-4"><!--{{blog.Blog_Title}}-->{{blog.Blog_Title}}</p>
+                  <p class="title is-4">{{blog.Blog_Title}}</p>
                   <p class="subtitle is-6" style="text-align:left">
                     create_by : {{blog.Create_User_ID}}  view({{blog.View_Count}})
                     <br>create_date :{{blog.Create_Date}}
@@ -34,7 +33,7 @@
                 </div>
               </div>
               <div class="card-footer">
-                <router-link class="card-footer-item" :to="`/blog/detail/`"
+                <router-link class="card-footer-item" :to="`/blogs/${blog.Blog_ID}`"
                   >Read more... </router-link
                 ><!--${blog.Blog_ID}-->
                 <div class="card-footer-item">
@@ -52,7 +51,7 @@
                       <span>Edit</span>
                     </span>
                   </a>
-                  <a v-if="true" class="card-footer-item" @click="deleteBlog"
+                  <a v-if="true" class="card-footer-item" @click="deleteBlog(blog)"
                     ><!--isBlogOwner(blog)-->
                     <span>Delete</span>
                   </a>
@@ -67,26 +66,14 @@
 </template>
 
 <script>
+import axios from 'axios'
+import axios from '@/plugins/axios'
 export default {
   name: "HomePage",
   props: ["user"],
   data() {
     return {
-      blogs: [{
-        Blog_ID:1,
-        Blog_Title:"aaa",
-        Create_User_ID:1,
-        Create_Date:"10-01-2001",
-        View_Count:1
-      },
-      {
-        Blog_ID:2,
-        Blog_Title:"aaa",
-        Create_User_ID:1,
-        Create_Date:"10-01-2001",
-        View_Count:1
-      }
-      ],
+      blogs:[],
       showNav: false,
     };
   },
@@ -95,18 +82,18 @@ export default {
   },
   methods: {
     getBlogs() {
-      // axios
-      //   .get("/", {
-      //     params: {
-      //       search: this.search,
-      //     },
-      //   })
-      //   .then((response) => {
-      //     this.blogs = response.data;
-      //   })
-      //   .catch((err) => {
-      //     console.log(err);
-      //   });
+      axios
+        .get("http://localhost:3000/blogs", {
+          params: {
+            search: this.search,
+          },
+        })
+        .then((response) => {
+          this.blogs = response.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     imagePath(Blog_Banner) {
       if (Blog_Banner) {
@@ -132,15 +119,15 @@ export default {
     //       console.log(err);
     //     });
     // },
-    deleteBlog() {
+    deleteBlog(blog) {
       const result = confirm(
-        `Are you sure you want to delete \'${this.blog.Blog_Title}\'`
+        `Are you sure you want to delete \'${blog.Blog_Title}\'`
       );
       if (result) {
         axios
-          .delete(`/blogs/${this.blog.Blog_ID}`)
+          .delete(`http://localhost:3000/blogs/delete/${blog.Blog_ID}`)
           .then((response) => {
-            this.$router.push("/");
+            this.$router.push("/blogs");
           })
           .catch((error) => {
             alert(error.response.data.message);

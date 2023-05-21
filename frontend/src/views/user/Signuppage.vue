@@ -156,7 +156,7 @@
 </template>
 
 <script>
-// import axios from '@/plugins/axios'
+import axios from '@/plugins/axios'
 import {
   required,
   email,

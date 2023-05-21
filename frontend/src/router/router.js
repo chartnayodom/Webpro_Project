@@ -7,6 +7,13 @@ const routes = [
   {
     path: '/',
     name: 'HomePage',
+    // meta: { login: true },
+    component: () => import('../views/HomePage.vue') 
+  },
+  {
+    path: '/blogs',
+    name: 'blog',
+    // meta: { login: true },
     component: () => import('../views/HomePage.vue') 
   },
   {
@@ -16,7 +23,7 @@ const routes = [
     component: () => import('../views/blog/AddBlog.vue') 
   },
   {
-    path: '/blog/detail/',
+    path: '/blogs/:id',
     name: 'DetailBlog',
     component: () => import('../views/blog/DetailBlog.vue') 
   },
@@ -109,10 +116,10 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   const isLoggedIn = !!localStorage.getItem('token')
 
-  // if (to.meta.login && !isLoggedIn) {
-  //   alert('Please login first!')
-  //   next({ path: '/user/login' })
-  // }
+  if (to.meta.login && !isLoggedIn) {
+    alert('Please login first!')
+    next({ path: '/user/login' })
+  }
 
   // if (to.meta.guess && isLoggedIn) {
   //   alert("You've already logged in")
