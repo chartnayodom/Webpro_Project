@@ -97,8 +97,8 @@ export default {
     addRecShop() {
       this.$v.$touch();
       let formData = new FormData();
-      formData.append("r_shop_name", this.r_shop_name);
-      formData.append("r_shop_address", this.r_shop_address);
+      formData.append("shop_name", this.r_shop_name);
+      formData.append("shop_addr", this.r_shop_address);
       // formData.append("brand", this.supportBrand);
       formData.append("r_shop_by", user.user_id);
       axios
