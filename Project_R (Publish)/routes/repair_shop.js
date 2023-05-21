@@ -46,6 +46,7 @@ router.get("/repairshop", async (req,res,next) => {
     }catch(err){
         res.status(400).json(err)
     }
+    return
 })
 
 router.get("/repairshop/:shopid", async (req,res,next) =>{
@@ -56,6 +57,7 @@ router.get("/repairshop/:shopid", async (req,res,next) =>{
     }catch(err){
         res.status(400).json(err)
     }
+    return
 })
 
 //ส่ง form แนะนำลงไปใน Database

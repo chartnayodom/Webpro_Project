@@ -19,9 +19,9 @@ const isAdmin = async(req,res,next) => {
 router.get('/problem', async (req,res,next) =>{
     try{
         const [rows] = await pool.query("SELECT * FROM problem WHERE problem_ref_id = '' or problem_id is null")
-        res.status(200).json(rows)
+        return res.status(200).json(rows)
     }catch(err){
-        return next(err)
+        return res.status(400).json(err)
     }
 })
 
@@ -30,9 +30,9 @@ router.get('/problem/:asking', async(req,res,next) =>{
     try{
         const [subrow] = await pool.query("SELECT * FROM problem WHERE problem_ref_id = ?",
         [req.params.asking])
-        res.status(200).json(subrow)
+        return res.status(200).json(subrow)
     }catch(err){
-        return next(err)
+        return res.status(400).json(err)
         
     }
 })
@@ -47,10 +47,10 @@ router.post('/problem/add', isLoggedIn,isAdmin, async (req,res,next)=>{
         pool.query("INSERT INTO problem (problem_ref_id,context,answer)VALUES (?,?,?)",
         [req.body.refer, req.body.context, req.body.answer])
         conn.commit()
-        res.status(200).json({ 'message': 'pass', 'insert_values': req.body})
+        return res.status(200).json({ 'message': 'pass', 'insert_values': req.body})
     }catch(err){
         conn.rollback()
-        res.status(400).json(err)
+        return res.status(400).json(err)
     }finally{
         conn.release()
     }
@@ -64,10 +64,10 @@ router.put('/problem/edit/:problemid',isLoggedIn, isAdmin, async(req,res,next)=>
         await conn.query("UPDATE problem SET problem_ref_id = ?, context = ?, answer = ? WHERE problem_id = ?",
         [req.body.refer, req.body.context, req.body.answer, req.params.problemid])
         conn.commit()
-        res.status(200).json({ 'message': 'pass', 'insert_values': req.body})
+        return res.status(200).json({ 'message': 'pass', 'insert_values': req.body})
     }catch(err){
         conn.rollback()
-        res.status(400).json(err)
+        return res.status(400).json(err)
     }finally{
         conn.release()
     }
@@ -81,10 +81,10 @@ router.delete('/problem/delete/:problemid', isLoggedIn, isAdmin, async(req,res,n
         await conn.query("DELETE FROM problem WHERE problem_id = ?",
         [req.params.problemid])
         conn.commit()
-        res.status(200).json({ 'message': 'pass'})
+        return res.status(200).json({ 'message': 'pass'})
     }catch(err){
         conn.rollback()
-        res.status(400).json(err)
+        return res.status(400).json(err)
     }finally{
         conn.release()
     }

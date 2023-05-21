@@ -71,10 +71,10 @@ router.post('/admin/signup', async (req, res, next) => {
             "VALUES (?,?,?,?,?,?)",
             [username, password, email, first_name, last_name, user_sign])
         conn.commit()
-        res.status(201).json({ 'message': 'Admin Signup okay' })
+        return res.status(201).json({ 'message': 'Admin Signup okay' })
     } catch (err) {
         conn.rollback()
-        res.status(400).json(err.toString())
+        return res.status(400).json(err.toString())
     } finally {
         conn.release()
     }
@@ -116,10 +116,10 @@ router.post('/admin/login', async (req, res, next) => {
             await conn.query('INSERT INTO tokens(user_id, token,role) VALUES (?,?,"admin")',
             [user.Admin_ID, token])
             conn.commit()
-            res.status(200).json({'token': token})
+            return res.status(200).json({'token': token})
         }catch(err){
             conn.rollback()
-            res.status(400).json(err)
+            return res.status(400).json(err)
         }finally{
             conn.release()
         }

@@ -63,10 +63,10 @@ router.post('/user/signup', async (req, res, next) => {
             "VALUES (?,?,?,?,?,?)",
             [username, password, email, first_name, last_name, user_sign])
         conn.commit()
-        res.status(201).json({ 'message': 'Signup okay' })
+        return res.status(201).json({ 'message': 'Signup okay' })
     } catch (err) {
         conn.rollback()
-        res.status(400).json(err.toString())
+        return res.status(400).json(err.toString())
     } finally {
         conn.release()
     }
@@ -89,11 +89,11 @@ router.post('/user/login', async (req, res, next) => {
 
     let user = rows[0]
     if (!user) {
-        throw new Error('Incorrect username or password')
+        return res.status(400).send('Incorrect username or password')
     }
 
     if (!(await bcrypt.compare(req.body.password, user.u_password))) {
-        throw new Error('Incorrect username or password')
+        return res.status(400).send('Incorrect username or password')
     }
     console.log("pass")
     // return res.send("pass")
@@ -108,16 +108,16 @@ router.post('/user/login', async (req, res, next) => {
             await conn.query('INSERT INTO tokens(user_id, token, role) VALUES (?,?,"user")',
             [user.user_id, token])
             conn.commit()
-            res.status(200).json({'token': token})
+            return res.status(200).json({'token': token})
         }catch(err){
             conn.rollback()
-            res.status(400).json(err)
+            return res.status(400).json(err)
         }finally{
             conn.release()
         }
     }
     else{
-        res.status(200).json({'token':token})
+        return res.status(200).json({'token':token})
     }
     
 })

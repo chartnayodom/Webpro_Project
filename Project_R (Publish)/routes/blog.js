@@ -101,10 +101,10 @@ router.put('/blogs/edit/:blogid', isLoggedIn, isBlogOwner, async(req,res,next)=>
         await conn.query("UPDATE blogs SET Blog_Title = ?, Blog_Content = ? WHERE Blog_ID = ?",
         [req.body.title,req.body.content,blogid])
         conn.commit()
-        res.status(200).json({message: 'แก้ไขสำเร็จ'})
+        return res.status(200).json({message: 'แก้ไขสำเร็จ'})
     }catch(err){
         conn.rollback()
-        res.status(400).json(err)
+        return res.status(400).json(err)
     }finally{
         conn.release()
     }
@@ -118,10 +118,10 @@ router.delete('/blogs/delete/:blogid',isLoggedIn, isBlogOwner,  async(req,res,ne
     try{
         await conn.query("DELETE FROM blogs WHERE Blog_ID = ?",[blogid])
         conn.commit()
-        res.status(200).json({message: 'ลบสำเร็จ'})
+        return res.status(200).json({message: 'ลบสำเร็จ'})
     }catch(err){
         conn.rollback()
-        res.status(400).json(err)
+        return res.status(400).json(err)
     }finally{
         conn.release()
     }
