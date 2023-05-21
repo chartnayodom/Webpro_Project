@@ -37,7 +37,7 @@ router.get('/problem/:asking', async(req,res,next) =>{
     }
 })
 
-router.get('/problem/:asking', async(req,res,next) =>{
+router.post('/problem/:asking', async(req,res,next) =>{
     try{
         const [subrow] = await pool.query("SELECT * FROM problem WHERE problem_id = ?",
         [req.params.asking])
