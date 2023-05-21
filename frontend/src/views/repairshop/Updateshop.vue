@@ -81,8 +81,8 @@ export default {
     editShop() {
       this.$v.$touch();
       let formData = new FormData();
-      formData.append("r_shop_name", this.r_shop_name);
-      formData.append("r_shop_address", this.r_shop_address);
+      formData.append("shop_name", this.r_shop_name);
+      formData.append("shop_addr", this.r_shop_address);
       axios
         .put("/repairshop/update/"+ this.$route.params.id, formData)
         .then((res) => this.$router.push({ name: "Shoprecomment" }))
