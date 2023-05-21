@@ -76,6 +76,8 @@ router.post("/blogs/add",isLoggedIn, upload.single("bannerImage"), async(req,res
     if(!req.file){
         return res.status(400).json({message: "Please insert banner"})
     }
+    
+    
 
     const conn = await pool.getConnection()
     await conn.beginTransaction()

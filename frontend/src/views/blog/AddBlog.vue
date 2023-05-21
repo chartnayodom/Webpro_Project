@@ -3,7 +3,7 @@
     <section class="section">
       <div class="container p-5" style="text-align: left">
         <h1 class="title">ระบบเขียนบทความ</h1>
-        <!-- <form class="form" action=""> -->
+        <!-- <form class="form" action="/blogs/add" enctype="multipart/form-data" method="post"> -->
         <div class="field">
           <label class="label" for="">หัวข้อ</label>
           <input
@@ -33,6 +33,7 @@
                 type="file"
                 id="file"
                 ref="file"
+                name="bannerImage"
                 @change="handleFileUpload()"
               />
               <span class="file-cta">
@@ -107,6 +108,7 @@ export default {
   methods: {
     handleFileUpload() {
       this.file = this.$refs.file.files[0];
+      // console.log(this.file)
     },
     addblog() {
       this.$v.$touch();
@@ -116,13 +118,18 @@ export default {
           Blog_Content: this.Blog_Content,
         };
 
-        let formData = new FormData();
-        formData.append("BLog_Title", this.BLog_Title);
-        formData.append("Blog_Content", this.Blog_Content);
-        formData.append("Blog_Banner", this.file);
+        var formData = new FormData();
+        formData.append("blog_title", this.Blog_Title);
+        formData.append("blog_content", this.Blog_Content);
+        formData.append("bannerImage", this.file);
+        // console.log(formData.get('bannerImage'))
 
         axios
-          .post("/blogs/add", formData)
+          .post("/blogs/add", formData, {
+            headers:{
+              'Content-Type': 'multipart/form-data'
+            }
+          })
           .then((res) => this.$router.push({ name: "HomePage" }))
           .catch((e) => console.log(e.response.data));
       }
