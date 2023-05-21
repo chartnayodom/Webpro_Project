@@ -147,6 +147,7 @@ router.get("/admin/approveBlog/:blogID",isLoggedIn,isAdmin, async(req,res,next)=
     }
 })
 
+
 router.get("/admin/approveShop/:shopID",isLoggedIn,isAdmin, async(req,res,next)=>{
     const conn = await pool.getConnection()
     conn.beginTransaction()

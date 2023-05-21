@@ -38,7 +38,7 @@ const blogVal = Joi.object({
 
 
 //Request หน้ารวมอู่
-router.get("/repairshop", async function(req,res,next){
+router.get("/repairshop", async (req,res,next) => {
     //get repair shop maps
     try{
         const[rows, column] = await pool.query('SELECT s.*, m.user_sign FROM shop s join `user` m on (s.r_shop_by = m.user_id) WHERE shop_approved = 1')
@@ -48,8 +48,18 @@ router.get("/repairshop", async function(req,res,next){
     }
 })
 
+router.get("/repairshop/:shopid", async (req,res,next) =>{
+    let shopid = parseInt(req.params.shopid)
+    try{
+        const[rows, column] = await pool.query('SELECT * FROM shop WHERE r_shop_id = ?', [shopid])
+        res.status(200).json(rows)
+    }catch(err){
+        res.status(400).json(err)
+    }
+})
+
 //ส่ง form แนะนำลงไปใน Database
-router.post("/repairshop/add", isLoggedIn, async function(req,res,next){
+router.post("/repairshop/add", isLoggedIn, async (req,res,next) => {
     try{
         await blogVal.validateAsync(req.body, { abortEarly: false })
     } catch(err){
@@ -81,7 +91,7 @@ router.post("/repairshop/add", isLoggedIn, async function(req,res,next){
     return
 })
 
-router.put("/repairshop/update:shopid", isLoggedIn, isShopRecommenter, async(req,res,next)=>{
+router.put("/repairshop/update/:shopid", isLoggedIn, isShopRecommenter, async(req,res,next)=>{
     
     //get shop coordinate
     const loresult = await geocoder.geocode(req.body.shop_addr)
