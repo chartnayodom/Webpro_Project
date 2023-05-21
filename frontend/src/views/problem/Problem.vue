@@ -51,21 +51,29 @@
 </template>
 
 <script>
+import axios from '@/plugins/axios'
 export default {
   props: ["user"],
   data() {
     return {
-      problems: [
-        {
-          problem_id: 1,
-          problem_ref_id: 1,
-          context: "a",
-          answer: "aa",
-        },
-      ],
+      problems: [],
     };
   },
+  mounted() {
+    this.getproblem();
+  },
   methods: {
+    getproblem() {
+      axios
+        .get("/problem", {
+        })
+        .then((response) => {
+          this.problems = response.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     deleteProblem() {
       const result = confirm(
         `Are you sure you want to delete \'${this.problem.context}\'`
