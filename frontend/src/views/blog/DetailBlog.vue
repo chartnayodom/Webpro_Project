@@ -4,7 +4,7 @@
       <!-- card แสดงบทความ -->
       <div class="container is-two-third">
         <h1 class="title is-size-1">{{blog[0].Blog_Title}}</h1>
-        <h6 class="subtitle is-size-5">{{blog[0].Create_User_ID}}</h6>
+        <h6 class="subtitle is-size-5">create by user : {{blog[0].Create_User_ID}}</h6>
         <figure class="image is-360x120">
            <img class="image is-360x120"
                     :src="imagePath(blog[0].Blog_Banner)"
