@@ -2,7 +2,7 @@
   <div class="container is-fluid mt-5" style="text-align:left">
     <div class="columns is-centered">
       <div class="column is-4">
-        <h1 class="title">Login</h1>
+        <h1 class="title">Login Admin</h1>
         <p
           v-if="error"
           class="px-3 py-2 mb-3 has-text-danger-dark has-background-danger-light"
@@ -38,7 +38,7 @@
         </button>
 
         <p class="my-3">
-          Don't have an account yet?    <router-link to="/user/signup">Signup</router-link> 
+          Don't have an account yet?    <router-link to="/admin/signup">Signup</router-link> 
         </p>
       </div>
     </div>
@@ -63,7 +63,7 @@ export default {
       };
 
       axios
-        .post("/user/login/", data)
+        .post("/admin/login/", data)
         .then((res) => {
           const token = res.data.token;
           localStorage.setItem("token", token);

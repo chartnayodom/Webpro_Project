@@ -31,7 +31,7 @@
           <router-link to="/repairshop" class="navbar-item">
             <strong>ร้านแนะนำ</strong>
           </router-link>
-          <router-link to="/problem" class="navbar-item" v-if="true"><!--Isadmin-->
+          <router-link to="/problem" class="navbar-item" v-if="true"><!--token.role=="admin"-->
             <strong>ปัญหา</strong>
           </router-link>
           <div class="navbar-item has-dropdown is-hoverable">
