@@ -72,7 +72,7 @@ const routes = [
     component: () => import('../views/predict/Predict.vue') 
   },
   {
-    path: '/predict/quetion',
+    path: '/predict/:asking',
     name: 'Quetion',
     component: () => import('../views/predict/Quetion.vue') 
   },

@@ -1,10 +1,17 @@
 <template>
     <div id="app">
          <section class="section" style="text-align: center;">
-        <h2 class="title">คำถาม</h2>
+        <h2 class="title">ช่วงนี้มีความผิดปกติอะไรมั้ย ?</h2>
             <div class="content">
-                <div class="pt-4" ><!--v-for="problem in problems" :key="problem.id"-->
-                    <router-link to="/predict/result" class="button is-primary"><!--{{problem.context}}-->ตัวเลือก</router-link>
+                <div class="pt-4" v-for="problem in problems">
+                    <div v-if="problem.answer == ''">
+                      <router-link :to="`/predict/${problem.problem_id}`" class="button is-primary">{{problem.context}}</router-link>
+                    </div>
+                    <div v-else="problem.answer != ''">
+                      <button @click="$router.push({name:'Result',params: {'answer':problem.answer, 'problem': problem.context }})" class="button is-primary">
+                        {{problem.context}}</button>
+                    </div>
+                    
                 </div>
             </div>
     </section>
@@ -15,18 +22,18 @@ import axios from '@/plugins/axios'
 export default {
     data() {
     return {
-        problems:[]
+        problems:[],
     };
   },
   mounted() {
     this.getProblem(this.$route.params.asking);
   },
   methods: {
-    getBlogDetail(problem_id) {
+    getProblem(problem_id) {
       axios
         .get(`/problem/${problem_id}`)
         .then((response) => {
-          this.problems = response.data.problems;
+          this.problems = response.data;
         })
         .catch((error) => {
           this.error = error.response.data.message;
