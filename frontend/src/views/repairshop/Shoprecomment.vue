@@ -51,7 +51,7 @@
                   class="card-footer-item"
                   @click="
                     $router.push({
-                      path: '/repairshop/update',
+                      name: 'Updateshop',
                       params: { id: shop.r_shop_id },
                     })
                   "
@@ -60,7 +60,7 @@
                     <span>Edit</span>
                   </span>
                 </a>
-                <a v-if="true" class="card-footer-item" @click="deleteshop"
+                <a v-if="true" class="card-footer-item" @click="deleteshop(shop)"
                   ><!--isShopRecommenter(shop)-->
                   <span>Delete</span>
                 </a>
@@ -80,23 +80,24 @@ export default {
   props: ["user"],
   data() {
     return {
-      rec_shop: [
-        {
-          r_shop_name: "hello",
-          r_shop_address: "adada",
-          r_shop_by: 1,
-          r_shop_like: 0,
-        },
-        {
-          r_shop_name: "hi",
-          r_shop_address: "adada",
-          r_shop_by: 2,
-          r_shop_like: 0,
-        },
-      ],
+      rec_shop: [],
     };
   },
+  mounted() {
+    this.getshop();
+  },
   methods: {
+    getshop() {
+      axios
+        .get("/repairshop", {
+        })
+        .then((response) => {
+          this.rec_shop = response.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     //function กดหาสถานที่
     getShopPos(place) {
       document.getElementById("maps").src =
@@ -107,19 +108,20 @@ export default {
       axios
         .get(`/repairshop/addlike/${r_shop_id}`)
         .then((response) => {
-          this.$router.push("/repairshop");
+          let selectedShop = this.rec_shop.filter((e) => e.r_shop_id === r_shop_id)[0];
+          selectedShop.r_shop_like = response.data.r_shop_like;
         })
         .catch((error) => {
           alert(error.response.data.message);
         });
     },
-    deleteshop() {
+    deleteshop(shop) {
       const result = confirm(
-        `Are you sure you want to delete \'${this.shop.r_shop_id}\'`
+        `Are you sure you want to delete \'${shop.r_shop_name}\'`
       );
       if (result) {
         axios
-          .delete(`/repairshop/delete/${this.shop.r_shop_id}`)
+          .delete(`/repairshop/delete/${shop.r_shop_id}`)
           .then((response) => {
             this.$router.push("/repairshop");
           })

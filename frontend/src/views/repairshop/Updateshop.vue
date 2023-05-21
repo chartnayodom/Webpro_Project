@@ -60,6 +60,7 @@ export default {
   name: "App",
   data() {
     return {
+      rec_shop:[],
       r_shop_name: "",
       r_shop_address: "",
     };
@@ -68,8 +69,9 @@ export default {
     axios
       .get(`/repairshop/${this.$route.params.id}`)
       .then((response) => {
-        this.r_shop_name = response.data.shop.r_shop_name;
-        this.r_shop_address = response.data.shop.r_shop_address;
+        this.rec_shop = response.data;
+        this.r_shop_name = this.rec_shop[0].r_shop_name;
+        this.r_shop_address = this.rec_shop[0].r_shop_address;
       })
       .catch((e) => {
         console.log(e);

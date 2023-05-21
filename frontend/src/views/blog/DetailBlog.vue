@@ -5,16 +5,11 @@
       <div class="container is-two-third">
         <h1 class="title is-size-1">{{blog[0].Blog_Title}}</h1>
         <h6 class="subtitle is-size-5">{{blog[0].Create_User_ID}}</h6>
-        <figure class="image is-900x600">
-          <img
-            src="https://wallpapers.com/images/featured/hd-a5u9zq0a0ymy2dug.jpg"
-            alt="รุปปกบทความ"
-          />
-           <!-- <img
-                    style="height: 120px"
+        <figure class="image is-360x120">
+           <img class="image is-360x120"
                     :src="imagePath(blog[0].Blog_Banner)"
                     alt="Placeholder image"
-                  /> -->
+                  />
         </figure>
       </div>
       <div class="container mt-6">
@@ -60,7 +55,7 @@ export default {
     },
     imagePath(Blog_Banner) {
       if (Blog_Banner) {
-        return "http://localhost:3000/" + Blog_Banner;
+        return "http://localhost:3000//uploads/image/" + Blog_Banner;
       } else {
         return "https://bulma.io/images/placeholders/640x360.png";
       }
