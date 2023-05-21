@@ -18,7 +18,7 @@ const isAdmin = async(req,res,next) => {
 //list คำถาม
 router.get('/problem', async (req,res,next) =>{
     try{
-        const [rows] = await pool.query("SELECT * FROM problem WHERE problem_ref_id = '' or problem_id is null")
+        const [rows] = await pool.query("SELECT * FROM problem")
         return res.status(200).json(rows)
     }catch(err){
         return res.status(400).json(err)
