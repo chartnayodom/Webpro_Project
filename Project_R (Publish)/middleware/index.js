@@ -40,10 +40,11 @@ async function isLoggedIn (req, res, next) {
         // Set admin
         const [users] = await pool.query(
             'SELECT Admin_ID, Admin_Alias' +
-            'FROM user WHERE Admin_ID = ?', [token.user_id]
+            ' FROM admin WHERE Admin_ID = ?', [token.user_id]
         )
         req.user = users[0]
-        // console.log(users[0])
+        req.role = "admin"
+        console.log(users[0])
         next()
     }
 

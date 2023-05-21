@@ -19,12 +19,14 @@ const repairshopRouter = require('./routes/repair_shop.js')
 const userRouter = require('./routes/user.js')
 const blogRouter = require('./routes/blog.js')
 const problemRouter = require('./routes/problem.js')
+const adminRouter = require('./routes/admin')
 
 app.use(indexRouter.router)
 app.use(repairshopRouter.router)
 app.use(userRouter.router)
 app.use(blogRouter.router)
 app.use(problemRouter.router)
+app.use(adminRouter.router)
 
 app.listen(3000, () => {
     console.log(`Running in port3000`)

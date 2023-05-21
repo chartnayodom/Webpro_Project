@@ -81,7 +81,7 @@ router.post("/repairshop/add", isLoggedIn, async function(req,res,next){
     return
 })
 
-router.post("/repairshop/update", isLoggedIn, isShopRecommenter, async(req,res,next)=>{
+router.put("/repairshop/update", isLoggedIn, isShopRecommenter, async(req,res,next)=>{
     
     //get shop coordinate
     const loresult = await geocoder.geocode(req.body.shop_addr)
@@ -104,11 +104,11 @@ router.post("/repairshop/update", isLoggedIn, isShopRecommenter, async(req,res,n
 })
 
 //delete
-router.delete("/repairshop/delete/", isLoggedIn, async (req,res,next) => {
+router.delete("/repairshop/delete/:shopid", isLoggedIn, isShopRecommenter, async (req,res,next) => {
     const conn = await pool.getConnection()
     conn.beginTransaction()
     try{
-        await conn.query("DELETE FROM shop WHERE r_shop_id = ?",[parseInt(req.query.id)])
+        await conn.query("DELETE FROM shop WHERE r_shop_id = ?",[parseInt(req.params.shopid)])
         conn.commit()
         res.status(200).json({message: 'delete recommented shop success'})
     }catch(err){
@@ -121,9 +121,9 @@ router.delete("/repairshop/delete/", isLoggedIn, async (req,res,next) => {
 })
 
 //addlike
-router.get("/repairshop/addlike/", async function(req,res,next){
+router.get("/repairshop/addlike/:shopid", async function(req,res,next){
     
-    const shopid = parseInt(req.query.id)
+    const shopid = parseInt(req.params.shopid)
 
     const [rows, column] = await pool.query("SELECT r_shop_like FROM shop WHERE r_shop_id = ?"
     , [shopid])

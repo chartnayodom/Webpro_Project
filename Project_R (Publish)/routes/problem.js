@@ -6,11 +6,12 @@ const { isLoggedIn } = require("../middleware");
 router = express.Router();
 
 const isAdmin = async(req,res,next) => {
+    console.log(req.user.role)
     if(req.role == 'admin'){
         next()
     }
     else{
-        return res.status(400).send("You have have permission to do this")
+        return res.status(400).send("You have don't have permission to do this")
     }
 }
 
@@ -32,6 +33,7 @@ router.get('/problem/:asking', async(req,res,next) =>{
         res.status(200).json(subrow)
     }catch(err){
         return next(err)
+        
     }
 })
 
@@ -48,6 +50,7 @@ router.post('/problem/add', isLoggedIn,isAdmin, async (req,res,next)=>{
         res.status(200).json({ 'message': 'pass', 'insert_values': req.body})
     }catch(err){
         conn.rollback()
+        res.status(400).json(err)
     }finally{
         conn.release()
     }
@@ -61,8 +64,10 @@ router.put('/problem/edit/:problemid',isLoggedIn, isAdmin, async(req,res,next)=>
         await conn.query("UPDATE problem SET problem_ref_id = ?, context = ?, answer = ? WHERE problem_id = ?",
         [req.body.refer, req.body.context, req.body.answer, req.params.problemid])
         conn.commit()
+        res.status(200).json({ 'message': 'pass', 'insert_values': req.body})
     }catch(err){
         conn.rollback()
+        res.status(400).json(err)
     }finally{
         conn.release()
     }
@@ -76,8 +81,10 @@ router.delete('/problem/delete/:problemid', isLoggedIn, isAdmin, async(req,res,n
         await conn.query("DELETE FROM problem WHERE problem_id = ?",
         [req.params.problemid])
         conn.commit()
+        res.status(200).json({ 'message': 'pass'})
     }catch(err){
         conn.rollback()
+        res.status(400).json(err)
     }finally{
         conn.release()
     }

@@ -21,7 +21,7 @@ const signupSchema = Joi.object({
     password: Joi.string().required().custom(passwordValid),
     confirm_password: Joi.string().required().equal(Joi.ref('password')),
     email: Joi.string().email().required(),
-    user_sign: Joi.string().required().alphanum().min(3).max(30),
+    user_sign: Joi.string().required().min(3).max(30),
     first_name: Joi.string().required().min(2).max(50),
     last_name: Joi.string().required().min(2).max(50)
 })
@@ -107,14 +107,14 @@ router.post('/admin/login', async (req, res, next) => {
     // return res.send("pass")
     //check token
     // const conn = pool.getConnection()
-    const [tokens] = await pool.query("SELECT * FROM tokens WHERE user_id AND role = 'admin'")
+    const [tokens] = await pool.query("SELECT * FROM tokens WHERE user_id = ? AND role = 'admin'",[user.Admin_ID])
     let token = tokens[0]?.token
     if(!token){
         token = generateToken()
         const conn = await pool.getConnection()
         try{
-            await conn.query('INSERT INTO tokens(user_id, token,admin) VALUES (?,?,admin)',
-            [user.user_id, token])
+            await conn.query('INSERT INTO tokens(user_id, token,role) VALUES (?,?,"admin")',
+            [user.Admin_ID, token])
             conn.commit()
             res.status(200).json({'token': token})
         }catch(err){
