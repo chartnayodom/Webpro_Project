@@ -1,0 +1,4 @@
+[{"user_id":1, "u_username":"testtest1", "u_password":"Testest1", "user_email":"testest@gmail.com", "user_fname":"testest", "user_lname":"estestw", "user_sign":"test1"},
+ {"user_id":2, "u_username":"testtest1", "u_password":"Testest1", "user_email":"testest@gmail.com", "user_fname":"testest", "user_lname":"estestw", "user_sign":"test1"},
+ {"user_id":3, "u_username":"baipor2545", "u_password":"$2b$05$V1eMCC2rfs6Am1b830rA1ewuMGuatzAWaUmupTpl9JTLeE6DykjMu", "user_email":"baipor2545@gmail.com", "user_fname":"Chart", "user_lname":"Panich", "user_sign":"JuteMaater"},
+ {"user_id":4, "u_username":"it64070021", "u_password":"$2b$05$creKAKPGcNWimEu0ZdBSeuSbeHegKQWtj0DYm.xaGEl2NThdb2oai", "user_email":"64070021@it.kmitl.ac.th", "user_fname":"Chartnayodom", "user_lname":"Wiboonpanich", "user_sign":"ChartW"}]
