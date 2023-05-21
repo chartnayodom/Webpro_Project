@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+
 import axios from '@/plugins/axios'
 export default {
   name: "HomePage",
@@ -83,7 +83,7 @@ export default {
   methods: {
     getBlogs() {
       axios
-        .get("http://localhost:3000/blogs", {
+        .get("/blogs", {
           params: {
             search: this.search,
           },
@@ -125,7 +125,7 @@ export default {
       );
       if (result) {
         axios
-          .delete(`http://localhost:3000/blogs/delete/${blog.Blog_ID}`)
+          .delete(`/blogs/delete/${blog.Blog_ID}`)
           .then((response) => {
             this.$router.push("/blogs");
           })

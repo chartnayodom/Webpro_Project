@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <section class="section">
+    <section class="section" style="text-align:left">
       <!-- card แสดงบทความ -->
       <div class="container is-two-third">
         <h1 class="title is-size-1">{{blog[0].Blog_Title}}</h1>
@@ -33,7 +33,6 @@
   </div>
 </template>
 <script>
-// import axios from 'axios'
 import axios from "@/plugins/axios";
 
 export default {
@@ -51,7 +50,7 @@ export default {
   methods: {
     getBlogDetail(blogId) {
       axios
-        .get(`http://localhost:3000/blogs/${blogId}`)
+        .get(`/blogs/${blogId}`)
         .then((response) => {
           this.blog = response.data;
         })

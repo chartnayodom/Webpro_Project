@@ -89,8 +89,7 @@
 </template>
 
 <script>
-import axios from 'axios'
-// import axios from '@/plugins/axios'
+import axios from '@/plugins/axios'
 import { required, minLength, maxLength } from "vuelidate/lib/validators";
 export default {
   props: ["user"],
@@ -123,7 +122,7 @@ export default {
         formData.append("Blog_Banner", this.file);
 
         axios
-          .post("http://localhost:3000/blogs/add", formData)
+          .post("/blogs/add", formData)
           .then((res) => this.$router.push({ name: "HomePage" }))
           .catch((e) => console.log(e.response.data));
       }
