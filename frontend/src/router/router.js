@@ -92,7 +92,7 @@ const routes = [
     component: () => import('../views/problem/Addproblem.vue') 
   },
   {
-    path: '/problem/edit',
+    path: '/problem/edit/:id',
     name: 'EditProblem',
     component: () => import('../views/problem/Updateproblem.vue') 
   },

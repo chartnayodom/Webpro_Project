@@ -47,8 +47,10 @@
             <a class="navbar-link">
               <span class="pl-3" v-if="!user"
                 >Profile</span>
-              <span class="pl-3" v-if="user"
-                >{{ user.first_name }} {{ user.last_name }}</span>
+              <span class="pl-3" v-if="user.role='user'"
+                >{{ user.user_sign }}</span>
+              <span class="pl-3" v-if="user.role='admin'"
+                >{{ user.Admin_Alias }}</span>
             </a>
             <div class="navbar-dropdown">
               <router-link to="/user/login" class="navbar-item" v-if="!user">Login</router-link>
@@ -69,10 +71,6 @@ export default {
   data() {
     return {
       user: null,
-      // user:{
-      //   first_name:"a",
-      //   last_name:"b"
-      // },
       showNav: false,
     };
   },

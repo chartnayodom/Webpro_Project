@@ -13,13 +13,9 @@
               <div class="card-header">
                 <div class="card-image">
                   <figure class="image is-900x600">
-                    <img
-                      src="https://wallpapers.com/images/featured/1080p-3qmj7oaige168170.jpg"
-                      alt="รูปประกอบหัวข้อ"
-                    />
-                    <!-- <img style="height: 120px"
+                    <img class="image is-900x600"
                     :src="imagePath(blog.Blog_Banner)"
-                    alt="Placeholder image"/> -->
+                    alt="Placeholder image"/>
                   </figure>
                 </div>
               </div>
@@ -79,14 +75,23 @@ export default {
   },
   mounted() {
     this.getBlogs();
+    this.getadminBlogs();
   },
   methods: {
     getBlogs() {
       axios
         .get("/blogs", {
-          params: {
-            search: this.search,
-          },
+        })
+        .then((response) => {
+          this.blogs = response.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    getadminBlogs() {
+      axios
+        .get("/admin/blogs", {
         })
         .then((response) => {
           this.blogs = response.data;
@@ -97,7 +102,7 @@ export default {
     },
     imagePath(Blog_Banner) {
       if (Blog_Banner) {
-        return "http://localhost:3000/" + Blog_Banner;
+        return "http://localhost:3000//uploads/image/" + Blog_Banner;
       } else {
         return "https://bulma.io/images/placeholders/640x360.png";
       }
@@ -137,7 +142,7 @@ export default {
     isBlogOwner(blog) {
       if (!this.user) return false;
       return (
-        blog.Create_User_ID === this.user.user_id //|| this.user.role == "admin"
+        blog.Create_User_ID === this.user.user_id || this.user.role == "admin"
       );
     },
   },

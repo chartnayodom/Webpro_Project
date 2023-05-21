@@ -208,7 +208,8 @@ export default {
             this.$router.push({ name: "HomePage" });
           })
           .catch((err) => {
-            alert(err.response.data.details.message);
+            // alert(err.response.data.details.message);
+            alert("aa");
           });
       }
     },

@@ -41,7 +41,7 @@
                   Edit
                 </button>
               </td>
-              <td><button class="button is-danger" @click="deleteProblem">Delete</button></td>
+              <td><button class="button is-danger" @click="deleteProblem(problem)">Delete</button></td>
             </tr>
           </table>
         </div>
@@ -74,15 +74,15 @@ export default {
           console.log(err);
         });
     },
-    deleteProblem() {
+    deleteProblem(problem) {
       const result = confirm(
-        `Are you sure you want to delete \'${this.problem.context}\'`
+        `Are you sure you want to delete \'${problem.context}\'`
       );
       if (result) {
         axios
-          .delete(`/problem/delete/${this.problem.id}`)
+          .delete(`/problem/delete/${problem.problem_id}`)
           .then((response) => {
-            this.$router.push("/");
+            this.$router.push("/problem");
           })
           .catch((error) => {
             alert(error.response.data.message);
