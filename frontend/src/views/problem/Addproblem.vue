@@ -87,9 +87,7 @@ export default {
     context: {
       required: required,
     },
-    answer: {
-      required: required,
-    },
+    
   },
 };
 </script>
