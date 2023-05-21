@@ -31,11 +31,11 @@ const loginValid = Joi.object({
     password: Joi.string().required()
 })
 
-const isAdmin = async(req,res,next) => {
-    if(req.role == 'admin'){
+const isAdmin = async (req, res, next) => {
+    if (req.role == 'admin') {
         next()
     }
-    else{
+    else {
         return res.status(400).send("You have have permission to do this")
     }
 }
@@ -78,7 +78,7 @@ router.post('/admin/signup', async (req, res, next) => {
     } finally {
         conn.release()
     }
-    
+
 })
 
 
@@ -107,115 +107,119 @@ router.post('/admin/login', async (req, res, next) => {
     // return res.send("pass")
     //check token
     // const conn = pool.getConnection()
-    const [tokens] = await pool.query("SELECT * FROM tokens WHERE user_id = ? AND role = 'admin'",[user.Admin_ID])
+    const [tokens] = await pool.query("SELECT * FROM tokens WHERE user_id = ? AND role = 'admin'", [user.Admin_ID])
     let token = tokens[0]?.token
-    if(!token){
+    // console.log(token)
+    if (!token) {
         token = generateToken()
         const conn = await pool.getConnection()
-        try{
+        try {
             await conn.query('INSERT INTO tokens(user_id, token,role) VALUES (?,?,"admin")',
-            [user.Admin_ID, token])
+                [user.Admin_ID, token])
             conn.commit()
-            return res.status(200).json({'token': token})
-        }catch(err){
+            res.status(200).json({ 'token': token })
+        } catch (err) {
             conn.rollback()
-            return res.status(400).json(err)
-        }finally{
+            res.status(400).json(err)
+        } finally {
             conn.release()
         }
+    }else{
+        res.status(200).json({ 'token': token })
     }
+    return
 })
 
-router.get("/admin/approveBlog/:blogID",isLoggedIn,isAdmin, async(req,res,next)=>{
+router.get("/admin/approveBlog/:blogID", isLoggedIn, isAdmin, async (req, res, next) => {
     const conn = await pool.getConnection()
     conn.beginTransaction()
     let status = parseInt(req.body.status)
     let pin = parseInt(req.body.pin)
     let blogid = parseInt(req.params.blogID)
-    try{
+    try {
         await conn.query("UPDATE blog SET Status = ? Pin = ? WHERE Blog_ID = ?"
-        , [1, 0, blogid])
+            , [1, 0, blogid])
         await conn.commit()
         return res.status(200).json({
             message: "appproved and update status of blogID" + req.params.blogID,
         })
-    }catch(err){
+    } catch (err) {
         await conn.rollback()
         return res.status(400).json(err)
-    }finally{
+    } finally {
         await conn.release()
     }
 })
 
-router.get("/admin/disapproveBlog/:blogID",isLoggedIn,isAdmin, async(req,res,next)=>{
+router.get("/admin/disapproveBlog/:blogID", isLoggedIn, isAdmin, async (req, res, next) => {
     const conn = await pool.getConnection()
     conn.beginTransaction()
     let status = parseInt(req.body.status)
     let pin = parseInt(req.body.pin)
     let blogid = parseInt(req.params.blogID)
-    try{
+    try {
         await conn.query("UPDATE blog SET Status = ? Pin = ? WHERE Blog_ID = ?"
-        , [0, 0, blogid])
+            , [0, 0, blogid])
         await conn.commit()
         return res.status(200).json({
             message: "appproved and update status of blogID" + req.params.blogID,
         })
-    }catch(err){
+    } catch (err) {
         await conn.rollback()
         return res.status(400).json(err)
-    }finally{
+    } finally {
         await conn.release()
     }
 })
 
 
-router.get("/admin/approveShop/:shopID",isLoggedIn,isAdmin, async(req,res,next)=>{
+router.get("/admin/approveShop/:shopID", isLoggedIn, isAdmin, async (req, res, next) => {
     const conn = await pool.getConnection()
     conn.beginTransaction()
     let status = parseInt(req.body.status)
     // let pin = parseInt(req.body.pin)
     let blogid = parseInt(req.params.shopID)
-    try{
+    try {
         await conn.query("UPDATE shop blog SET shop_approved = ? WHERE r_shop_id = ?"
-        , [1, blogid])
+            , [1, blogid])
         await conn.commit()
         return res.status(200).json({
             message: "appproved and update status of blogID" + req.params.shopID,
         })
-    }catch(err){
+    } catch (err) {
         await conn.rollback()
         return res.status(400).json(err)
-    }finally{
+    } finally {
         await conn.release()
     }
 })
 
-router.get("/admin/disapproveShop/:shopID",isLoggedIn,isAdmin, async(req,res,next)=>{
+router.get("/admin/disapproveShop/:shopID", isLoggedIn, isAdmin, async (req, res, next) => {
     const conn = await pool.getConnection()
     conn.beginTransaction()
     let status = parseInt(req.body.status)
     // let pin = parseInt(req.body.pin)
     let blogid = parseInt(req.params.shopID)
-    try{
+    try {
         await conn.query("UPDATE shop blog SET shop_approved = ? WHERE r_shop_id = ?"
-        , [0, blogid])
+            , [0, blogid])
         await conn.commit()
         return res.status(200).json({
             message: "appproved and update status of blogID" + req.params.shopID,
         })
-    }catch(err){
+    } catch (err) {
         await conn.rollback()
         return res.status(400).json(err)
-    }finally{
+    } finally {
         await conn.release()
     }
 })
 
-router.get("/admin/blogs",isLoggedIn,isAdmin, async(req,res,next)=>{
-    try{
-        const [rows,fields] = await pool.query("SELECT * FROM Blogs;");
+router.get("/admin/blogs", isLoggedIn, isAdmin, async (req, res, next) => {
+    try {
+        const [rows, fields] = await pool.query("SELECT * FROM Blogs;");
         return res.status(200).json(rows)
-    }catch(err){
+    } catch (err) {
         return next(err)
     }
 })
