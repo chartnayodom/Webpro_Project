@@ -37,6 +37,17 @@ router.get('/problem/:asking', async(req,res,next) =>{
     }
 })
 
+router.get('/problem/:asking', async(req,res,next) =>{
+    try{
+        const [subrow] = await pool.query("SELECT * FROM problem WHERE problem_id = ?",
+        [req.params.asking])
+        return res.status(200).json(subrow)
+    }catch(err){
+        return res.status(400).json(err)
+        
+    }
+})
+
 
 
 //เพิ่มหัวข้อปัญหา มีใส่เลขReferenceที่เป็นย่อยจากหัวข้อหลัก, ปัญหา, คำตอบ(ถ้ามี)
