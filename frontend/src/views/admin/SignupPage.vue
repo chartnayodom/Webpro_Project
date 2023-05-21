@@ -3,7 +3,7 @@
     <div class="container is-fluid mt-5" style="text-align: left">
       <div class="columns is-centered">
         <div class="column is-8">
-          <h1 class="title">Signup</h1>
+          <h1 class="title">Signup Admin</h1>
           <!-- Sign up form -->
           <div class="field">
             <label class="label">Username</label>
@@ -147,7 +147,7 @@
 
           <p class="my-3">
             Already have an account?
-            <router-link to="/user/login">Login</router-link>
+            <router-link to="/admin/login">Login</router-link>
           </p>
         </div>
       </div>
@@ -202,7 +202,7 @@ export default {
         };
 
         axios
-          .post("/user/signup", data)
+          .post("/admin/signup", data)
           .then((res) => {
             alert("Sign up Success");
             this.$router.push({ name: "HomePage" });

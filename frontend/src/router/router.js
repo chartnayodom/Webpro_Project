@@ -50,6 +50,11 @@ const routes = [
     component: () => import('../views/repairshop/Shoprecomment.vue') 
   },
   {
+    path: '/repairshop/update',
+    name: 'Updateshop',
+    component: () => import('../views/repairshop/Updateshop.vue') 
+  },
+  {
     path: '/checkdistance',
     name: 'CheckDistance',
     component: () => import('../views/Checkdistance.vue') 
@@ -83,6 +88,16 @@ const routes = [
     path: '/problem/edit',
     name: 'EditProblem',
     component: () => import('../views/problem/Updateproblem.vue') 
+  },
+  {
+    path: '/admin/login',
+    name: 'Adminlogin',
+    component: () => import('../views/admin/LoginPage.vue') 
+  },
+  {
+    path: '/admin/signup',
+    name: 'Adminsignup',
+    component: () => import('../views/admin/SignupPage.vue') 
   },
 ]
 

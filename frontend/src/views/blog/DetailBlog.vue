@@ -12,7 +12,7 @@
           />
            <!-- <img
                     style="height: 120px"
-                    :src="imagePath(blog.file_path)"
+                    :src="imagePath(blog.Blog_Banner)"
                     alt="Placeholder image"
                   /> -->
         </figure>
@@ -58,9 +58,9 @@ export default {
           this.error = error.response.data.message;
         });
     },
-    imagePath(file_path) {
-      if (file_path) {
-        return "http://localhost:3000/" + file_path;
+    imagePath(Blog_Banner) {
+      if (Blog_Banner) {
+        return "http://localhost:3000/" + Blog_Banner;
       } else {
         return "https://bulma.io/images/placeholders/640x360.png";
       }

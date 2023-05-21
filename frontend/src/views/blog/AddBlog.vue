@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <section class="section">
-      <div class="container p-5" style="text-align:left">
+      <div class="container p-5" style="text-align: left">
         <h1 class="title">ระบบเขียนบทความ</h1>
         <!-- <form class="form" action=""> -->
         <div class="field">
@@ -10,22 +10,45 @@
             class="input"
             type="text"
             placeholder="พิมพ์ชื่อหัวบทความ"
-            v-model="title"
+            v-model="$v.Blog_Title.$model"
+            :class="{ 'is-danger': $v.Blog_Title.$error }"
           />
+          <template v-if="$v.Blog_Title.$error">
+            <p class="help is-danger" v-if="!$v.Blog_Title.required">
+              This field is required
+            </p>
+            <p class="help is-danger" v-if="!$v.Blog_Title.minLength">
+              Must be at least 10 character
+            </p>
+            <p class="help is-danger" v-if="!$v.Blog_Title.maxLength">
+              Must not be at more 100 character
+            </p>
+          </template>
         </div>
+        <div class="field">
           <div class="file">
             <label class="file-label">
-              <input class="file-input" type="file" id="file" ref="file" @change="handleFileUpload()">
+              <input
+                class="file-input"
+                type="file"
+                id="file"
+                ref="file"
+                @change="handleFileUpload()"
+              />
               <span class="file-cta">
                 <span class="file-icon">
                   <i class="fas fa-upload"></i>
                 </span>
-                <span class="file-label">
-                  Choose an image…
-                </span>
+                <span class="file-label"> Choose an image… </span>
               </span>
             </label>
           </div>
+          <template v-if="$v.file.$error">
+              <p class="help is-danger"  v-if="!$v.file.required">
+                This file is required
+              </p>
+            </template>
+        </div>
         <div class="field">
           <label class="label" for="">เนื้อหา</label>
           <textarea
@@ -35,8 +58,17 @@
             cols="30"
             rows="15"
             placeholder="พิมพ์เนื้อหาได้ที่นี้"
-            v-model="text"
+            v-model="$v.Blog_Content.$model"
+            :class="{ 'is-danger': $v.Blog_Content.$error }"
           ></textarea>
+          <template v-if="$v.Blog_Content.$error">
+            <p class="help is-danger" v-if="!$v.Blog_Content.required">
+              This field is required
+            </p>
+            <p class="help is-danger" v-if="!$v.Blog_Content.maxLength">
+              Must not be at more 10000 character
+            </p>
+          </template>
         </div>
         <div class="field-is-grouped">
           <label class="label" for="">
@@ -58,33 +90,56 @@
 
 <script>
 // import axios from '@/plugins/axios'
+import { required, minLength, maxLength } from "vuelidate/lib/validators";
 export default {
-  props:["user"],
+  props: ["user"],
   name: "App",
   data() {
     return {
       blog: [],
-      title: "",
+      Blog_Title: "",
       file: null,
-      text: "",
+      Blog_Content: "",
       showNav: false,
       agreement: false,
     };
   },
   methods: {
-    handleFileUpload(){
-        this.file = this.$refs.file.files[0];
+    handleFileUpload() {
+      this.file = this.$refs.file.files[0];
     },
     addblog() {
-      let formData = new FormData();
-      formData.append("title", this.title);
-      formData.append("text", this.text);
-      formData.append("bannerImage",this.file);
-  
-      axios
-        .post("/blogs", formData)
-        .then((res) => this.$router.push({ name: "home" }))
-        .catch((e) => console.log(e.response.data));
+      this.$v.$touch();
+      if (!this.$v.$invalid) {
+        let data = {
+          Blog_Title: this.Blog_Title,
+          Blog_Content: this.Blog_Content,
+        };
+
+        let formData = new FormData();
+        formData.append("BLog_Title", this.BLog_Title);
+        formData.append("Blog_Content", this.Blog_Content);
+        formData.append("Blog_Banner", this.file);
+
+        axios
+          .post("/blogs/add", formData)
+          .then((res) => this.$router.push({ name: "HomePage" }))
+          .catch((e) => console.log(e.response.data));
+      }
+    },
+  },
+  validations: {
+    Blog_Title: {
+      required: required,
+      minLength: minLength(10),
+      maxLength: maxLength(100),
+    },
+    Blog_Content: {
+      required: required,
+      maxLength: maxLength(10000),
+    },
+    file: {
+      required: required,
     },
   },
 };

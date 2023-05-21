@@ -19,7 +19,7 @@
                       alt="รูปประกอบหัวข้อ"
                     />
                     <!-- <img style="height: 120px"
-                    :src="imagePath(blog.file_path)"
+                    :src="imagePath(blog.Blog_Banner)"
                     alt="Placeholder image"/> -->
                   </figure>
                 </div>
@@ -68,7 +68,7 @@
 
 <script>
 export default {
-  name: "App",
+  name: "HomePage",
   props: ["user"],
   data() {
     return {
@@ -78,7 +78,15 @@ export default {
         Create_User_ID:1,
         Create_Date:"10-01-2001",
         View_Count:1
-      }],
+      },
+      {
+        Blog_ID:2,
+        Blog_Title:"aaa",
+        Create_User_ID:1,
+        Create_Date:"10-01-2001",
+        View_Count:1
+      }
+      ],
       showNav: false,
     };
   },
@@ -100,9 +108,9 @@ export default {
       //     console.log(err);
       //   });
     },
-    imagePath(file_path) {
-      if (file_path) {
-        return "http://localhost:3000/" + file_path;
+    imagePath(Blog_Banner) {
+      if (Blog_Banner) {
+        return "http://localhost:3000/" + Blog_Banner;
       } else {
         return "https://bulma.io/images/placeholders/640x360.png";
       }

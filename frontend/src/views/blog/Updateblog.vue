@@ -1,32 +1,64 @@
 <template>
   <div id="app">
     <section class="section">
-      <div class="container p-5" style="text-align:left">
+      <div class="container p-5" style="text-align: left">
         <h2 class="title p-2">Edit Blog</h2>
-        <h1 class="is-size-4">New Image</h1>
-        <input
-          class="mb-5"
-          multiple
-          type="file"
-          accept="image/png, image/jpeg, image/webp"
-          @change="selectImages"
-        />
+        <div class="field">
+          <h1 class="is-size-4">New Image</h1>
+          <input
+            class="mb"
+            multiple
+            type="file"
+            accept="image/png, image/jpeg, image/webp"
+            @change="selectImages"
+          />
+          <template v-if="$v.images.$error">
+            <p class="help is-danger" v-if="!$v.images.required">
+              This file is required
+            </p>
+          </template>
+        </div>
         <div class="field">
           <label class="label">Title</label>
           <div class="control">
             <input
-              v-model="Blog_Title"
+              v-model="$v.Blog_Title.$model"
+              :class="{ 'is-danger': $v.Blog_Title.$error }"
               class="input"
               type="text"
               placeholder=""
             />
           </div>
+          <template v-if="$v.Blog_Title.$error">
+            <p class="help is-danger" v-if="!$v.Blog_Title.required">
+              This field is required
+            </p>
+            <p class="help is-danger" v-if="!$v.Blog_Title.minLength">
+              Must be at least 10 character
+            </p>
+            <p class="help is-danger" v-if="!$v.Blog_Title.maxLength">
+              Must not be at more 100 character
+            </p>
+          </template>
         </div>
         <div class="field">
           <label class="label">Content</label>
           <div class="control">
-            <input v-model="Blog_Content" class="input" placeholder="" />
+            <input
+              v-model="$v.Blog_Content.$model"
+              :class="{ 'is-danger': $v.Blog_Content.$error }"
+              class="input"
+              placeholder=""
+            />
           </div>
+          <template v-if="$v.Blog_Content.$error">
+            <p class="help is-danger" v-if="!$v.Blog_Content.required">
+              This field is required
+            </p>
+            <p class="help is-danger" v-if="!$v.Blog_Content.maxLength">
+              Must not be at more 10000 character
+            </p>
+          </template>
         </div>
         <label class="label">Status</label>
 
@@ -56,6 +88,8 @@
 </template>
 
 <script>
+// import axios from '@/plugins/axios'
+import { required, minLength, maxLength } from "vuelidate/lib/validators";
 export default {
   data() {
     return {
@@ -63,6 +97,7 @@ export default {
       Blog_Content: "",
       Status: "",
       Pin: "",
+      images: null,
     };
   },
   created() {
@@ -85,6 +120,7 @@ export default {
       this.images = event.target.files;
     },
     editblog() {
+      this.$v.$touch();
       let formData = new FormData();
       formData.append("Blog_Title", this.Blog_Title);
       formData.append("Blog_Content", this.Blog_Content);
@@ -101,6 +137,20 @@ export default {
           this.$router.push({ path: "/" });
         })
         .catch((e) => console.log(e));
+    },
+  },
+  validations: {
+    Blog_Title: {
+      required: required,
+      minLength: minLength(10),
+      maxLength: maxLength(100),
+    },
+    Blog_Content: {
+      required: required,
+      maxLength: maxLength(10000),
+    },
+    images: {
+      required: required,
     },
   },
 };
