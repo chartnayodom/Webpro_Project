@@ -118,13 +118,14 @@ router.delete('/blogs/delete/:blogid',isLoggedIn, isBlogOwner,  async(req,res,ne
     try{
         await conn.query("DELETE FROM blogs WHERE Blog_ID = ?",[blogid])
         conn.commit()
-        return res.status(200).json({message: 'ลบสำเร็จ'})
+        res.status(200).json({message: 'ลบสำเร็จ'})
     }catch(err){
         conn.rollback()
-        return res.status(400).json(err)
+        res.status(400).json(err)
     }finally{
         conn.release()
     }
+    return
 })
 
 // router.post('/image/upload', upload.single("banner"), async(req,res,next) =>{
