@@ -25,7 +25,7 @@
       >
         <div class="navbar-start"></div>
         <div class="navbar-end">
-          <router-link to="/" class="navbar-item">
+          <router-link to="/blogs" class="navbar-item">
             <strong>บทความ</strong>
           </router-link>
           <router-link to="/repairshop" class="navbar-item">
@@ -64,7 +64,7 @@
 </template>
 
 <script>
-//import axios from "@/plugins/axios";
+import axios from "@/plugins/axios";
 export default {
   data() {
     return {

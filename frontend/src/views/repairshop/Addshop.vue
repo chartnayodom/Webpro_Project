@@ -79,7 +79,7 @@
 </template>
 
 <script>
-// import axios from '@/plugins/axios'
+import axios from '@/plugins/axios'
 import { required, minLength, maxLength } from "vuelidate/lib/validators";
 export default {
   props: ["user"],
