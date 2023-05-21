@@ -81,7 +81,7 @@ router.post("/repairshop/add", isLoggedIn, async function(req,res,next){
     return
 })
 
-router.put("/repairshop/update", isLoggedIn, isShopRecommenter, async(req,res,next)=>{
+router.put("/repairshop/update:shopid", isLoggedIn, isShopRecommenter, async(req,res,next)=>{
     
     //get shop coordinate
     const loresult = await geocoder.geocode(req.body.shop_addr)
@@ -89,7 +89,7 @@ router.put("/repairshop/update", isLoggedIn, isShopRecommenter, async(req,res,ne
     let lng = loresult[0].longitude
     const conn = await pool.getConnection()
     conn.beginTransaction()
-    const shopid = parseInt(req.body.id)
+    const shopid = parseInt(req.params.shopid)
     try{
         await conn.query("UPDATE shop SET r_shop_name = ?, r_shop_address = ?, lat = ?, lng = ? WHERE r_shop_id = ?",[req.body.shop_name, req.body.shop_addr,lat,lng,shopid])
         conn.commit()
@@ -147,23 +147,23 @@ router.get("/repairshop/addlike/:shopid", async function(req,res,next){
 })
 
 //for admin
-router.get("/repairshop/publish/", async(req,res,nect)=>{
-
-    const shopid = parseInt(req.query.id)
-
-    const conn = await pool.getConnection()
-    await conn.beginTransaction()
-    try{
-        await conn.query("UPDATE shop SET shop_approved = 1 WHERE r_shop_id = ?", [shopid])
-        await conn.commit()
-        res.status(201).json({message: "approved and release success"})
-    } catch(err){
-        await conn.rollback()
-        res.status(400).json(err)
-    }finally{
-        await conn.release()
-    }
-})
+//router.get("/repairshop/publish/", async(req,res,nect)=>{
+//
+//    const shopid = parseInt(req.query.id)
+//
+//    const conn = await pool.getConnection()
+//    await conn.beginTransaction()
+//    try{
+//        await conn.query("UPDATE shop SET shop_approved = 1 WHERE r_shop_id = ?", [shopid])
+//        await conn.commit()
+//        res.status(201).json({message: "approved and release success"})
+//   } catch(err){
+//        await conn.rollback()
+//        res.status(400).json(err)
+//    }finally{
+//        await conn.release()
+//    }
+//})
 
 // router.post("/repairshop/addlocate", async (req,res,next) =>{
 //     const loresult = await geocoder.geocode(req.body.address)
