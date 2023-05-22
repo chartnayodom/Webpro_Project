@@ -109,7 +109,7 @@ router.post('/admin/login', async (req, res, next) => {
     // const conn = pool.getConnection()
     const [tokens] = await pool.query("SELECT * FROM tokens WHERE user_id = ? AND role = 'admin'", [user.Admin_ID])
     let token = tokens[0]?.token
-    // console.log(token)
+    console.log(tokens)
     if (!token) {
         token = generateToken()
         const conn = await pool.getConnection()
@@ -125,7 +125,9 @@ router.post('/admin/login', async (req, res, next) => {
             conn.release()
         }
     }else{
-        res.status(200).json({ 'token': token })
+        res.status(200).json({ 
+            'message': 'get token',
+            'token': token })
     }
     return
 })

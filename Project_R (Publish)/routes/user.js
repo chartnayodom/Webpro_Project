@@ -125,6 +125,7 @@ router.post('/user/login', async (req, res, next) => {
 //check token from user และ admin
 router.get('/user/me', isLoggedIn, async (req, res, next) => {
     // req.user ถูก save ข้อมูล user จาก database ใน middleware function "isLoggedIn"
+    console.log(req.user)
     res.json(req.user)
 })
 

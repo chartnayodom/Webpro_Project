@@ -27,9 +27,9 @@ async function isLoggedIn (req, res, next) {
         return res.status(401).send('You are not logged in by not found token')
     }
     // console.log(token.role)
-    if (token.role = 'user') {
+    if (token.role == 'user') {
         // Set user
-        // console.log('get role user')
+        console.log('get role user')
         const [users] = await pool.query(
             'SELECT user_id, user_fname, user_lname, user_sign ' +
             'FROM user WHERE user_id = ?', [token.user_id]
@@ -40,8 +40,9 @@ async function isLoggedIn (req, res, next) {
         // console.log(req.user)
         next()
     }
-    else if (token.role = 'admin') {
+    else if (token.role == 'admin') {
         // Set admin
+        console.log('get admin role')
         const [users] = await pool.query(
             'SELECT Admin_ID, Admin_Alias' +
             ' FROM admin WHERE Admin_ID = ?', [token.user_id]
