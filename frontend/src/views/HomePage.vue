@@ -34,7 +34,7 @@
                 ><!--${blog.Blog_ID}-->
                 <div class="card-footer-item">
                   <a
-                    v-if="true"
+                    v-if="isBlogOwner(blog)"
                     class="card-footer-item"
                     @click="
                       $router.push({
@@ -47,7 +47,7 @@
                       <span>Edit</span>
                     </span>
                   </a>
-                  <a v-if="true" class="card-footer-item" @click="deleteBlog(blog)"
+                  <a v-if="isBlogOwner(blog)" class="card-footer-item" @click="deleteBlog(blog)"
                     ><!--isBlogOwner(blog)-->
                     <span>Delete</span>
                   </a>
@@ -75,7 +75,7 @@ export default {
   },
   mounted() {
     this.getBlogs();
-    this.getadminBlogs();
+    
   },
   methods: {
     getBlogs() {
@@ -89,17 +89,7 @@ export default {
           console.log(err);
         });
     },
-    getadminBlogs() {
-      axios
-        .get("/admin/blogs", {
-        })
-        .then((response) => {
-          this.blogs = response.data;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
+
     imagePath(Blog_Banner) {
       if (Blog_Banner) {
         return "http://localhost:3000//uploads/image/" + Blog_Banner;
@@ -142,7 +132,7 @@ export default {
     isBlogOwner(blog) {
       if (!this.user) return false;
       return (
-        blog.Create_User_ID === this.user.user_id || this.user.role == "admin"
+        blog.Create_User_ID === this.user.user_id || this.role == 'admin'
       );
     },
   },

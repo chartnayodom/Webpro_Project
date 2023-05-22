@@ -41,7 +41,7 @@ async function isLoggedIn (req, res, next) {
         next()
     }
     else if (token.role == 'admin') {
-        // Set admin
+        // Set admin    
         console.log('get admin role')
         const [users] = await pool.query(
             'SELECT Admin_ID, Admin_Alias' +
