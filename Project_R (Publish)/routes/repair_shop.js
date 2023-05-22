@@ -67,6 +67,7 @@ router.post("/repairshop/add", isLoggedIn, async (req,res,next) => {
     } catch(err){
         return res.status(400).json(err)
     }
+    console.log(req.body.shop_addr)
 
     //get shop coordinate
     const loresult = await geocoder.geocode(req.body.shop_addr)

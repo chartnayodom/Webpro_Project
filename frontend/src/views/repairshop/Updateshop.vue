@@ -84,7 +84,10 @@ export default {
       formData.append("shop_name", this.r_shop_name);
       formData.append("shop_addr", this.r_shop_address);
       axios
-        .put("/repairshop/update/"+ this.$route.params.id, formData)
+        .put("/repairshop/update/"+ this.$route.params.id, {
+          shop_name: this.r_shop_name,
+          shop_addr: this.r_shop_address
+        })
         .then((res) => this.$router.push({ name: "Shoprecomment" }))
         .catch((e) => console.log(e.response.data));
     },
