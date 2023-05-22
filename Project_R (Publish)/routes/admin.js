@@ -224,4 +224,13 @@ router.get("/admin/blogs", isLoggedIn, isAdmin, async (req, res, next) => {
     }
 })
 
+router.get("/admin/shop", isLoggedIn, isAdmin, async (req, res, next) => {
+    try {
+        const [rows, fields] = await pool.query("SELECT * FROM shop;");
+        return res.status(200).json(rows)
+    } catch (err) {
+        return next(err)
+    }
+})
+
 exports.router = router
