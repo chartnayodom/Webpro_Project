@@ -1,3 +1,16 @@
+CREATE TABLE `user` (
+  `user_id` int(11) NOT NULL AUTO_INCREMENT,
+  `u_username` varchar(16) COLLATE utf8_bin NOT NULL,
+  `u_password` varchar(100) COLLATE utf8_bin NOT NULL,
+  `user_email` varchar(100) COLLATE utf8_bin NOT NULL,
+  `user_fname` varchar(50) COLLATE utf8_bin NOT NULL,
+  `user_lname` varchar(50) COLLATE utf8_bin NOT NULL,
+  `user_sign` varchar(30) COLLATE utf8_bin NOT NULL,
+  PRIMARY KEY (`user_id`),
+  UNIQUE KEY `user_email_UNIQUE` (`user_email`),
+  UNIQUE KEY `u_username_UNIQUE` (`u_username`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
 CREATE TABLE `admin` (
   `Admin_ID` int(11) NOT NULL AUTO_INCREMENT,
   `Admin_Name` varchar(45) COLLATE utf8_bin NOT NULL,
@@ -25,7 +38,7 @@ CREATE TABLE `blogs` (
   PRIMARY KEY (`Blog_ID`),
   KEY `Blog_owner_idx` (`Create_User_ID`),
   CONSTRAINT `Blog_owner` FOREIGN KEY (`Create_User_ID`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 CREATE TABLE `problem` (
   `problem_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -33,7 +46,7 @@ CREATE TABLE `problem` (
   `context` varchar(300) COLLATE utf8_bin NOT NULL COMMENT 'ไว้บอกหัวข้อหรือจุดรายละเอียด',
   `answer` varchar(300) COLLATE utf8_bin DEFAULT NULL COMMENT 'ไว้ใส่คำตอบส่วนของ',
   PRIMARY KEY (`problem_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 CREATE TABLE `shop` (
   `r_shop_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -47,7 +60,7 @@ CREATE TABLE `shop` (
   PRIMARY KEY (`r_shop_id`),
   KEY `recommend_by_user_idx` (`r_shop_by`),
   CONSTRAINT `recommend_by_user` FOREIGN KEY (`r_shop_by`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 CREATE TABLE `tokens` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -57,17 +70,3 @@ CREATE TABLE `tokens` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `tokens_UN` (`token`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
-CREATE TABLE `user` (
-  `user_id` int(11) NOT NULL AUTO_INCREMENT,
-  `u_username` varchar(16) COLLATE utf8_bin NOT NULL,
-  `u_password` varchar(100) COLLATE utf8_bin NOT NULL,
-  `user_email` varchar(100) COLLATE utf8_bin NOT NULL,
-  `user_fname` varchar(50) COLLATE utf8_bin NOT NULL,
-  `user_lname` varchar(50) COLLATE utf8_bin NOT NULL,
-  `user_sign` varchar(30) COLLATE utf8_bin NOT NULL,
-  PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
-
-
