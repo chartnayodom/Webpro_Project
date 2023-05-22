@@ -39,7 +39,7 @@
                   <p class="subtitle is-6">
                     {{ shop.r_shop_address }}
                   </p>
-                  <p class="subtitle is-6">recomment by {{ shop.r_shop_by }}</p>
+                  <p class="subtitle is-6">Recomment by {{ shop.user_sign }}</p>
                 </div>
               </div>
               <div class="card-footer">
