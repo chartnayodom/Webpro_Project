@@ -129,7 +129,31 @@ router.delete('/blogs/delete/:blogid',isLoggedIn, isBlogOwner,  async(req,res,ne
     }
     return
 })
+//addview
+router.get("/blog/addview/:blogid", async function(req,res,next){
+    
+    const blogid = parseInt(req.params.blogid)
 
+    const [rows, column] = await pool.query("SELECT View_Count FROM blogs WHERE Blog_ID = ?"
+    , [blogid])
+    // console.log(rows)
+    let viewcount = rows[0].View_Count
+    // console.log(likecount)
+    viewcount += 1
+
+    const conn = await pool.getConnection()
+    conn.beginTransaction()
+    try{
+        await conn.query("UPDATE blogs set View_Count = ? WHERE Blog_ID = ?",[viewcount ,blogid])
+        conn.commit()
+        res.status(201).json({message: 'addview',View_Count:viewcount})
+    }catch(err){
+        conn.rollback()
+        res.status(400).json(err)
+    }finally{
+        conn.release()
+    }
+})
 // router.post('/image/upload', upload.single("banner"), async(req,res,next) =>{
 //     console.log(req.file)
 //     // console.log(JSON.stringify(req.file))

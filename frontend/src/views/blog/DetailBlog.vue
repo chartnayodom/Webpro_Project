@@ -52,6 +52,13 @@ export default {
         .catch((error) => {
           this.error = error.response.data.message;
         });
+       axios
+        .get(`/blog/addview/${blogId}`)
+        .then((response) => {
+        })
+        .catch((error) => {
+          this.error = error.response.data.message;
+        });
     },
     imagePath(Blog_Banner) {
       if (Blog_Banner) {
