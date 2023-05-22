@@ -34,6 +34,12 @@
           <router-link to="/problem" class="navbar-item" v-if="true"><!--token.role=="admin"-->
             <strong>ปัญหา</strong>
           </router-link>
+          <router-link to="/admin/blog" class="navbar-item" v-if="true">
+            <strong>อนุมัติบลอค</strong>
+          </router-link>
+          <router-link to="/admin/shop" class="navbar-item" v-if="true">
+            <strong>อนุมัติชอป</strong>
+          </router-link>
           <div class="navbar-item has-dropdown is-hoverable">
             <a class="navbar-link">อื่นๆ</a>
             <div class="navbar-dropdown">
