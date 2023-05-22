@@ -1,6 +1,6 @@
 /*
 -- Query: SELECT * FROM project_r.problem
--- Date: 2023-05-21 22:29
+-- Date: 2023-05-22 10:32
 */
 INSERT INTO `` (`problem_id`,`problem_ref_id`,`context`,`answer`) VALUES (1,0,'สตาร์ทเครื่องไม่ติด','');
 INSERT INTO `` (`problem_id`,`problem_ref_id`,`context`,`answer`) VALUES (2,0,'ความเร็วของรถช้ากว่าที่จะเป็น','');
