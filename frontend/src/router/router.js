@@ -19,7 +19,7 @@ const routes = [
   {
     path: '/blog/addblog',
     name: 'Addblog',
-    meta: { login: true },
+    // meta: { login: true },
     component: () => import('../views/blog/AddBlog.vue') 
   },
   {
@@ -30,7 +30,7 @@ const routes = [
   {
     path: '/blog/edit',
     name: 'EditBlog',
-    meta: { login: true },
+    // meta: { login: true },
     component: () => import('../views/blog/Updateblog.vue') 
   },
   {
@@ -59,6 +59,7 @@ const routes = [
   {
     path: '/repairshop/update',
     name: 'Updateshop',
+    meta: { login: true },
     component: () => import('../views/repairshop/Updateshop.vue') 
   },
   {
@@ -105,6 +106,16 @@ const routes = [
     path: '/admin/signup',
     name: 'Adminsignup',
     component: () => import('../views/admin/SignupPage.vue') 
+  },
+  {
+    path: '/admin/blog',
+    name: 'Adminapproveblog',
+    component: () => import('../views/admin/Blog.vue') 
+  },
+  {
+    path: '/admin/shop',
+    name: 'Adminapproveshop',
+    component: () => import('../views/admin/Shop.vue') 
   },
 ]
 

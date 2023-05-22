@@ -137,8 +137,8 @@ router.get("/admin/approveBlog/:blogID", isLoggedIn, isAdmin, async (req, res, n
     let pin = parseInt(req.body.pin)
     let blogid = parseInt(req.params.blogID)
     try {
-        await conn.query("UPDATE blog SET Status = ? Pin = ? WHERE Blog_ID = ?"
-            , [1, 0, blogid])
+        await conn.query("UPDATE blogs SET Status = ? WHERE Blog_ID = ?"
+            , [1,blogid])
         await conn.commit()
         return res.status(200).json({
             message: "appproved and update status of blogID" + req.params.blogID,
@@ -158,8 +158,8 @@ router.get("/admin/disapproveBlog/:blogID", isLoggedIn, isAdmin, async (req, res
     let pin = parseInt(req.body.pin)
     let blogid = parseInt(req.params.blogID)
     try {
-        await conn.query("UPDATE blog SET Status = ? Pin = ? WHERE Blog_ID = ?"
-            , [0, 0, blogid])
+        await conn.query("UPDATE blogs SET Status = ?  WHERE Blog_ID = ?"
+            , [0,blogid])
         await conn.commit()
         return res.status(200).json({
             message: "appproved and update status of blogID" + req.params.blogID,
@@ -180,7 +180,7 @@ router.get("/admin/approveShop/:shopID", isLoggedIn, isAdmin, async (req, res, n
     // let pin = parseInt(req.body.pin)
     let blogid = parseInt(req.params.shopID)
     try {
-        await conn.query("UPDATE shop blog SET shop_approved = ? WHERE r_shop_id = ?"
+        await conn.query("UPDATE shop SET shop_approved = ? WHERE r_shop_id = ?"
             , [1, blogid])
         await conn.commit()
         return res.status(200).json({
@@ -201,7 +201,7 @@ router.get("/admin/disapproveShop/:shopID", isLoggedIn, isAdmin, async (req, res
     // let pin = parseInt(req.body.pin)
     let blogid = parseInt(req.params.shopID)
     try {
-        await conn.query("UPDATE shop blog SET shop_approved = ? WHERE r_shop_id = ?"
+        await conn.query("UPDATE shop SET shop_approved = ? WHERE r_shop_id = ?"
             , [0, blogid])
         await conn.commit()
         return res.status(200).json({
@@ -218,6 +218,15 @@ router.get("/admin/disapproveShop/:shopID", isLoggedIn, isAdmin, async (req, res
 router.get("/admin/blogs", isLoggedIn, isAdmin, async (req, res, next) => {
     try {
         const [rows, fields] = await pool.query("SELECT * FROM Blogs;");
+        return res.status(200).json(rows)
+    } catch (err) {
+        return next(err)
+    }
+})
+
+router.get("/admin/shop", isLoggedIn, isAdmin, async (req, res, next) => {
+    try {
+        const [rows, fields] = await pool.query("SELECT * FROM shop;");
         return res.status(200).json(rows)
     } catch (err) {
         return next(err)
