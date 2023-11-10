@@ -39,30 +39,18 @@
                   <p class="subtitle is-6">
                     {{ shop.r_shop_address }}
                   </p>
-                  <p class="subtitle is-6">Recomment by {{ shop.user_sign }}</p>
+                  <p class="subtitle is-6">recomment by {{ shop.r_shop_by }}</p>
                 </div>
               </div>
               <div class="card-footer">
-                <a class="card-footer-item" @click="addlike(shop.r_shop_id)"
-                  >like({{ shop.r_shop_like }})</a
-                >
-                <a
-                  v-if="true"
-                  class="card-footer-item"
-                  @click="
-                    $router.push({
-                      name: 'Updateshop',
-                      params: { id: shop.r_shop_id },
-                    })
-                  "
+                <!--isShopRecommenter(shop)-->
+                <a v-if="true" class="card-footer-item" @click="approveshop(shop)"
                   ><!--isShopRecommenter(shop)-->
-                  <span class="icon-text">
-                    <span>Edit</span>
-                  </span>
+                  <span>Approve</span>
                 </a>
-                <a v-if="true" class="card-footer-item" @click="deleteshop(shop)"
+                <a v-if="true" class="card-footer-item" @click="disapproveshop(shop)"
                   ><!--isShopRecommenter(shop)-->
-                  <span>Delete</span>
+                  <span>Disapprove</span>
                 </a>
               </div>
             </div>
@@ -89,7 +77,7 @@ export default {
   methods: {
     getshop() {
       axios
-        .get("/repairshop", {
+        .get("/admin/shop", {
         })
         .then((response) => {
           this.rec_shop = response.data;
@@ -104,37 +92,25 @@ export default {
         "https://www.google.com/maps/embed/v1/place?key=AIzaSyDCrFOxbWvQYnWU-V1_NH6nFxdcWTi2_zY&q=" +
         place;
     },
-    addlike(r_shop_id) {
-      axios
-        .get(`/repairshop/addlike/${r_shop_id}`)
-        .then((response) => {
-          let selectedShop = this.rec_shop.filter((e) => e.r_shop_id === r_shop_id)[0];
-          selectedShop.r_shop_like = response.data.r_shop_like;
-        })
-        .catch((error) => {
-          alert(error.response.data.message);
-        });
-    },
-    deleteshop(shop) {
-      const result = confirm(
-        `Are you sure you want to delete \'${shop.r_shop_name}\'`
-      );
-      if (result) {
+    approveshop(shop) {
         axios
-          .delete(`/repairshop/delete/${shop.r_shop_id}`)
+          .get(`/admin/approveShop/${shop.r_shop_id}`)
           .then((response) => {
             this.$router.push("/repairshop");
           })
           .catch((error) => {
             alert(error.response.data.message);
           });
-      }
     },
-    isShopRecommenter(shop) {
-      if (!this.user) return false;
-      return (
-        shop.r_shop_by === this.user.user_id //|| this.user.role == "admin"
-      );
+    disapproveshop(shop) {
+        axios
+          .get(`/admin/disapproveShop/${shop.r_shop_id}`)
+          .then((response) => {
+            this.$router.push("/repairshop");
+          })
+          .catch((error) => {
+            alert(error.response.data.message);
+          });
     },
   },
 };

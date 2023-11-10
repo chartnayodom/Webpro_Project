@@ -96,13 +96,20 @@ export default {
   methods: {
     addRecShop() {
       this.$v.$touch();
-      let formData = new FormData();
-      formData.append("shop_name", this.r_shop_name);
-      formData.append("shop_addr", this.r_shop_address);
+      let formData = new Object({
+        shop_name : this.r_shop_name,
+        shop_addr : this.r_shop_address,
+      });
+      // console.log(formData)
+      // formData.append("shop_name", this.r_shop_name);
+      // formData.append("shop_addr", this.r_shop_address);
       // formData.append("brand", this.supportBrand);
-      formData.append("r_shop_by", user.user_id);
+      // formData.append("r_shop_by", user.user_id);
       axios
-        .post("/repairshop/add", formData)
+        .post("/repairshop/add", {
+          shop_addr : this.r_shop_address,
+          shop_name : this.r_shop_address
+        })
         .then((res) => this.$router.push({ name: "Shoprecomment" }))
         .catch((e) => console.log(e.response.data));
     },

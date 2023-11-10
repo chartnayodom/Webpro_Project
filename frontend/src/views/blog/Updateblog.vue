@@ -126,7 +126,10 @@ export default {
       formData.append("content", this.Blog_Content);
 
       axios
-        .put("/blogs/edit/" + this.$route.params.id, formData)
+        .put("/blogs/edit/" + this.$route.params.id, {
+          title : this.Blog_Title,
+          content : this.Blog_Content
+        })
         .then((res) => {
           console.log(res);
           this.$router.push({ path: "/blogs" });

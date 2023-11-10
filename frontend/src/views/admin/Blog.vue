@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <!-- content -->
     <section class="section">
       <!-- Highlight -->
       <div class="container p-5"></div>
@@ -8,33 +7,41 @@
       <div class="container p-5">
         <div class="columns is-desktop is-multiline">
           <!-- การ์ดหัวข้อบทความแบบมีรูป -->
-          <div id="card" class="column is-one-third" v-for="blog in blogs" :key="blog.Blog_ID">
+          <div
+            id="card"
+            class="column is-one-third"
+            v-for="blog in blogs"
+            :key="blog.Blog_ID"
+          >
             <div class="card">
               <div class="card-header">
                 <div class="card-image">
                   <figure class="image is-900x600">
-                    <img class="image is-900x600"
-                    :src="imagePath(blog.Blog_Banner)"
-                    alt="Placeholder image"/>
+                    <img
+                      class="image is-900x600"
+                      :src="imagePath(blog.Blog_Banner)"
+                      alt="Placeholder image"
+                    />
                   </figure>
                 </div>
               </div>
               <div class="card-content">
                 <div class="media-content">
-                  <p class="title is-4">{{blog.Blog_Title}}</p>
-                  <p class="subtitle is-6" style="text-align:left">
-                    create_by : {{blog.Create_User_ID}}  view({{blog.View_Count}})
-                    <br>create_date :{{blog.Create_Date}}
+                  <p class="title is-4">{{ blog.Blog_Title }}</p>
+                  <p class="subtitle is-6" style="text-align: left">
+                    create_by : {{ blog.Create_User_ID }} view({{
+                      blog.View_Count
+                    }}) <br />create_date :{{ blog.Create_Date }}
                   </p>
                 </div>
               </div>
               <div class="card-footer">
-                <router-link class="card-footer-item" :to="`/blogs/${blog.Blog_ID}`"
+                <!-- <router-link class="card-footer-item" :to="`/blogs/${blog.Blog_ID}`"
                   >Read more... </router-link
-                ><!--${blog.Blog_ID}-->
+                >-->
                 <div class="card-footer-item">
-                  <a
-                    v-if="isBlogOwner(blog)"
+                  <!-- <a
+                    v-if="true"
                     class="card-footer-item"
                     @click="
                       $router.push({
@@ -42,14 +49,20 @@
                         params: { id: blog.Blog_ID },
                       })
                     "
-                    ><!--isBlogOwner(blog)-->
+                    >
                     <span class="icon-text">
                       <span>Edit</span>
                     </span>
                   </a>
-                  <a v-if="isBlogOwner(blog)" class="card-footer-item" @click="deleteBlog(blog)"
-                    ><!--isBlogOwner(blog)-->
+                  <a v-if="true" class="card-footer-item" @click="deleteBlog(blog)"
+                    >
                     <span>Delete</span>
+                  </a> -->
+                  <a class="card-footer-item" @click="approveBlog(blog)">
+                    <span>Approve</span>
+                  </a>
+                  <a class="card-footer-item" @click="disapproveBlog(blog)">
+                    <span>Disapprove</span>
                   </a>
                 </div>
               </div>
@@ -62,26 +75,23 @@
 </template>
 
 <script>
+import axios from "@/plugins/axios";
 
-import axios from '@/plugins/axios'
 export default {
-  name: "HomePage",
   props: ["user"],
   data() {
     return {
-      blogs:[],
+      blogs: [],
       showNav: false,
     };
   },
   mounted() {
-    this.getBlogs();
-    
+    this.getadminBlogs();
   },
   methods: {
-    getBlogs() {
+    getadminBlogs() {
       axios
-        .get("/blogs", {
-        })
+        .get("/admin/blogs", {})
         .then((response) => {
           this.blogs = response.data;
         })
@@ -89,7 +99,6 @@ export default {
           console.log(err);
         });
     },
-
     imagePath(Blog_Banner) {
       if (Blog_Banner) {
         return "http://localhost:3000//uploads/image/" + Blog_Banner;
@@ -97,54 +106,29 @@ export default {
         return "https://bulma.io/images/placeholders/640x360.png";
       }
     },
-    // shortContent(content) {
-    //   if (content.length > 200) {
-    //     return content.substring(0, 197) + "...";
-    //   }
-    //   return content;
-    // },
-    // addLike(blogId) {
-    //   axios
-    //     .put(`/blogs/addlike/${blogId}`)
-    //     .then((response) => {
-    //       let selectedBlog = this.blogs.filter((e) => e.id === blogId)[0];
-    //       selectedBlog.like = response.data.like;
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //     });
-    // },
-    deleteBlog(blog) {
-      const result = confirm(
-        `Are you sure you want to delete \'${blog.Blog_Title}\'`
-      );
-      if (result) {
+    approveBlog(blog) {
         axios
-          .delete(`/blogs/delete/${blog.Blog_ID}`)
+          .get(`/admin/approveBlog/${blog.Blog_ID}`)
           .then((response) => {
             this.$router.push("/blogs");
           })
           .catch((error) => {
             alert(error.response.data.message);
           });
-      }
     },
-    isBlogOwner(blog) {
-      if (!this.user) return false;
-      return (
-        blog.Create_User_ID === this.user.user_id || this.role == 'admin'
-      );
+    disapproveBlog(blog) {
+        axios
+          .get(`/admin/disapproveBlog/${blog.Blog_ID}`)
+          .then((response) => {
+            this.$router.push("/blogs");
+          })
+          .catch((error) => {
+            alert(error.response.data.message);
+          });
     },
   },
 };
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
 </style>
