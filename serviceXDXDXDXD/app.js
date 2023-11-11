@@ -79,12 +79,12 @@ app.post('/code/redeeming/:code', async(req,res) => {
         console.log("found");
         await client.close();
         //ทำการได้สถานะ membership
-        res.status(200).send(code)
+        res.status(200).send(true)
     }
     else{
         console.log("not found");
         await client.close();
-        res.status(400).send("not found");
+        res.status(400).send(false);
     }
 })
 
